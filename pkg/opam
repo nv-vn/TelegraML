@@ -1,6 +1,4 @@
 opam-version: "1.2"
-name: "telegraml"
-version: "1.0"
 maintainer: "nv-vn <nv@cock.li>"
 authors: "nv-vn <nv@cock.li>"
 homepage: "https://github.com/nv-vn/telegraml"
@@ -12,7 +10,8 @@ build: [
   [make]
 ]
 install: [make "install"]
-uninstall: [make "uninstall"]
+remove: [make "uninstall"]
+available: [ocaml-version >= "4.02"]
 depends: [
   "ocamlfind" {build}
   "oasis" {build}
