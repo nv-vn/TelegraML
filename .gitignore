@@ -19,3 +19,6 @@ _build/
 # oasis generated files
 setup.data
 setup.log
+
+# generated documentation
+*.docdir
