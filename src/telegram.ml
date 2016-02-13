@@ -1,3 +1,3 @@
 module Api = struct
-  include Api
+  include TelegramApi
 end

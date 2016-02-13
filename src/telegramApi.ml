@@ -1,4 +1,4 @@
-open Util
+open TelegramUtil
 open Yojson.Safe
 
 exception ApiException of string
@@ -591,7 +591,7 @@ module Update = struct
 end
 
 module Result = struct
-  include Util.Result
+  include TelegramUtil.Result
 end
 
 module Command = struct
