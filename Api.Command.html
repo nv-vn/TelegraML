@@ -1,0 +1,238 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Api.Result.html">
+<link rel="next" href="Api.Mk.html">
+<link rel="Up" href="Api.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Api" rel="Chapter" href="Api.html"><title>Api.Command</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Api.Result.html" title="Api.Result">Previous</a>
+&nbsp;<a class="up" href="Api.html" title="Api">Up</a>
+&nbsp;<a class="post" href="Api.Mk.html" title="Api.Mk">Next</a>
+</div>
+<h1>Module <a href="type_Api.Command.html">Api.Command</a></h1>
+
+<pre><span class="keyword">module</span> Command: <code class="code">sig</code> <a href="Api.Command.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><code><span id="TYPEaction"><span class="keyword">type</span> <code class="type"></code>action</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.Nothing"><span class="constructor">Nothing</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.GetMe"><span class="constructor">GetMe</span></span> <span class="keyword">of</span> <code class="type">(<a href="Api.User.html#TYPEuser">Api.User.user</a> <a href="Api.Result.html#TYPEresult">Api.Result.result</a> -> <a href="Api.Command.html#TYPEaction">action</a>)</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.SendMessage"><span class="constructor">SendMessage</span></span> <span class="keyword">of</span> <code class="type">int * string * int option * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.ForwardMessage"><span class="constructor">ForwardMessage</span></span> <span class="keyword">of</span> <code class="type">int * int * int</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.SendChatAction"><span class="constructor">SendChatAction</span></span> <span class="keyword">of</span> <code class="type">int * <a href="Api.ChatAction.html#TYPEaction">Api.ChatAction.action</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.SendPhoto"><span class="constructor">SendPhoto</span></span> <span class="keyword">of</span> <code class="type">int * string * string option * int option<br>        * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option<br>        * (string <a href="Api.Result.html#TYPEresult">Api.Result.result</a> -> <a href="Api.Command.html#TYPEaction">action</a>)</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.ResendPhoto"><span class="constructor">ResendPhoto</span></span> <span class="keyword">of</span> <code class="type">int * string * string option * int option<br>        * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.SendAudio"><span class="constructor">SendAudio</span></span> <span class="keyword">of</span> <code class="type">int * string * string * string * int option<br>        * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option<br>        * (string <a href="Api.Result.html#TYPEresult">Api.Result.result</a> -> <a href="Api.Command.html#TYPEaction">action</a>)</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.ResendAudio"><span class="constructor">ResendAudio</span></span> <span class="keyword">of</span> <code class="type">int * string * string * string * int option<br>        * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.SendDocument"><span class="constructor">SendDocument</span></span> <span class="keyword">of</span> <code class="type">int * string * int option * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option<br>        * (string <a href="Api.Result.html#TYPEresult">Api.Result.result</a> -> <a href="Api.Command.html#TYPEaction">action</a>)</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.ResendDocument"><span class="constructor">ResendDocument</span></span> <span class="keyword">of</span> <code class="type">int * string * int option * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.SendSticker"><span class="constructor">SendSticker</span></span> <span class="keyword">of</span> <code class="type">int * string * int option * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option<br>        * (string <a href="Api.Result.html#TYPEresult">Api.Result.result</a> -> <a href="Api.Command.html#TYPEaction">action</a>)</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.ResendSticker"><span class="constructor">ResendSticker</span></span> <span class="keyword">of</span> <code class="type">int * string * int option * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.SendVideo"><span class="constructor">SendVideo</span></span> <span class="keyword">of</span> <code class="type">int * string * int option * string option * int option<br>        * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option<br>        * (string <a href="Api.Result.html#TYPEresult">Api.Result.result</a> -> <a href="Api.Command.html#TYPEaction">action</a>)</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.ResendVideo"><span class="constructor">ResendVideo</span></span> <span class="keyword">of</span> <code class="type">int * string * int option * string option * int option<br>        * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.SendVoice"><span class="constructor">SendVoice</span></span> <span class="keyword">of</span> <code class="type">int * string * int option * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option<br>        * (string <a href="Api.Result.html#TYPEresult">Api.Result.result</a> -> <a href="Api.Command.html#TYPEaction">action</a>)</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.ResendVoice"><span class="constructor">ResendVoice</span></span> <span class="keyword">of</span> <code class="type">int * string * int option * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.SendLocation"><span class="constructor">SendLocation</span></span> <span class="keyword">of</span> <code class="type">int * float * float * int option * <a href="Api.ReplyMarkup.html#TYPEreply_markup">Api.ReplyMarkup.reply_markup</a> option</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.GetUpdates"><span class="constructor">GetUpdates</span></span> <span class="keyword">of</span> <code class="type">(<a href="Api.Update.html#TYPEupdate">Api.Update.update</a> list <a href="Api.Result.html#TYPEresult">Api.Result.result</a> -> <a href="Api.Command.html#TYPEaction">action</a>)</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.PeekUpdate"><span class="constructor">PeekUpdate</span></span> <span class="keyword">of</span> <code class="type">(<a href="Api.Update.html#TYPEupdate">Api.Update.update</a> <a href="Api.Result.html#TYPEresult">Api.Result.result</a> -> <a href="Api.Command.html#TYPEaction">action</a>)</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.PopUpdate"><span class="constructor">PopUpdate</span></span> <span class="keyword">of</span> <code class="type">(<a href="Api.Update.html#TYPEupdate">Api.Update.update</a> <a href="Api.Result.html#TYPEresult">Api.Result.result</a> -> <a href="Api.Command.html#TYPEaction">action</a>)</code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaction.Chain"><span class="constructor">Chain</span></span> <span class="keyword">of</span> <code class="type"><a href="Api.Command.html#TYPEaction">action</a> * <a href="Api.Command.html#TYPEaction">action</a></code></code></td>
+
+</tr></table>
+
+<div class="info ">
+The actions that can be used by the bot's commands<br>
+</div>
+
+
+<pre><code><span id="TYPEcommand"><span class="keyword">type</span> <code class="type"></code>command</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.name">name</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.description">description</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span class="keyword">mutable&nbsp;</span><span id="TYPEELTcommand.enabled">enabled</span>&nbsp;: <code class="type">bool</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcommand.run">run</span>&nbsp;: <code class="type"><a href="Api.Message.html#TYPEmessage">Api.Message.message</a> -> <a href="Api.Command.html#TYPEaction">action</a></code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+This type is used to represent available commands. The `name` field is the command's name (without a slash) and the `description` field is the description to be used in the help message. `run` is the function called when invoking the command.<br>
+</div>
+
+
+<pre><span id="VALis_command"><span class="keyword">val</span> is_command</span> : <code class="type"><a href="Api.Update.html#TYPEupdate">Api.Update.update</a> -> bool</code></pre><div class="info ">
+Tests to see whether an update from the update queue invoked a command<br>
+</div>
+
+<pre><span id="VALread_command"><span class="keyword">val</span> read_command</span> : <code class="type"><a href="Api.Message.html#TYPEmessage">Api.Message.message</a> -> <a href="Api.Command.html#TYPEcommand">command</a> list -> <a href="Api.Command.html#TYPEaction">action</a></code></pre><div class="info ">
+Takes a message, known to represent a command, and a list of possible commands. These values are used to find the matching command and return the actions that it should perform<br>
+</div>
+
+<pre><span id="VALread_update"><span class="keyword">val</span> read_update</span> : <code class="type"><a href="Api.Update.html#TYPEupdate">Api.Update.update</a> -> <a href="Api.Command.html#TYPEcommand">command</a> list -> <a href="Api.Command.html#TYPEaction">action</a></code></pre><div class="info ">
+Reads a single update and, given a list of commands, matches it to a correct command that can be invoked<br>
+</div>
+
+<pre><span id="VALtokenize"><span class="keyword">val</span> tokenize</span> : <code class="type">string -> string list</code></pre><div class="info ">
+Turns a string into the args list that a command may choose to work with<br>
+</div>
+</body></html>

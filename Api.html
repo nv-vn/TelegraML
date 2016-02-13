@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Api" rel="Chapter" href="Api.html"><title>Api</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_Api.html">Api</a></h1>
+
+<pre><span class="keyword">module</span> Api: <code class="code">sig</code> <a href="Api.html">..</a> <code class="code">end</code></pre><div class="info module top">
+Specifies the API used for creating Telegram bots, defined at https://core.telegram.org/bots/api<br>
+</div>
+<hr width="100%">
+<br>
+Specifies the API used for creating Telegram bots, defined at https://core.telegram.org/bots/api<br>
+
+<pre><span id="EXCEPTIONApiException"><span class="keyword">exception</span> ApiException</span> <span class="keyword">of</span> <code class="type">string</code></pre>
+<div class="info ">
+An exception thrown if some rules specified in the API are invalidated by incorrectly formatted data of some type<br>
+</div>
+
+<pre><span class="keyword">module</span> <a href="Api.User.html">User</a>: <code class="code">sig</code> <a href="Api.User.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="Api.Chat.html">Chat</a>: <code class="code">sig</code> <a href="Api.Chat.html">..</a> <code class="code">end</code></pre><div class="info">
+Used to represent private messages, groupchats, and other types of Telegram chats
+</div>
+
+<pre><span class="keyword">module</span> <a href="Api.InputFile.html">InputFile</a>: <code class="code">sig</code> <a href="Api.InputFile.html">..</a> <code class="code">end</code></pre><div class="info">
+Used for handling, loading, and sending outgoing files in messages
+</div>
+
+<pre><span class="keyword">module</span> <a href="Api.ReplyMarkup.html">ReplyMarkup</a>: <code class="code">sig</code> <a href="Api.ReplyMarkup.html">..</a> <code class="code">end</code></pre><div class="info">
+Markup options for users to reply to sent messages
+</div>
+
+<pre><span class="keyword">module</span> <a href="Api.PhotoSize.html">PhotoSize</a>: <code class="code">sig</code> <a href="Api.PhotoSize.html">..</a> <code class="code">end</code></pre><div class="info">
+This module is used for all images sent in chats
+</div>
+
+<pre><span class="keyword">module</span> <a href="Api.Audio.html">Audio</a>: <code class="code">sig</code> <a href="Api.Audio.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="Api.Document.html">Document</a>: <code class="code">sig</code> <a href="Api.Document.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="Api.Sticker.html">Sticker</a>: <code class="code">sig</code> <a href="Api.Sticker.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="Api.Video.html">Video</a>: <code class="code">sig</code> <a href="Api.Video.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="Api.Voice.html">Voice</a>: <code class="code">sig</code> <a href="Api.Voice.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="Api.Contact.html">Contact</a>: <code class="code">sig</code> <a href="Api.Contact.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="Api.Location.html">Location</a>: <code class="code">sig</code> <a href="Api.Location.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="Api.Message.html">Message</a>: <code class="code">sig</code> <a href="Api.Message.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="Api.ChatAction.html">ChatAction</a>: <code class="code">sig</code> <a href="Api.ChatAction.html">..</a> <code class="code">end</code></pre><div class="info">
+Actions that can be sent as user statuses
+</div>
+
+<pre><span class="keyword">module</span> <a href="Api.Update.html">Update</a>: <code class="code">sig</code> <a href="Api.Update.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="Api.Result.html">Result</a>: <code class="code">sig</code> <a href="Api.Result.html">..</a> <code class="code">end</code></pre><div class="info">
+Used for representing results of various actions where a success or failure can occur.
+</div>
+
+<pre><span class="keyword">module</span> <a href="Api.Command.html">Command</a>: <code class="code">sig</code> <a href="Api.Command.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module type</span> <a href="Api.BOT.html">BOT</a> = <code class="code">sig</code> <a href="Api.BOT.html">..</a> <code class="code">end</code></pre><div class="info">
+BOT is strictly used for customization of a TELEGRAM_BOT module.
+</div>
+
+<pre><span class="keyword">module type</span> <a href="Api.TELEGRAM_BOT.html">TELEGRAM_BOT</a> = <code class="code">sig</code> <a href="Api.TELEGRAM_BOT.html">..</a> <code class="code">end</code></pre><div class="info">
+TELEGRAM_BOT represents the interface to a running bot
+</div>
+
+<pre><span class="keyword">module</span> <a href="Api.Mk.html">Mk</a>: <div class="sig_block"><code class="code">functor (</code><code class="code">B</code><code class="code"> : </code><code class="type"><a href="Api.BOT.html">BOT</a></code><code class="code">) -&gt; </code><code class="type"><a href="Api.TELEGRAM_BOT.html">TELEGRAM_BOT</a></code><code class="type"> </code></div></pre><div class="info">
+Generate a bot's interface to allow for direct calls to functions
+</div>
+</body></html>

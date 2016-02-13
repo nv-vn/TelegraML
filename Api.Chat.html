@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Api.User.html">
+<link rel="next" href="Api.InputFile.html">
+<link rel="Up" href="Api.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Api" rel="Chapter" href="Api.html"><title>Api.Chat</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Api.User.html" title="Api.User">Previous</a>
+&nbsp;<a class="up" href="Api.html" title="Api">Up</a>
+&nbsp;<a class="post" href="Api.InputFile.html" title="Api.InputFile">Next</a>
+</div>
+<h1>Module <a href="type_Api.Chat.html">Api.Chat</a></h1>
+
+<pre><span class="keyword">module</span> Chat: <code class="code">sig</code> <a href="Api.Chat.html">..</a> <code class="code">end</code></pre><div class="info module top">
+Used to represent private messages, groupchats, and other types of Telegram chats<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEchat_type"><span class="keyword">type</span> <code class="type"></code>chat_type</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchat_type.Private"><span class="constructor">Private</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchat_type.Group"><span class="constructor">Group</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchat_type.Supergroup"><span class="constructor">Supergroup</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchat_type.Channel"><span class="constructor">Channel</span></span></code></td>
+<td class="typefieldcomment" align="left" valign="top" ><code>(*</code></td><td class="typefieldcomment" align="left" valign="top" ><div class="info ">
+Turn a string into a `chat_type`<br>
+</div>
+</td><td class="typefieldcomment" align="left" valign="bottom" ><code>*)</code></td>
+</tr></table>
+
+<div class="info ">
+The type of groupchat that the bot is in<br>
+</div>
+
+
+<pre><span id="VALread_type"><span class="keyword">val</span> read_type</span> : <code class="type">string -> <a href="Api.Chat.html#TYPEchat_type">chat_type</a></code></pre>
+<pre><code><span id="TYPEchat"><span class="keyword">type</span> <code class="type"></code>chat</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchat.id">id</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchat.chat_type">chat_type</span>&nbsp;: <code class="type"><a href="Api.Chat.html#TYPEchat_type">chat_type</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchat.title">title</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchat.username">username</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchat.first_name">first_name</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchat.last_name">last_name</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a chat where messages can be sent or received
+<p>
+Create a `chat` in a concise manner<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">id:int -><br>       chat_type:<a href="Api.Chat.html#TYPEchat_type">chat_type</a> -><br>       ?title:string option -><br>       ?username:string option -><br>       ?first_name:string option -><br>       ?last_name:string option -> unit -> <a href="Api.Chat.html#TYPEchat">chat</a></code></pre><div class="info ">
+Read a `chat` out of some JSON<br>
+</div>
+
+<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type">Yojson.Safe.json -> <a href="Api.Chat.html#TYPEchat">chat</a></code></pre></body></html>

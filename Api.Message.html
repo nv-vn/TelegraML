@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="Api.Location.html">
+<link rel="next" href="Api.ChatAction.html">
+<link rel="Up" href="Api.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="Api" rel="Chapter" href="Api.html"><title>Api.Message</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="Api.Location.html" title="Api.Location">Previous</a>
+&nbsp;<a class="up" href="Api.html" title="Api">Up</a>
+&nbsp;<a class="post" href="Api.ChatAction.html" title="Api.ChatAction">Next</a>
+</div>
+<h1>Module <a href="type_Api.Message.html">Api.Message</a></h1>
+
+<pre><span class="keyword">module</span> Message: <code class="code">sig</code> <a href="Api.Message.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><code><span id="TYPEmessage"><span class="keyword">type</span> <code class="type"></code>message</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.message_id">message_id</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.from">from</span>&nbsp;: <code class="type"><a href="Api.User.html#TYPEuser">Api.User.user</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.date">date</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.chat">chat</span>&nbsp;: <code class="type"><a href="Api.Chat.html#TYPEchat">Api.Chat.chat</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.forward_from">forward_from</span>&nbsp;: <code class="type"><a href="Api.User.html#TYPEuser">Api.User.user</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.forward_date">forward_date</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.reply_to_message">reply_to_message</span>&nbsp;: <code class="type"><a href="Api.Message.html#TYPEmessage">message</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.text">text</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.audio">audio</span>&nbsp;: <code class="type"><a href="Api.Audio.html#TYPEaudio">Api.Audio.audio</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.document">document</span>&nbsp;: <code class="type"><a href="Api.Document.html#TYPEdocument">Api.Document.document</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.photo">photo</span>&nbsp;: <code class="type"><a href="Api.PhotoSize.html#TYPEphoto_size">Api.PhotoSize.photo_size</a> list option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.sticker">sticker</span>&nbsp;: <code class="type"><a href="Api.Sticker.html#TYPEsticker">Api.Sticker.sticker</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.video">video</span>&nbsp;: <code class="type"><a href="Api.Video.html#TYPEvideo">Api.Video.video</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.voice">voice</span>&nbsp;: <code class="type"><a href="Api.Voice.html#TYPEvoice">Api.Voice.voice</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.contact">contact</span>&nbsp;: <code class="type"><a href="Api.Contact.html#TYPEcontact">Api.Contact.contact</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.location">location</span>&nbsp;: <code class="type"><a href="Api.Location.html#TYPElocation">Api.Location.location</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a message in a chat. Note that `photo` should be a list of `PhotoSize.photo_size`s if it exists
+<p>
+Create a `message` in a concise manner<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">message_id:int -><br>       ?from:<a href="Api.User.html#TYPEuser">Api.User.user</a> option -><br>       date:int -><br>       chat:<a href="Api.Chat.html#TYPEchat">Api.Chat.chat</a> -><br>       ?forward_from:<a href="Api.User.html#TYPEuser">Api.User.user</a> option -><br>       ?forward_date:int option -><br>       ?reply_to:<a href="Api.Message.html#TYPEmessage">message</a> option -><br>       ?text:string option -><br>       ?audio:<a href="Api.Audio.html#TYPEaudio">Api.Audio.audio</a> option -><br>       ?document:<a href="Api.Document.html#TYPEdocument">Api.Document.document</a> option -><br>       ?photo:<a href="Api.PhotoSize.html#TYPEphoto_size">Api.PhotoSize.photo_size</a> list option -><br>       ?sticker:<a href="Api.Sticker.html#TYPEsticker">Api.Sticker.sticker</a> option -><br>       ?video:<a href="Api.Video.html#TYPEvideo">Api.Video.video</a> option -><br>       ?voice:<a href="Api.Voice.html#TYPEvoice">Api.Voice.voice</a> option -><br>       ?caption:string option -><br>       ?contact:<a href="Api.Contact.html#TYPEcontact">Api.Contact.contact</a> option -><br>       ?location:<a href="Api.Location.html#TYPElocation">Api.Location.location</a> option -> unit -> <a href="Api.Message.html#TYPEmessage">message</a></code></pre><div class="info ">
+Read a `message` out of some JSON<br>
+</div>
+
+<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type">Yojson.Safe.json -> <a href="Api.Message.html#TYPEmessage">message</a></code></pre>
+<pre><span id="VALget_sender_first_name"><span class="keyword">val</span> get_sender_first_name</span> : <code class="type"><a href="Api.Message.html#TYPEmessage">message</a> -> string</code></pre><div class="info ">
+Get the first name of the user who sent the message
+<p>
+Get the username of the user who sent the message<br>
+</div>
+
+<pre><span id="VALget_sender_username"><span class="keyword">val</span> get_sender_username</span> : <code class="type"><a href="Api.Message.html#TYPEmessage">message</a> -> string</code></pre><div class="info ">
+Get a formatted name for the user who sent the message: first name, with the username in parentheses if it exists<br>
+</div>
+
+<pre><span id="VALget_sender"><span class="keyword">val</span> get_sender</span> : <code class="type"><a href="Api.Message.html#TYPEmessage">message</a> -> string</code></pre></body></html>
