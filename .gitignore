@@ -7,7 +7,10 @@
 *.cmx
 *.cmxs
 *.cmxa
+
+# Bot blobs
 *.token
+*.id
 
 # ocamlbuild working directory
 _build/
