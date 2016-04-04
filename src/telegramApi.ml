@@ -772,17 +772,21 @@ end
 
 module Update = struct
   type update = {
-    update_id : int;
-    message   : Message.message option
+    update_id            : int;
+    message              : Message.message option;
+    inline_query         : InlineQuery.inline_query option;
+    chosen_inline_result : InlineQuery.chosen_inline_result option
   }
 
-  let create ~update_id ?(message=None) () =
-    {update_id; message}
+  let create ~update_id ?(message=None) ?(inline_query=None) ?(chosen_inline_result=None) () =
+    {update_id; message; inline_query; chosen_inline_result}
 
   let read obj =
     let update_id = the_int @@ get_field "update_id" obj in
     let message = Message.read <$> get_opt_field "message" obj in
-    create ~update_id ~message ()
+    let inline_query = InlineQuery.read <$> get_opt_field "inline_query" obj in
+    let chosen_inline_result = InlineQuery.read_chosen_inline_result <$> get_opt_field "chosen_inline_result" obj in
+    create ~update_id ~message ~inline_query ~chosen_inline_result ()
 end
 
 module Result = struct
@@ -813,6 +817,7 @@ module Command = struct
     | SendVoice of int * string * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
     | ResendVoice of int * string * int option * ReplyMarkup.reply_markup option
     | SendLocation of int * float * float * int option * ReplyMarkup.reply_markup option
+    | AnswerInlineQuery of string * InlineQuery.Out.inline_query_result list * int option * bool option * string option
     | GetUpdates of (Update.update list Result.result -> action)
     | PeekUpdate of (Update.update Result.result -> action)
     | PopUpdate of (Update.update Result.result -> action)
@@ -886,6 +891,7 @@ module type TELEGRAM_BOT = sig
   val send_voice : chat_id:int -> voice:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
   val resend_voice : chat_id:int -> voice:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
   val send_location : chat_id:int -> latitude:float -> longitude:float -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val answer_inline_query : inline_query_id:string -> results:InlineQuery.Out.inline_query_result list -> ?cache_time:int option -> ?is_personal:bool option -> ?next_offset:string option -> unit -> unit Result.result Lwt.t
   val get_updates : Update.update list Result.result Lwt.t
   val peek_update : Update.update Result.result Lwt.t
   val pop_update : ?run_cmds:bool -> unit -> Update.update Result.result Lwt.t
@@ -1087,6 +1093,20 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
+  let answer_inline_query ~inline_query_id ~results ?(cache_time=None) ?(is_personal=None) ?(next_offset=None) () =
+    let results' = List.map (fun result -> `String (InlineQuery.Out.prepare result)) results in
+    let body = `Assoc ([("inline_query_id", `String inline_query_id);
+                        ("results", `List results')] +? ("cache_time", this_int <$> cache_time)
+                                                     +? ("is_personal", this_bool <$> is_personal)
+                                                     +? ("next_offset", this_string <$> next_offset)) in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(body |> Yojson.Safe.to_string |> Cohttp_lwt_body.of_string) (Uri.of_string (url ^ "answerInlineQuery")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success ()
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
   let get_updates =
     Client.get (Uri.of_string (url ^ "getUpdates")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1160,6 +1180,7 @@ module Mk (B : BOT) = struct
     | SendVoice (chat_id, voice, reply_to, reply_markup, f) -> send_voice ~chat_id ~voice ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
     | ResendVoice (chat_id, voice, reply_to, reply_markup) -> resend_voice ~chat_id ~voice ~reply_to ~reply_markup >>= fun _ -> return ()
     | SendLocation (chat_id, latitude, longitude, reply_to, reply_markup) -> send_location ~chat_id ~latitude ~longitude ~reply_to ~reply_markup >>= fun _ -> return ()
+    | AnswerInlineQuery (inline_query_id, results, cache_time, is_personal, next_offset) -> answer_inline_query ~inline_query_id ~results ~cache_time ~is_personal ~next_offset () >>= fun _ -> return ()
     | GetUpdates f -> get_updates >>= fun x -> evaluator (f x)
     | PeekUpdate f -> peek_update >>= fun x -> evaluator (f x)
     | PopUpdate f -> pop_update () >>= fun x -> evaluator (f x)

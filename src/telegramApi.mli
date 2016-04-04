@@ -524,11 +524,13 @@ end
 module Update : sig
   (** Stores the info for updates to a chat/group *)
   type update = {
-    update_id : int;
-    message   : Message.message option
+    update_id            : int;
+    message              : Message.message option;
+    inline_query         : InlineQuery.inline_query option;
+    chosen_inline_result : InlineQuery.chosen_inline_result option
   }
   (** Create an `update` in a concise manner *)
-  val create : update_id:int -> ?message:Message.message option -> unit -> update
+  val create : update_id:int -> ?message:Message.message option -> ?inline_query:InlineQuery.inline_query option -> ?chosen_inline_result:InlineQuery.chosen_inline_result option -> unit -> update
   (** Read an `update` out of some JSON *)
   val read : json -> update
 end
@@ -572,6 +574,7 @@ module Command : sig
     | SendVoice of int * string * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
     | ResendVoice of int * string * int option * ReplyMarkup.reply_markup option
     | SendLocation of int * float * float * int option * ReplyMarkup.reply_markup option
+    | AnswerInlineQuery of string * InlineQuery.Out.inline_query_result list * int option * bool option * string option
     | GetUpdates of (Update.update list Result.result -> action)
     | PeekUpdate of (Update.update Result.result -> action)
     | PopUpdate of (Update.update Result.result -> action)
@@ -666,6 +669,9 @@ module type TELEGRAM_BOT = sig
 
   (** Send a location to a specified chat *)
   val send_location : chat_id:int -> latitude:float -> longitude:float -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+
+  (** Answers between 1 to 50 inline queries *)
+  val answer_inline_query : inline_query_id:string -> results:InlineQuery.Out.inline_query_result list -> ?cache_time:int option -> ?is_personal:bool option -> ?next_offset:string option -> unit -> unit Result.result Lwt.t
 
   (** Get a list of all available updates that the bot has received *)
   val get_updates : Update.update list Result.result Lwt.t

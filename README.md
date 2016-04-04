@@ -52,7 +52,6 @@ the surrounding directory to use as the `chat_id` and `token`.
 
 ### What doesn't?
 
-* No inline bots
 * No webhooks
 * User profile pictures aren't implemented
 * No `getFile`
@@ -75,6 +74,14 @@ the surrounding directory to use as the `chat_id` and `token`.
 * `ReplyKeyboardMarkup`
 * `ReplyKeyboardHide`
 * `ForceReply`
+* `InlineQuery`
+* `InlineQueryResult`
+* `InlineQueryResultArticle`
+* `InlineQueryResultPhoto`
+* `InlineQueryResultGif`
+* `InlineQueryResultMpeg4Gif`
+* `InlineQueryResultVideo`
+* `ChosenInlineResult`
 
 ### Implemented methods:
 
@@ -90,3 +97,4 @@ the surrounding directory to use as the `chat_id` and `token`.
 * `sendLocation`
 * `sendChatAction`
 * `getUpdates`
+* `answerInlineQuery`
