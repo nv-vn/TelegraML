@@ -382,6 +382,128 @@ module Message : sig
   val get_sender : message -> string
 end
 
+(** This module is used for InlineQuery bots *)
+module InlineQuery : sig
+  (** Represents incoming messages for an InlineQuery bot *)
+  type inline_query = {
+    id     : string;
+    from   : User.user;
+    query  : string;
+    offset : string
+  }
+  (** Create an `inline_query` in a concise manner *)
+  val create : id:string -> from:User.user -> query:string -> offset:string -> unit -> inline_query
+  (** Read an `inline_query` out of some JSON *)
+  val read : Yojson.Safe.json -> inline_query
+
+  (** Represents the reply to an InlineQuery bot if one is requested *)
+  type chosen_inline_result = {
+    result_id : string;
+    from      : User.user;
+    query     : string
+  }
+  (** Read a `chosen_inline_query` out of some JSON *)
+  val read_chosen_inline_result : Yojson.Safe.json -> chosen_inline_result
+
+  (** This module is used to deal with outgoing replies to inline queries for an InlineQuery bot *)
+  module Out : sig
+    (** Represents the mode used for formatting text sent to the user (bold, italics, fixed-width, or inline URLs) *)
+    type parse_mode = Markdown | Html
+    (** Get the string representation of a `parse_mode` *)
+    val string_of_parse_mode : parse_mode -> string
+
+    (** Represents an article sent as a reply *)
+    type article = {
+      id                       : string;
+      title                    : string;
+      message_text             : string;
+      parse_mode               : parse_mode option;
+      disable_web_page_preview : bool option;
+      url                      : string option;
+      hide_url                 : bool option;
+      description              : string option;
+      thumb_url                : string option;
+      thumb_width              : int option;
+      thumb_height             : int option
+    }
+    (** Represents a photo sent as a reply *)
+    type photo = {
+      id                       : string;
+      photo_url                : string;
+      photo_width              : int option;
+      photo_height             : int option;
+      thumb_url                : string;
+      title                    : string option;
+      description              : string option;
+      caption                  : string option;
+      message_text             : string option;
+      parse_mode               : parse_mode option;
+      disable_web_page_preview : bool option
+    }
+    (** Represents a gif sent as a reply *)
+    type gif = {
+      id                       : string;
+      gif_url                  : string;
+      gif_width                : int option;
+      gif_height               : int option;
+      thumb_url                : string;
+      title                    : string option;
+      caption                  : string option;
+      message_text             : string option;
+      parse_mode               : parse_mode option;
+      disable_web_page_preview : bool option
+    }
+    (** Represents a gif sent as a reply, but converted to an mp4 video file *)
+    type mpeg4gif = {
+      id                       : string;
+      mpeg4_url                : string;
+      mpeg4_width              : int option;
+      mpeg4_height             : int option;
+      thumb_url                : string;
+      title                    : string option;
+      caption                  : string option;
+      message_text             : string option;
+      parse_mode               : parse_mode option;
+      disable_web_page_preview : bool option
+    }
+    (** Represents a video sent as a reply *)
+    type video = {
+      id                       : string;
+      video_url                : string;
+      mime_type                : string;
+      message_text             : string;
+      parse_mode               : parse_mode option;
+      disable_web_page_preview : bool option;
+      video_width              : int option;
+      video_height             : int option;
+      video_duration           : int option;
+      thumb_url                : string;
+      title                    : string;
+      description              : string option
+    }
+    (** Represents all the replies that can be given to an inline query *)
+    type inline_query_result =
+      | Article of article
+      | Photo of photo
+      | Gif of gif
+      | Mpeg4Gif of mpeg4gif
+      | Video of video
+
+    (** Create an `Article` `inline_query_result` in a concise manner *)
+    val create_article : id:string -> title:string -> message_text:string -> ?parse_mode:parse_mode -> ?disable_web_page_preview:bool -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
+    (** Create a `Photo` `inline_query_result` in a concise manner *)
+    val create_photo : id:string -> photo_url:string -> ?photo_width:int -> ?photo_height:int -> thumb_url:string -> ?title:string -> ?description:string -> ?caption:string -> ?message_text:string -> ?parse_mode:parse_mode -> ?disable_web_page_preview:bool -> unit -> inline_query_result
+    (** Create a `Gif` `inline_query_result` in a concise manner *)
+    val create_gif : id:string -> gif_url:string -> ?gif_width:int -> ?gif_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?message_text:string -> ?parse_mode:parse_mode -> ?disable_web_page_preview:bool -> unit -> inline_query_result
+    (** Create an `Mpeg4Gif` `inline_query_result` in a concise manner *)
+    val create_mpeg4gif : id:string -> mpeg4_url:string -> ?mpeg4_width:int -> ?mpeg4_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?message_text:string -> ?parse_mode:parse_mode -> ?disable_web_page_preview:bool -> unit -> inline_query_result
+    (** Create a `Video` `inline_query_result` in a concise manner *)
+    val create_video : id:string -> video_url:string -> mime_type:string -> message_text:string -> ?parse_mode:parse_mode -> ?disable_web_page_preview:bool -> ?video_width:int -> ?video_height:int -> ?video_duration:int -> thumb_url:string -> title:string -> ?description:string -> unit -> inline_query_result
+    (** Prepare an `inline_query_result` for sending *)
+    val prepare : inline_query_result -> string
+  end
+end
+
 (** Actions that can be sent as user statuses *)
 module ChatAction : sig
   (** Represents all recognized chat actions *)

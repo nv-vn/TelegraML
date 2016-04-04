@@ -553,6 +553,201 @@ module Message = struct
     | un -> get_sender_first_name msg ^ " (" ^ un ^ ")"
 end
 
+module InlineQuery = struct
+  type inline_query = {
+    id     : string;
+    from   : User.user;
+    query  : string;
+    offset : string
+  }
+
+  let create ~id ~from ~query ~offset () =
+    {id; from; query; offset}
+
+  let read obj =
+    let id = the_string @@ get_field "id" obj in
+    let from = User.read @@ get_field "from" obj in
+    let query = the_string @@ get_field "query" obj in
+    let offset = the_string @@ get_field "offset" obj in
+    create ~id ~from ~query ~offset ()
+
+  type chosen_inline_result = {
+    result_id : string;
+    from      : User.user;
+    query     : string
+  }
+
+  let read_chosen_inline_result obj =
+    let result_id = the_string @@ get_field "result_id" obj in
+    let from = User.read @@ get_field "from" obj in
+    let query = the_string @@ get_field "query" obj in
+    {result_id; from; query}
+
+  module Out = struct
+    type parse_mode = Markdown | Html
+
+    let string_of_parse_mode = function
+      | Markdown -> "Markdown"
+      | Html -> "HTML"
+
+    type article = {
+      id                       : string;
+      title                    : string;
+      message_text             : string;
+      parse_mode               : parse_mode option;
+      disable_web_page_preview : bool option;
+      url                      : string option;
+      hide_url                 : bool option;
+      description              : string option;
+      thumb_url                : string option;
+      thumb_width              : int option;
+      thumb_height             : int option
+    }
+
+    type photo = {
+      id                       : string;
+      photo_url                : string;
+      photo_width              : int option;
+      photo_height             : int option;
+      thumb_url                : string;
+      title                    : string option;
+      description              : string option;
+      caption                  : string option;
+      message_text             : string option;
+      parse_mode               : parse_mode option;
+      disable_web_page_preview : bool option
+    }
+
+    type gif = {
+      id                       : string;
+      gif_url                  : string;
+      gif_width                : int option;
+      gif_height               : int option;
+      thumb_url                : string;
+      title                    : string option;
+      caption                  : string option;
+      message_text             : string option;
+      parse_mode               : parse_mode option;
+      disable_web_page_preview : bool option
+    }
+
+    type mpeg4gif = {
+      id                       : string;
+      mpeg4_url                : string;
+      mpeg4_width              : int option;
+      mpeg4_height             : int option;
+      thumb_url                : string;
+      title                    : string option;
+      caption                  : string option;
+      message_text             : string option;
+      parse_mode               : parse_mode option;
+      disable_web_page_preview : bool option
+    }
+
+    type video = {
+      id                       : string;
+      video_url                : string;
+      mime_type                : string;
+      message_text             : string;
+      parse_mode               : parse_mode option;
+      disable_web_page_preview : bool option;
+      video_width              : int option;
+      video_height             : int option;
+      video_duration           : int option;
+      thumb_url                : string;
+      title                    : string;
+      description              : string option
+    }
+
+    type inline_query_result =
+      | Article of article
+      | Photo of photo
+      | Gif of gif
+      | Mpeg4Gif of mpeg4gif
+      | Video of video
+
+    let create_article ~id ~title ~message_text ?parse_mode ?disable_web_page_preview ?url ?hide_url ?description ?thumb_url ?thumb_width ?thumb_height () =
+      Article {id; title; message_text; parse_mode; disable_web_page_preview; url; hide_url; description; thumb_url; thumb_width; thumb_height}
+
+    let create_photo ~id ~photo_url ?photo_width ?photo_height ~thumb_url ?title ?description ?caption ?message_text ?parse_mode ?disable_web_page_preview () =
+      Photo {id; photo_url; photo_width; photo_height; thumb_url; title; description; caption; message_text; parse_mode; disable_web_page_preview}
+
+    let create_gif ~id ~gif_url ?gif_width ?gif_height ~thumb_url ?title ?caption ?message_text ?parse_mode ?disable_web_page_preview () =
+      Gif {id; gif_url; gif_width; gif_height; thumb_url; title; caption; message_text; parse_mode; disable_web_page_preview}
+
+    let create_mpeg4gif ~id ~mpeg4_url ?mpeg4_width ?mpeg4_height ~thumb_url ?title ?caption ?message_text ?parse_mode ?disable_web_page_preview () =
+      Mpeg4Gif {id; mpeg4_url; mpeg4_width; mpeg4_height; thumb_url; title; caption; message_text; parse_mode; disable_web_page_preview}
+
+    let create_video ~id ~video_url ~mime_type ~message_text ?parse_mode ?disable_web_page_preview ?video_width ?video_height ?video_duration ~thumb_url ~title ?description () =
+      Video {id; video_url; mime_type; message_text; parse_mode; disable_web_page_preview; video_width; video_height; video_duration; thumb_url; title; description}
+
+    let prepare = function
+      | Article {id; title; message_text; parse_mode; disable_web_page_preview; url; hide_url; description; thumb_url; thumb_width; thumb_height} ->
+        let json = `Assoc ([("type", `String "article");
+                            ("id", `String id);
+                            ("title", `String title);
+                            ("message_text", `String message_text)] +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                                                    +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)
+                                                                    +? ("url", this_string <$> url)
+                                                                    +? ("hide_url", this_bool <$> hide_url)
+                                                                    +? ("description", this_string <$> description)
+                                                                    +? ("thumb_url", this_string <$> thumb_url)
+                                                                    +? ("thumb_width", this_int <$> thumb_width)
+                                                                    +? ("thumb_height", this_int <$> thumb_height)) in
+        Yojson.Safe.to_string json
+      | Photo {id; photo_url; photo_width; photo_height; thumb_url; title; description; caption; message_text; parse_mode; disable_web_page_preview} ->
+        let json = `Assoc ([("type", `String "photo");
+                            ("id", `String id);
+                            ("photo_url", `String photo_url);
+                            ("thumb_url", `String thumb_url)] +? ("photo_width", this_int <$> photo_width)
+                                                              +? ("photo_height", this_int <$> photo_height)
+                                                              +? ("title", this_string <$> title)
+                                                              +? ("description", this_string <$> description)
+                                                              +? ("caption", this_string <$> caption)
+                                                              +? ("message_text", this_string <$> message_text)
+                                                              +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                                              +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)) in
+        Yojson.Safe.to_string json
+      | Gif {id; gif_url; gif_width; gif_height; thumb_url; title; caption; message_text; parse_mode; disable_web_page_preview} ->
+        let json = `Assoc ([("type", `String "gif");
+                            ("id", `String id);
+                            ("gif_url", `String gif_url);
+                            ("thumb_url", `String thumb_url)] +? ("gif_width", this_int <$> gif_width)
+                                                              +? ("gif_height", this_int <$> gif_height)
+                                                              +? ("title", this_string <$> title)
+                                                              +? ("caption", this_string <$> caption)
+                                                              +? ("message_text", this_string <$> message_text)
+                                                              +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                                              +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)) in
+        Yojson.Safe.to_string json
+      | Mpeg4Gif {id; mpeg4_url; mpeg4_width; mpeg4_height; thumb_url; title; caption; message_text; parse_mode; disable_web_page_preview} ->
+        let json = `Assoc ([("type", `String "mpeg4gif");
+                            ("id", `String id);
+                            ("mpeg4_url", `String mpeg4_url);
+                            ("thumb_url", `String thumb_url)] +? ("mpeg4_width", this_int <$> mpeg4_width)
+                                                              +? ("mpeg4_height", this_int <$> mpeg4_height)
+                                                              +? ("title", this_string <$> title)
+                                                              +? ("caption", this_string <$> caption)
+                                                              +? ("message_text", this_string <$> message_text)
+                                                              +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                                              +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)) in
+        Yojson.Safe.to_string json
+      | Video {id; video_url; mime_type; message_text; parse_mode; disable_web_page_preview; video_width; video_height; video_duration; thumb_url; title; description} ->
+         let json = `Assoc ([("type", `String "video");
+                             ("id", `String id);
+                             ("video_url", `String video_url);
+                             ("mime_type", `String mime_type);
+                             ("message_text", `String message_text);
+                             ("thumb_url", `String thumb_url);
+                             ("title", `String title)] +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                                       +? ("video_width", this_int <$> video_width)
+                                                       +? ("video_height", this_int <$> video_height)
+                                                       +? ("video_duration", this_int <$> video_duration)
+                                                       +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)) in
+        Yojson.Safe.to_string json
+  end
+end
+
 module ChatAction = struct
   type action =
     | Typing
