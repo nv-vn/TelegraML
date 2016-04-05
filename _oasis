@@ -14,7 +14,6 @@ Library "telegraml"
   Modules: Telegram, TelegramApi, TelegramUtil
   BuildDepends: lwt, cohttp, cohttp.lwt, yojson, batteries
   Install: true
-  XMETAEnable: true
 
 Document "telegram_api"
   Type: ocamlbuild (0.4)
