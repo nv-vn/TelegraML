@@ -382,6 +382,24 @@ module Message : sig
   val get_sender : message -> string
 end
 
+(** This module is used for downloadable files uploaded to the Telegram servers *)
+module File : sig
+  (** Represents the information returned by `getFile` for the file_id *)
+  type file = {
+    file_id   : string;
+    file_size : int option;
+    file_path : string option
+  }
+
+  (** Create a `file` in a concise manner *)
+  val create : file_id:string -> ?file_size:int option -> ?file_path:string option -> unit -> file
+  (** Read a `file` out of some JSON *)
+  val read : Yojson.Safe.json -> file
+
+  (** Download the file from Telegram's servers if it exists *)
+  val download : string -> file -> string Lwt.t option
+end
+
 (** This module is used for InlineQuery bots *)
 module InlineQuery : sig
   (** Represents incoming messages for an InlineQuery bot *)
@@ -574,6 +592,9 @@ module Command : sig
     | SendVoice of int * string * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
     | ResendVoice of int * string * int option * ReplyMarkup.reply_markup option
     | SendLocation of int * float * float * int option * ReplyMarkup.reply_markup option
+    | GetFile of string * (File.file Result.result -> action)
+    | GetFile' of string * (string option -> action)
+    | DownloadFile of File.file * (string option -> action)
     | AnswerInlineQuery of string * InlineQuery.Out.inline_query_result list * int option * bool option * string option
     | GetUpdates of (Update.update list Result.result -> action)
     | PeekUpdate of (Update.update Result.result -> action)
@@ -669,6 +690,15 @@ module type TELEGRAM_BOT = sig
 
   (** Send a location to a specified chat *)
   val send_location : chat_id:int -> latitude:float -> longitude:float -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+
+  (** Get the information for a file that's been uploaded to Telegram's servers by the `file_id` *)
+  val get_file : file_id:string -> File.file Result.result Lwt.t
+
+  (** Download a file that's been uploaded to Telegram's servers by the `file_id` *)
+  val get_file' : file_id:string -> string option Lwt.t
+
+  (** Download a file that's been uploaded to Telegram's servers by the `file` *)
+  val download_file : file:File.file -> string option Lwt.t
 
   (** Answers between 1 to 50 inline queries *)
   val answer_inline_query : inline_query_id:string -> results:InlineQuery.Out.inline_query_result list -> ?cache_time:int option -> ?is_personal:bool option -> ?next_offset:string option -> unit -> unit Result.result Lwt.t

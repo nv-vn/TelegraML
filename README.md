@@ -41,7 +41,6 @@ the surrounding directory to use as the `chat_id` and `token`.
 
 [glgbot](https://github.com/nv-vn/glgbot)
 
-
 ## API Status:
 
 ### What works?
@@ -54,7 +53,6 @@ the surrounding directory to use as the `chat_id` and `token`.
 
 * No webhooks
 * User profile pictures aren't implemented
-* No `getFile`
 
 ### Implemented Types:
 
@@ -70,6 +68,7 @@ the surrounding directory to use as the `chat_id` and `token`.
 * `Contact`
 * `Location`
 * `Update`
+* `File`
 * `InputFile`
 * `ReplyKeyboardMarkup`
 * `ReplyKeyboardHide`
@@ -86,6 +85,7 @@ the surrounding directory to use as the `chat_id` and `token`.
 ### Implemented methods:
 
 * `getMe`
+* `getFile`
 * `sendMessage`
 * `forwardMessage`
 * `sendPhoto`
