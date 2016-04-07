@@ -13,7 +13,16 @@ module MyBot = Mk (struct
   let commands =
     let say_hi = function
       | {chat} -> SendMessage (chat.id, "Hi", None, None) in
-    [{name = "say_hi"; description = "Say hi!"; enabled = true; run = say_hi}]
+    let my_pics = function
+      | {chat; from = Some {id}} ->
+        GetUserProfilePhotos (id, None, None,
+                              function
+                              | Result.Success photos ->
+                                SendMessage (chat.id, "Your photos: " ^ string_of_int photos.total_count, None, None)
+                              | _ -> SendMessage (chat.id, "Couldn't get your profile pictures!", None, None))
+      | {chat} -> SendMessage (chat.id, "Couldn't get your profile pictures!", None, None) in
+    [{name = "say_hi"; description = "Say hi!"; enabled = true; run = say_hi};
+     {name = "my_pics"; description = "Count profile pictures"; enabled = true; run = my_pics}]
 end)
 
 let rec main () =

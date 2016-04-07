@@ -348,6 +348,19 @@ module Location : sig
   end
 end
 
+module UserProfilePhotos : sig
+  (** Represents a user's profile pictures, each in multiple sizes *)
+  type user_profile_photos = {
+    total_count : int;
+    photos : PhotoSize.photo_size list list
+  }
+
+  (** Create `user_profile_photos` in a concise manner *)
+  val create : total_count:int -> photos:PhotoSize.photo_size list list -> unit -> user_profile_photos
+  (** Read `user_profile_photos` out of some JSON *)
+  val read : Yojson.Safe.json -> user_profile_photos
+end
+
 module Message : sig
   (** Represents a message in a chat. Note that `photo` should be a list of `PhotoSize.photo_size`s if it exists *)
   type message = {
@@ -599,6 +612,7 @@ module Command : sig
     | SendVoice of int * string * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
     | ResendVoice of int * string * int option * ReplyMarkup.reply_markup option
     | SendLocation of int * float * float * int option * ReplyMarkup.reply_markup option
+    | GetUserProfilePhotos of int * int option * int option * (UserProfilePhotos.user_profile_photos Result.result -> action)
     | GetFile of string * (File.file Result.result -> action)
     | GetFile' of string * (string option -> action)
     | DownloadFile of File.file * (string option -> action)
@@ -706,6 +720,9 @@ module type TELEGRAM_BOT = sig
 
   (** Send a location to a specified chat *)
   val send_location : chat_id:int -> latitude:float -> longitude:float -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+
+  (** Get a given user's profile pictures *)
+  val get_user_profile_photos : user_id:int -> offset:int option -> limit:int option -> UserProfilePhotos.user_profile_photos Result.result Lwt.t
 
   (** Get the information for a file that's been uploaded to Telegram's servers by the `file_id` *)
   val get_file : file_id:string -> File.file Result.result Lwt.t

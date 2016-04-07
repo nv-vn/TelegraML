@@ -49,7 +49,6 @@ the surrounding directory to use as the `chat_id` and `token`.
 ### What doesn't?
 
 * No webhooks
-* User profile pictures aren't implemented
 
 ### Implemented Types:
 
@@ -64,6 +63,7 @@ the surrounding directory to use as the `chat_id` and `token`.
 * `Voice`
 * `Contact`
 * `Location`
+* `UserProfilePhotos`
 * `Update`
 * `File`
 * `InputFile`
@@ -82,7 +82,6 @@ the surrounding directory to use as the `chat_id` and `token`.
 ### Implemented methods:
 
 * `getMe`
-* `getFile`
 * `sendMessage`
 * `forwardMessage`
 * `sendPhoto`
@@ -92,6 +91,8 @@ the surrounding directory to use as the `chat_id` and `token`.
 * `sendVideo`
 * `sendVoice`
 * `sendLocation`
+* `getUserProfilePhotos`
+* `getFile`
 * `sendChatAction`
 * `getUpdates`
 * `answerInlineQuery`

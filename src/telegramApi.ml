@@ -489,6 +489,21 @@ module Location = struct
   end
 end
 
+module UserProfilePhotos = struct
+  type user_profile_photos = {
+    total_count : int;
+    photos : PhotoSize.photo_size list list
+  }
+
+  let create ~total_count ~photos () =
+    {total_count; photos}
+
+  let read obj =
+    let total_count = the_int @@ get_field "total_count" obj in
+    let photos = List.map (fun p -> List.map PhotoSize.read @@ the_list p) @@ the_list @@ get_field "photos" obj in
+    create ~total_count ~photos ()
+end
+
 module Message = struct
   open Chat
   open User
@@ -848,6 +863,7 @@ module Command = struct
     | SendVoice of int * string * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
     | ResendVoice of int * string * int option * ReplyMarkup.reply_markup option
     | SendLocation of int * float * float * int option * ReplyMarkup.reply_markup option
+    | GetUserProfilePhotos of int * int option * int option * (UserProfilePhotos.user_profile_photos Result.result -> action)
     | GetFile of string * (File.file Result.result -> action)
     | GetFile' of string * (string option -> action)
     | DownloadFile of File.file * (string option -> action)
@@ -933,6 +949,7 @@ module type TELEGRAM_BOT = sig
   val send_voice : chat_id:int -> voice:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
   val resend_voice : chat_id:int -> voice:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
   val send_location : chat_id:int -> latitude:float -> longitude:float -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val get_user_profile_photos : user_id:int -> offset:int option -> limit:int option -> UserProfilePhotos.user_profile_photos Result.result Lwt.t
   val get_file : file_id:string -> File.file Result.result Lwt.t
   val get_file' : file_id:string -> string option Lwt.t
   val download_file : file:File.file -> string option Lwt.t
@@ -1139,6 +1156,17 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
+  let get_user_profile_photos ~user_id ~offset ~limit =
+    let body = `Assoc ([("user_id", `Int user_id)] +? ("offset", this_int <$> offset)
+                                                   +? ("limit", this_int <$> limit)) |> Yojson.Safe.to_string in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getUserProfilePhotos")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success (get_field "result" obj |> UserProfilePhotos.read)
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
   let get_file ~file_id =
     let body = `Assoc ["file_id", `String file_id] |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
@@ -1258,6 +1286,7 @@ module Mk (B : BOT) = struct
     | SendVoice (chat_id, voice, reply_to, reply_markup, f) -> send_voice ~chat_id ~voice ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
     | ResendVoice (chat_id, voice, reply_to, reply_markup) -> resend_voice ~chat_id ~voice ~reply_to ~reply_markup >>= fun _ -> return ()
     | SendLocation (chat_id, latitude, longitude, reply_to, reply_markup) -> send_location ~chat_id ~latitude ~longitude ~reply_to ~reply_markup >>= fun _ -> return ()
+    | GetUserProfilePhotos (user_id, offset, limit, f) -> get_user_profile_photos ~user_id ~offset ~limit >>= fun x -> evaluator (f x)
     | GetFile (file_id, f) -> get_file ~file_id >>= fun x -> evaluator (f x)
     | GetFile' (file_id, f) -> get_file' ~file_id >>= fun x -> evaluator (f x)
     | DownloadFile (file, f) -> download_file ~file >>= fun x -> evaluator (f x)
