@@ -1,5 +1,5 @@
 Name: TelegraML-Examples
-Version: 1.0
+Version: 1.2
 OCamlVersion: >= 4.02
 Synopsis: A Telegram bot in OCaml 
 Authors: nv-vn <nv@cock.li>
@@ -12,6 +12,13 @@ Plugins: META (0.4), DevFiles (0.4)
 Executable "example"
   Path: .
   MainIs: bot.ml
+  CompiledObject: best
+  Install: false
+  BuildDepends: lwt, cohttp, cohttp.lwt, ppx_blob, telegraml
+
+Executable "inline"
+  Path: .
+  MainIs: inline.ml
   CompiledObject: best
   Install: false
   BuildDepends: lwt, cohttp, cohttp.lwt, ppx_blob, telegraml

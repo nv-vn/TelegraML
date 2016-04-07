@@ -518,7 +518,7 @@ module InlineQuery : sig
     (** Create a `Video` `inline_query_result` in a concise manner *)
     val create_video : id:string -> video_url:string -> mime_type:string -> message_text:string -> ?parse_mode:parse_mode -> ?disable_web_page_preview:bool -> ?video_width:int -> ?video_height:int -> ?video_duration:int -> thumb_url:string -> title:string -> ?description:string -> unit -> inline_query_result
     (** Prepare an `inline_query_result` for sending *)
-    val prepare : inline_query_result -> string
+    val prepare : inline_query_result -> Yojson.Safe.json
   end
 end
 
@@ -551,6 +551,13 @@ module Update : sig
   val create : update_id:int -> ?message:Message.message option -> ?inline_query:InlineQuery.inline_query option -> ?chosen_inline_result:InlineQuery.chosen_inline_result option -> unit -> update
   (** Read an `update` out of some JSON *)
   val read : json -> update
+
+  (** Check if an update contains a message *)
+  val is_message : update -> bool
+  (** Check if an update contains an inline query *)
+  val is_inline_query : update -> bool
+  (** Check if an update contains a reply to an inline query *)
+  val is_chosen_inline_result : update -> bool
 end
 
 (** Used for representing results of various actions where a success or failure can occur. Contains helper functions to implement a monadic and functorial interface. *)
@@ -630,7 +637,13 @@ module type BOT = sig
 
   (** The list of commands that the bot will be able to use *)
   val commands : Command.command list
+
+  (** The function to call on inline queries *)
+  val inline : InlineQuery.inline_query -> Command.action
 end
+
+(** Default options for a bot, if no configuration is needed. Warning: You still need to provide an API key *)
+module BotDefaults : BOT
 
 (** TELEGRAM_BOT represents the interface to a running bot *)
 module type TELEGRAM_BOT = sig
@@ -639,6 +652,9 @@ module type TELEGRAM_BOT = sig
 
   (** A list of all commands supported by the bot *)
   val commands : Command.command list
+
+  (** The inline query handler for the bot *)
+  val inline : InlineQuery.inline_query -> Command.action
 
   (** Get the user information for the bot; use to test connection to the Telegram server *)
   val get_me : User.user Result.result Lwt.t

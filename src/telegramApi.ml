@@ -707,68 +707,63 @@ module InlineQuery = struct
 
     let prepare = function
       | Article {id; title; message_text; parse_mode; disable_web_page_preview; url; hide_url; description; thumb_url; thumb_width; thumb_height} ->
-        let json = `Assoc ([("type", `String "article");
-                            ("id", `String id);
-                            ("title", `String title);
-                            ("message_text", `String message_text)] +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
-                                                                    +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)
-                                                                    +? ("url", this_string <$> url)
-                                                                    +? ("hide_url", this_bool <$> hide_url)
-                                                                    +? ("description", this_string <$> description)
-                                                                    +? ("thumb_url", this_string <$> thumb_url)
-                                                                    +? ("thumb_width", this_int <$> thumb_width)
-                                                                    +? ("thumb_height", this_int <$> thumb_height)) in
-        Yojson.Safe.to_string json
+        `Assoc ([("type", `String "article");
+                 ("id", `String id);
+                 ("title", `String title);
+                 ("message_text", `String message_text)] +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                                         +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)
+                                                         +? ("url", this_string <$> url)
+                                                         +? ("hide_url", this_bool <$> hide_url)
+                                                         +? ("description", this_string <$> description)
+                                                         +? ("thumb_url", this_string <$> thumb_url)
+                                                         +? ("thumb_width", this_int <$> thumb_width)
+                                                         +? ("thumb_height", this_int <$> thumb_height))
       | Photo {id; photo_url; photo_width; photo_height; thumb_url; title; description; caption; message_text; parse_mode; disable_web_page_preview} ->
-        let json = `Assoc ([("type", `String "photo");
-                            ("id", `String id);
-                            ("photo_url", `String photo_url);
-                            ("thumb_url", `String thumb_url)] +? ("photo_width", this_int <$> photo_width)
-                                                              +? ("photo_height", this_int <$> photo_height)
-                                                              +? ("title", this_string <$> title)
-                                                              +? ("description", this_string <$> description)
-                                                              +? ("caption", this_string <$> caption)
-                                                              +? ("message_text", this_string <$> message_text)
-                                                              +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
-                                                              +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)) in
-        Yojson.Safe.to_string json
+        `Assoc ([("type", `String "photo");
+                 ("id", `String id);
+                 ("photo_url", `String photo_url);
+                 ("thumb_url", `String thumb_url)] +? ("photo_width", this_int <$> photo_width)
+                                                   +? ("photo_height", this_int <$> photo_height)
+                                                   +? ("title", this_string <$> title)
+                                                   +? ("description", this_string <$> description)
+                                                   +? ("caption", this_string <$> caption)
+                                                   +? ("message_text", this_string <$> message_text)
+                                                   +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                                   +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview))
       | Gif {id; gif_url; gif_width; gif_height; thumb_url; title; caption; message_text; parse_mode; disable_web_page_preview} ->
-        let json = `Assoc ([("type", `String "gif");
-                            ("id", `String id);
-                            ("gif_url", `String gif_url);
-                            ("thumb_url", `String thumb_url)] +? ("gif_width", this_int <$> gif_width)
-                                                              +? ("gif_height", this_int <$> gif_height)
-                                                              +? ("title", this_string <$> title)
-                                                              +? ("caption", this_string <$> caption)
-                                                              +? ("message_text", this_string <$> message_text)
-                                                              +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
-                                                              +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)) in
-        Yojson.Safe.to_string json
+        `Assoc ([("type", `String "gif");
+                 ("id", `String id);
+                 ("gif_url", `String gif_url);
+                 ("thumb_url", `String thumb_url)] +? ("gif_width", this_int <$> gif_width)
+                                                   +? ("gif_height", this_int <$> gif_height)
+                                                   +? ("title", this_string <$> title)
+                                                   +? ("caption", this_string <$> caption)
+                                                   +? ("message_text", this_string <$> message_text)
+                                                   +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                                   +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview))
       | Mpeg4Gif {id; mpeg4_url; mpeg4_width; mpeg4_height; thumb_url; title; caption; message_text; parse_mode; disable_web_page_preview} ->
-        let json = `Assoc ([("type", `String "mpeg4gif");
-                            ("id", `String id);
-                            ("mpeg4_url", `String mpeg4_url);
-                            ("thumb_url", `String thumb_url)] +? ("mpeg4_width", this_int <$> mpeg4_width)
-                                                              +? ("mpeg4_height", this_int <$> mpeg4_height)
-                                                              +? ("title", this_string <$> title)
-                                                              +? ("caption", this_string <$> caption)
-                                                              +? ("message_text", this_string <$> message_text)
-                                                              +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
-                                                              +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)) in
-        Yojson.Safe.to_string json
+        `Assoc ([("type", `String "mpeg4gif");
+                ("id", `String id);
+                ("mpeg4_url", `String mpeg4_url);
+                ("thumb_url", `String thumb_url)] +? ("mpeg4_width", this_int <$> mpeg4_width)
+                                                  +? ("mpeg4_height", this_int <$> mpeg4_height)
+                                                  +? ("title", this_string <$> title)
+                                                  +? ("caption", this_string <$> caption)
+                                                  +? ("message_text", this_string <$> message_text)
+                                                  +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                                  +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview))
       | Video {id; video_url; mime_type; message_text; parse_mode; disable_web_page_preview; video_width; video_height; video_duration; thumb_url; title; description} ->
-         let json = `Assoc ([("type", `String "video");
-                             ("id", `String id);
-                             ("video_url", `String video_url);
-                             ("mime_type", `String mime_type);
-                             ("message_text", `String message_text);
-                             ("thumb_url", `String thumb_url);
-                             ("title", `String title)] +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
-                                                       +? ("video_width", this_int <$> video_width)
-                                                       +? ("video_height", this_int <$> video_height)
-                                                       +? ("video_duration", this_int <$> video_duration)
-                                                       +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)) in
-        Yojson.Safe.to_string json
+        `Assoc ([("type", `String "video");
+                 ("id", `String id);
+                 ("video_url", `String video_url);
+                 ("mime_type", `String mime_type);
+                 ("message_text", `String message_text);
+                 ("thumb_url", `String thumb_url);
+                 ("title", `String title)] +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                           +? ("video_width", this_int <$> video_width)
+                                           +? ("video_height", this_int <$> video_height)
+                                           +? ("video_duration", this_int <$> video_duration)
+                                           +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview))
   end
 end
 
@@ -811,6 +806,18 @@ module Update = struct
     let inline_query = InlineQuery.read <$> get_opt_field "inline_query" obj in
     let chosen_inline_result = InlineQuery.read_chosen_inline_result <$> get_opt_field "chosen_inline_result" obj in
     create ~update_id ~message ~inline_query ~chosen_inline_result ()
+
+  let is_message = function
+    | {message = Some _} -> true
+    | _ -> false
+
+  let is_inline_query = function
+    | {inline_query = Some inline_query} -> true
+    | _ -> false
+
+  let is_chosen_inline_result = function
+    | {chosen_inline_result = Some chosen_inline_result} -> true
+    | _ -> false
 end
 
 module Result = struct
@@ -895,11 +902,19 @@ end
 module type BOT = sig
   val token : string
   val commands : Command.command list
+  val inline : InlineQuery.inline_query -> Command.action
+end
+
+module BotDefaults = struct
+  let token = ""
+  let commands = []
+  let inline query = Command.Nothing
 end
 
 module type TELEGRAM_BOT = sig
   val url : string
   val commands : Command.command list
+  val inline : InlineQuery.inline_query -> Command.action
 
   val get_me : User.user Result.result Lwt.t
   val send_message : chat_id:int -> text:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
@@ -940,6 +955,7 @@ module Mk (B : BOT) = struct
     let open Message in
     {name = "help"; description = "Show this message"; enabled = true; run = function
          | {chat} -> SendMessage (chat.id, "Commands:" ^ Command.make_help commands, None, None)} :: B.commands
+  let inline = B.inline
 
   let get_me =
     Client.get (Uri.of_string (url ^ "getMe")) >>= fun (resp, body) ->
@@ -1144,7 +1160,7 @@ module Mk (B : BOT) = struct
     | Result.Failure _ -> return None
 
   let answer_inline_query ~inline_query_id ~results ?(cache_time=None) ?(is_personal=None) ?(next_offset=None) () =
-    let results' = List.map (fun result -> `String (InlineQuery.Out.prepare result)) results in
+    let results' = List.map (fun result -> InlineQuery.Out.prepare result) results in
     let body = `Assoc ([("inline_query_id", `String inline_query_id);
                         ("results", `List results')] +? ("cache_time", this_int <$> cache_time)
                                                      +? ("is_personal", this_bool <$> is_personal)
@@ -1200,14 +1216,26 @@ module Mk (B : BOT) = struct
     match get_field "ok" obj with
     | `Bool true -> begin
         let open Result in
+        (* Get the update number for the latest message (the head of the list), if it exists *)
         let update = Update.read <$> (hd_ @@ the_list @@ get_field "result" obj) in
+        (* Set the offset to either: the current offset OR the latest update + 1, if one exists *)
         offset := default !offset ((fun update -> update.update_id + 1) <$> update);
         let open Lwt in
+        (* Clear the last update and then *)
         clear_update () >>= fun () ->
-        if run_cmds && default false (Command.is_command <$> update) then begin
-          ignore ((fun update -> evaluator @@ Command.read_update update commands) <$> update);
+        (* If command execution is enabled: if there's an update and it has an inline_query field *)
+        if run_cmds && default false (Update.is_inline_query <$> update) then begin
+          (* Run the evaluator on the inline_query of the update and throw away the result *)
+          ignore ((function {inline_query = Some inline_query} -> evaluator @@ inline inline_query | _ -> return ()) <$> update);
+          (* And then return just the ID of the last update if it succeeded *)
           return @@ ((fun update -> Update.create update.update_id ()) <$> update)
-        end else return update
+        (* If command execution is enabled: if there's an update and it's a command... *)
+           end else if run_cmds && default false (Command.is_command <$> update) then begin
+          (* Run the evaluator on the result of the command, if the update exists *)
+          ignore ((fun update -> evaluator @@ Command.read_update update commands) <$> update);
+          (* And then return just the ID of the last update if it succeeded *)
+          return @@ ((fun update -> Update.create update.update_id ()) <$> update)
+        end else return update (* Otherwise, return the last update *)
       end
     | _ -> return @@ Result.Failure (the_string @@ get_field "description" obj)
 

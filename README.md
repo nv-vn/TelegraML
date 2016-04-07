@@ -12,14 +12,11 @@ Full OCamldoc-generated documentation is available [here](http://nv-vn.github.io
 
 ```ocaml
 open Lwt
-open Cohttp
-open Cohttp_lwt_unix
-
 open Telegram.Api
 
 module MyBot = Mk (struct
+  include BotDefaults
   let token = [%blob "../bot.token"]
-  let commands = []
 end)
 
 let () =

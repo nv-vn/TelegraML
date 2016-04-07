@@ -2,18 +2,16 @@ open Lwt
 open Telegram.Api
 
 module MyBot = Mk (struct
-  open Chat
   open Command
-  open Message
+  open InlineQuery
 
   include BotDefaults
 
   let token = [%blob "../bot.token"]
-
-  let commands =
-    let say_hi = function
-      | {chat} -> SendMessage (chat.id, "Hi", None, None) in
-    [{name = "say_hi"; description = "Say hi!"; enabled = true; run = say_hi}]
+  let inline {id; query} =
+    print_endline ("Someone said: '" ^ query ^ "'");
+    let response = InlineQuery.Out.create_article ~id:"QueryTest" ~title:"Test" ~message_text:query () in
+    AnswerInlineQuery (id, [response], None, None, None)
 end)
 
 let rec main () =
