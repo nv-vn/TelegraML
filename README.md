@@ -34,9 +34,16 @@ the surrounding directory to use as the `chat_id` and `token`.
 
 ## Demos, examples, and users:
 
-[example](https://github.com/nv-vn/TelegraML/tree/master/example)
+[hello world](https://github.com/nv-vn/TelegraML/tree/master/example/helloworld.ml) - Send "Hello, world" to a chat
 
-[glgbot](https://github.com/nv-vn/glgbot)
+[example](https://github.com/nv-vn/TelegraML/tree/master/example/bot.ml) - Responds to /say_hi, tests getting user profile pictures
+
+[inline](https://github.com/nv-vn/TelegraML/tree/master/example/inline.ml) - Inline bot test
+
+[glgbot](https://github.com/nv-vn/glgbot) - Some groupchat utilities: saved quotes, correcting messages, music jukebox, cute cat pics, and more
+
+If you're using TelegraML and you'd like your bot listed here, feel free to open a PR to list it
+here with a link and a short description.
 
 ## API Status:
 
