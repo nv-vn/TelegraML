@@ -10,7 +10,7 @@ build: [
   [make]
 ]
 install: [make "install"]
-remove: [make "uninstall"]
+remove: ["ocamlfind" "remove" "telegram"]
 available: [ocaml-version >= "4.02"]
 depends: [
   "ocamlfind" {build}
