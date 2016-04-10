@@ -510,27 +510,37 @@ module Message = struct
 
   (* Lots more fields to support... *)
   type message = {
-    message_id       : int;
-    from             : User.user option;
-    date             : int;
-    chat             : Chat.chat;
-    forward_from     : User.user option;
-    forward_date     : int option;
-    reply_to_message : message option;
-    text             : string option;
-    audio            : Audio.audio option;
-    document         : Document.document option;
-    photo            : PhotoSize.photo_size list option;
-    sticker          : Sticker.sticker option;
-    video            : Video.video option;
-    voice            : Voice.voice option;
-    caption          : string option;
-    contact          : Contact.contact option;
-    location         : Location.location option
+    message_id              : int;
+    from                    : User.user option;
+    date                    : int;
+    chat                    : Chat.chat;
+    forward_from            : User.user option;
+    forward_date            : int option;
+    reply_to_message        : message option;
+    text                    : string option;
+    audio                   : Audio.audio option;
+    document                : Document.document option;
+    photo                   : PhotoSize.photo_size list option;
+    sticker                 : Sticker.sticker option;
+    video                   : Video.video option;
+    voice                   : Voice.voice option;
+    caption                 : string option;
+    contact                 : Contact.contact option;
+    location                : Location.location option;
+    new_chat_participant    : User.user option;
+    left_chat_participant   : User.user option;
+    new_chat_title          : string option;
+    new_chat_photo          : PhotoSize.photo_size list option;
+    delete_chat_photo       : bool option;
+    group_chat_created      : bool option;
+    supergroup_chat_created : bool option;
+    channel_chat_created    : bool option;
+    migrate_to_chat_id      : int option;
+    migrate_from_chat_id    : int option
   }
 
-  let create ~message_id ?(from = None) ~date ~chat ?(forward_from = None) ?(forward_date = None) ?(reply_to = None) ?(text = None) ?(audio = None) ?(document = None) ?(photo = None) ?(sticker = None) ?(video = None) ?(voice = None) ?(caption = None) ?(contact = None) ?(location = None) () =
-    {message_id; from; date; chat; forward_from; forward_date; reply_to_message = reply_to; text; audio; document; photo; sticker; video; voice; caption; contact; location}
+  let create ~message_id ?(from = None) ~date ~chat ?(forward_from = None) ?(forward_date = None) ?(reply_to = None) ?(text = None) ?(audio = None) ?(document = None) ?(photo = None) ?(sticker = None) ?(video = None) ?(voice = None) ?(caption = None) ?(contact = None) ?(location = None) ?(new_chat_participant = None) ?(left_chat_participant = None) ?(new_chat_title = None) ?(new_chat_photo = None) ?(delete_chat_photo = None) ?(group_chat_created = None) ?(supergroup_chat_created = None) ?(channel_chat_created = None) ?(migrate_to_chat_id = None) ?(migrate_from_chat_id = None) () =
+    {message_id; from; date; chat; forward_from; forward_date; reply_to_message = reply_to; text; audio; document; photo; sticker; video; voice; caption; contact; location; new_chat_participant; left_chat_participant; new_chat_title; new_chat_photo; delete_chat_photo; group_chat_created; supergroup_chat_created; channel_chat_created; migrate_to_chat_id; migrate_from_chat_id}
 
   let rec read obj =
     let message_id = the_int @@ get_field "message_id" obj in
@@ -550,7 +560,17 @@ module Message = struct
     let caption = the_string <$> get_opt_field "caption" obj in
     let contact = Contact.read <$> get_opt_field "contact" obj in
     let location = Location.read <$> get_opt_field "location" obj in
-    create ~message_id ~from ~date ~chat ~forward_from ~forward_date ~reply_to ~text ~audio ~document ~photo ~sticker ~video ~voice ~caption ~contact ~location ()
+    let new_chat_participant = User.read <$> get_opt_field "new_chat_participant" obj in
+    let left_chat_participant = User.read <$> get_opt_field "left_chat_participant" obj in
+    let new_chat_title = the_string <$> get_opt_field "new_chat_title" obj in
+    let new_chat_photo = List.map PhotoSize.read <$> (the_list <$> get_opt_field "new_chat_photo" obj) in
+    let delete_chat_photo = the_bool <$> get_opt_field "delete_chat_photo" obj in
+    let group_chat_created = the_bool <$> get_opt_field "group_chat_created" obj in
+    let supergroup_chat_created = the_bool <$> get_opt_field "supergroup_chat_created" obj in
+    let channel_chat_created = the_bool <$> get_opt_field "channel_chat_created" obj in
+    let migrate_to_chat_id = the_int <$> get_opt_field "migrate_to_chat_id" obj in
+    let migrate_from_chat_id = the_int <$> get_opt_field "migrate_from_chat_id" obj in
+    create ~message_id ~from ~date ~chat ~forward_from ~forward_date ~reply_to ~text ~audio ~document ~photo ~sticker ~video ~voice ~caption ~contact ~location ~new_chat_participant ~left_chat_participant ~new_chat_title ~new_chat_photo ~delete_chat_photo ~group_chat_created ~supergroup_chat_created ~channel_chat_created ~migrate_to_chat_id ~migrate_from_chat_id ()
 
   let get_sender_first_name = function
     | {from = Some user} -> user.first_name
