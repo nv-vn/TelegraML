@@ -58,6 +58,35 @@ not be present in the raw data of the file being sent
   val multipart_body : (string * string) list -> string * string * string -> string -> string Lwt.t
 end
 
+(** Used to represent formatting options for a message's text *)
+module MessageEntity : sig
+  (** The type of formatting to apply to the text *)
+  type entity_type =
+    | Mention
+    | Hashtag
+    | BotCommand
+    | Url
+    | Email
+    | Bold
+    | Italic
+    | Code
+    | Pre
+    | TextLink of string
+  (** Takes the `url` field of the record and the `type` field, then creates a value of type entity_type based on that *)
+  val entity_type_of_string : string option -> string -> entity_type
+
+  (** Represents the message entity inside of the message *)
+  type message_entity = {
+    entity_type : entity_type;
+    offset      : int;
+    length      : int
+  }
+  (** Create a `message_entity` in a concise manner *)
+  val create : entity_type:entity_type -> offset:int -> length:int -> unit -> message_entity
+  (** Read a `message_entity` out of some JSON *)
+  val read : Yojson.Safe.json -> message_entity
+end
+
 (** Markup options for users to reply to sent messages *)
 module ReplyMarkup : sig
   (** Represents the custom keyboard type *)
@@ -348,11 +377,25 @@ module Location : sig
   end
 end
 
+module Venue : sig
+  (** Represents an event venue in a chat *)
+  type venue = {
+    location      : Location.location;
+    title         : string;
+    address       : string;
+    foursquare_id : string option
+  }
+  (** Create a `venue` in a concise manner *)
+  val create : location:Location.location -> title:string -> address:string -> ?foursquare_id:string option -> unit -> venue
+  (** Read a `venue` out of some JSON *)
+  val read : Yojson.Safe.json -> venue
+end
+
 module UserProfilePhotos : sig
   (** Represents a user's profile pictures, each in multiple sizes *)
   type user_profile_photos = {
     total_count : int;
-    photos : PhotoSize.photo_size list list
+    photos      : PhotoSize.photo_size list list
   }
 
   (** Create `user_profile_photos` in a concise manner *)
@@ -372,6 +415,7 @@ module Message : sig
     forward_date            : int option;
     reply_to_message        : message option;
     text                    : string option;
+    entities                : MessageEntity.message_entity list option;
     audio                   : Audio.audio option;
     document                : Document.document option;
     photo                   : PhotoSize.photo_size list option;
@@ -381,8 +425,9 @@ module Message : sig
     caption                 : string option;
     contact                 : Contact.contact option;
     location                : Location.location option;
-    new_chat_participant    : User.user option;
-    left_chat_participant   : User.user option;
+    venue                   : Venue.venue option;
+    new_chat_member         : User.user option;
+    left_chat_member        : User.user option;
     new_chat_title          : string option;
     new_chat_photo          : PhotoSize.photo_size list option;
     delete_chat_photo       : bool option;
@@ -390,10 +435,11 @@ module Message : sig
     supergroup_chat_created : bool option;
     channel_chat_created    : bool option;
     migrate_to_chat_id      : int option;
-    migrate_from_chat_id    : int option
+    migrate_from_chat_id    : int option;
+    pinned_message          : message option
   }
   (** Create a `message` in a concise manner *)
-  val create : message_id:int -> ?from:User.user option -> date:int -> chat:Chat.chat -> ?forward_from:User.user option -> ?forward_date:int option -> ?reply_to:message option -> ?text:string option -> ?audio:Audio.audio option -> ?document:Document.document option -> ?photo:PhotoSize.photo_size list option -> ?sticker:Sticker.sticker option -> ?video:Video.video option -> ?voice:Voice.voice option -> ?caption:string option -> ?contact:Contact.contact option -> ?location:Location.location option -> ?new_chat_participant:User.user option -> ?left_chat_participant:User.user option -> ?new_chat_title:string option -> ?new_chat_photo:PhotoSize.photo_size list option -> ?delete_chat_photo:bool option -> ?group_chat_created:bool option -> ?supergroup_chat_created:bool option -> ?channel_chat_created:bool option -> ?migrate_to_chat_id:int option -> ?migrate_from_chat_id:int option -> unit -> message
+  val create : message_id:int -> ?from:User.user option -> date:int -> chat:Chat.chat -> ?forward_from:User.user option -> ?forward_date:int option -> ?reply_to:message option -> ?text:string option -> ?entities:MessageEntity.message_entity list option -> ?audio:Audio.audio option -> ?document:Document.document option -> ?photo:PhotoSize.photo_size list option -> ?sticker:Sticker.sticker option -> ?video:Video.video option -> ?voice:Voice.voice option -> ?caption:string option -> ?contact:Contact.contact option -> ?location:Location.location option -> ?venue:Venue.venue option -> ?new_chat_member:User.user option -> ?left_chat_member:User.user option -> ?new_chat_title:string option -> ?new_chat_photo:PhotoSize.photo_size list option -> ?delete_chat_photo:bool option -> ?group_chat_created:bool option -> ?supergroup_chat_created:bool option -> ?channel_chat_created:bool option -> ?migrate_to_chat_id:int option -> ?migrate_from_chat_id:int option -> ?pinned_message:message option -> unit -> message
   (** Read a `message` out of some JSON *)
   val read : json -> message
 

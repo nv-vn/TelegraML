@@ -56,12 +56,15 @@ here with a link and a short description.
 ### What doesn't?
 
 * No webhooks
+* Missing most 2.0 API features
+* Can't currently disable notifications for sent messages
 
 ### Implemented Types:
 
 * `User`
 * `Chat`
 * `Message`
+* `MessageEntity`
 * `PhotoSize`
 * `Audio`
 * `Document`
@@ -70,6 +73,7 @@ here with a link and a short description.
 * `Voice`
 * `Contact`
 * `Location`
+* `Venue`
 * `UserProfilePhotos`
 * `Update`
 * `File`
