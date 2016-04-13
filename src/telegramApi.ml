@@ -124,9 +124,24 @@ module InputFile = struct
     return @@ field_bodies ^ file_body ^ ending
 end
 
+module KeyboardButton = struct
+  type keyboard_button = {
+    text             : string;
+    request_contact  : bool option;
+    request_location : bool option
+  }
+
+  let create ~text ?(request_contact=None) ?(request_location=None) () =
+    {text; request_contact; request_location}
+
+  let prepare button =
+    `Assoc (["text", `String button.text] +? ("request_contact", this_bool <$> button.request_contact)
+                                          +? ("request_location", this_bool <$> button.request_location))
+end
+
 module ReplyMarkup = struct
   type reply_keyboard_markup = {
-    keyboard          : string list list;
+    keyboard          : KeyboardButton.keyboard_button list list;
     resize_keyboard   : bool option;
     one_time_keyboard : bool option;
     selective         : bool option
@@ -147,7 +162,7 @@ module ReplyMarkup = struct
 
   let prepare = function
     | ReplyKeyboardMarkup {keyboard; resize_keyboard; one_time_keyboard; selective} ->
-      let keyboard = List.map (fun row -> `List (List.map (fun key -> `String key) row)) keyboard in
+      let keyboard = List.map (fun row -> `List (List.map (fun key -> KeyboardButton.prepare key) row)) keyboard in
       `Assoc ([("keyboard", `List keyboard)] +? ("resize_keyboard", this_bool <$> resize_keyboard)
                                              +? ("one_time_keyboard", this_bool <$> one_time_keyboard)
                                              +? ("selective", this_bool <$> selective))

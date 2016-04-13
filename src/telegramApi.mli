@@ -87,11 +87,25 @@ module MessageEntity : sig
   val read : Yojson.Safe.json -> message_entity
 end
 
+(** Used to represent an individual button on a custom keyboard *)
+module KeyboardButton : sig
+  (** Represents the button's data *)
+  type keyboard_button = {
+    text             : string;
+    request_contact  : bool option;
+    request_location : bool option
+  }
+  (** Create a `keyboard_button` in a concise manner *)
+  val create : text:string -> ?request_contact:bool option -> ?request_location:bool option -> unit -> keyboard_button
+  (** Prepare an outgoing `keyboard_button` by serializing it to JSON *)
+  val prepare : keyboard_button -> Yojson.Safe.json
+end
+
 (** Markup options for users to reply to sent messages *)
 module ReplyMarkup : sig
   (** Represents the custom keyboard type *)
   type reply_keyboard_markup = {
-    keyboard          : string list list;
+    keyboard          : KeyboardButton.keyboard_button list list;
     resize_keyboard   : bool option;
     one_time_keyboard : bool option;
     selective         : bool option
@@ -118,7 +132,7 @@ module ReplyMarkup : sig
   (** Convenience functions for reply_keyboard_markup *)
   module ReplyKeyboardMarkup : sig
     (** Create a `ReplyKeyboardMarkup : reply_markup` in a concise way *)
-    val create : keyboard:string list list -> ?resize_keyboard:bool option -> ?one_time_keyboard:bool option -> ?selective:bool option -> unit -> reply_markup
+    val create : keyboard:KeyboardButton.keyboard_button list list -> ?resize_keyboard:bool option -> ?one_time_keyboard:bool option -> ?selective:bool option -> unit -> reply_markup
   end
 
   (** Convenience functions for reply_keyboard_hide *)

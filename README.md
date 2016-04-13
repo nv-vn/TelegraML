@@ -79,6 +79,7 @@ here with a link and a short description.
 * `File`
 * `InputFile`
 * `ReplyKeyboardMarkup`
+* `KeyboardButton`
 * `ReplyKeyboardHide`
 * `ForceReply`
 * `InlineQuery`
