@@ -139,6 +139,23 @@ module KeyboardButton = struct
                                           +? ("request_location", this_bool <$> button.request_location))
 end
 
+module InlineKeyboardButton = struct
+  type inline_keyboard_button = {
+    text                : string;
+    url                 : string option;
+    callback_data       : string option;
+    switch_inline_query : string option
+  }
+
+  let create ~text ?(url=None) ?(callback_data=None) ?(switch_inline_query=None) () =
+    {text; url; callback_data; switch_inline_query}
+
+  let prepare button =
+    `Assoc (["text", `String button.text] +? ("url", this_string <$> button.url)
+                                          +? ("callback_data", this_string <$> button.callback_data)
+                                          +? ("switch_inline_query", this_string <$> button.switch_inline_query))
+end
+
 module ReplyMarkup = struct
   type reply_keyboard_markup = {
     keyboard          : KeyboardButton.keyboard_button list list;
@@ -151,14 +168,31 @@ module ReplyMarkup = struct
     selective : bool option
   }
 
+  type inline_keyboard_markup = {
+    inline_keyboard : InlineKeyboardButton.inline_keyboard_button list list
+  }
+
   type force_reply = {
     selective : bool option
   }
 
   type reply_markup =
     | ReplyKeyboardMarkup of reply_keyboard_markup
+    | InlineKeyboardMarkup of inline_keyboard_markup
     | ReplyKeyboardHide of reply_keyboard_hide
     | ForceReply of force_reply
+
+  let create_reply_keyboard_markup ~keyboard ?(resize_keyboard = None) ?(one_time_keyboard = None) ?(selective = None) () =
+    ReplyKeyboardMarkup {keyboard; resize_keyboard; one_time_keyboard; selective}
+
+  let create_inline_keyboard_markup ~inline_keyboard () =
+    InlineKeyboardMarkup {inline_keyboard}
+
+  let create_reply_keyboard_hide ?(selective = None) () =
+    ReplyKeyboardHide {selective}
+
+  let create_force_reply ?(selective = None) () =
+    ForceReply {selective}
 
   let prepare = function
     | ReplyKeyboardMarkup {keyboard; resize_keyboard; one_time_keyboard; selective} ->
@@ -166,25 +200,13 @@ module ReplyMarkup = struct
       `Assoc ([("keyboard", `List keyboard)] +? ("resize_keyboard", this_bool <$> resize_keyboard)
                                              +? ("one_time_keyboard", this_bool <$> one_time_keyboard)
                                              +? ("selective", this_bool <$> selective))
+    | InlineKeyboardMarkup {inline_keyboard} ->
+      let keyboard = List.map (fun row -> `List (List.map (fun key -> InlineKeyboardButton.prepare key) row)) inline_keyboard in
+      `Assoc ["inline_keyboard", `List keyboard]
     | ReplyKeyboardHide {selective} ->
       `Assoc ([("hide", `Bool true)] +? ("selective", this_bool <$> selective))
     | ForceReply {selective} ->
       `Assoc ([("force_reply", `Bool true)] +? ("selective", this_bool <$> selective))
-
-  module ReplyKeyboardMarkup = struct
-    let create ~keyboard ?(resize_keyboard = None) ?(one_time_keyboard = None) ?(selective = None) () =
-      ReplyKeyboardMarkup {keyboard; resize_keyboard; one_time_keyboard; selective}
-  end
-
-  module ReplyKeyboardHide = struct
-    let create ?(selective = None) () =
-      ReplyKeyboardHide {selective}
-  end
-
-  module ForceReply = struct
-    let create ?(selective = None) () =
-      ForceReply {selective}
-  end
 end
 
 module PhotoSize = struct

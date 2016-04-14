@@ -101,6 +101,21 @@ module KeyboardButton : sig
   val prepare : keyboard_button -> Yojson.Safe.json
 end
 
+(** Used to represent an individual button on a custom inline keyboard *)
+module InlineKeyboardButton : sig
+  (** Represents the button's data *)
+  type inline_keyboard_button = {
+    text                : string;
+    url                 : string option;
+    callback_data       : string option;
+    switch_inline_query : string option
+  }
+  (** Create an `inline_keyboard_button` in a concise manner *)
+  val create : text:string -> ?url:string option -> ?callback_data:string option -> ?switch_inline_query:string option -> unit -> inline_keyboard_button
+  (** Prepare an outgoing `inline_keyboard_button` by serializing it to JSON *)
+  val prepare : inline_keyboard_button -> Yojson.Safe.json
+end
+
 (** Markup options for users to reply to sent messages *)
 module ReplyMarkup : sig
   (** Represents the custom keyboard type *)
@@ -109,6 +124,11 @@ module ReplyMarkup : sig
     resize_keyboard   : bool option;
     one_time_keyboard : bool option;
     selective         : bool option
+  }
+
+  (** Represents a custom inline keyboard *)
+  type inline_keyboard_markup = {
+    inline_keyboard : InlineKeyboardButton.inline_keyboard_button list list
   }
 
   (** Represents the request to hide a keyboard *)
@@ -124,28 +144,23 @@ module ReplyMarkup : sig
   (** Represents all possible reply markup options *)
   type reply_markup =
     | ReplyKeyboardMarkup of reply_keyboard_markup
+    | InlineKeyboardMarkup of inline_keyboard_markup
     | ReplyKeyboardHide of reply_keyboard_hide
     | ForceReply of force_reply
 
   val prepare : reply_markup -> json
 
-  (** Convenience functions for reply_keyboard_markup *)
-  module ReplyKeyboardMarkup : sig
-    (** Create a `ReplyKeyboardMarkup : reply_markup` in a concise way *)
-    val create : keyboard:KeyboardButton.keyboard_button list list -> ?resize_keyboard:bool option -> ?one_time_keyboard:bool option -> ?selective:bool option -> unit -> reply_markup
-  end
+  (** Create a `ReplyKeyboardMarkup : reply_markup` in a concise way *)
+  val create_reply_keyboard_markup : keyboard:KeyboardButton.keyboard_button list list -> ?resize_keyboard:bool option -> ?one_time_keyboard:bool option -> ?selective:bool option -> unit -> reply_markup
 
-  (** Convenience functions for reply_keyboard_hide *)
-  module ReplyKeyboardHide : sig
-    (** Create a `ReplyKeyboardHide : reply_markup` in a concise way *)
-    val create : ?selective:bool option -> unit -> reply_markup
-  end
+  (** Create an `InlineKeyboardMarkup : reply_markup` in a concise way *)
+  val create_inline_keyboard_markup : inline_keyboard:InlineKeyboardButton.inline_keyboard_button list list -> unit -> reply_markup
 
-  (** Convenience functions for force_reply *)
-  module ForceReply : sig
-    (** Create a `ForceReply : reply_markup` in a concise way *)
-    val create : ?selective:bool option -> unit -> reply_markup
-  end
+  (** Create a `ReplyKeyboardHide : reply_markup` in a concise way *)
+  val create_reply_keyboard_hide : ?selective:bool option -> unit -> reply_markup
+
+  (** Create a `ForceReply : reply_markup` in a concise way *)
+  val create_force_reply : ?selective:bool option -> unit -> reply_markup
 end
 
 (** This module is used for all images sent in chats *)

@@ -80,6 +80,8 @@ here with a link and a short description.
 * `InputFile`
 * `ReplyKeyboardMarkup`
 * `KeyboardButton`
+* `InlineKeyboardMarkup`
+* `InlineKeyboardButton`
 * `ReplyKeyboardHide`
 * `ForceReply`
 * `InlineQuery`
