@@ -5,7 +5,7 @@ module MyBot = Mk (struct
   open Command
   open InlineQuery
 
-  include BotDefaults
+  include Telegram.BotDefaults
 
   let token = [%blob "../bot.token"]
   let inline {id; query} =

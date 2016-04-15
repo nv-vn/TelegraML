@@ -498,6 +498,23 @@ module File : sig
   val download : string -> file -> string Lwt.t option
 end
 
+(** This module is used for dealing with the results returned by clicking on callback buttons on inline keyboards *)
+module CallbackQuery : sig
+  (** Represents the reply from the callback query *)
+  type callback_query = {
+    id                : string;
+    from              : User.user;
+    message           : Message.message option;
+    inline_message_id : string option;
+    data              : string
+  }
+
+  (** Create a `callback_query` in a concise manner *)
+  val create : id:string -> from:User.user -> ?message:Message.message option -> ?inline_message_id:string option -> data:string -> unit -> callback_query
+  (** Read a `callback_query` out of some JSON *)
+  val read : Yojson.Safe.json -> callback_query
+end
+
 (** This module is used for InlineQuery bots *)
 module InlineQuery : sig
   (** Represents incoming messages for an InlineQuery bot *)
@@ -643,10 +660,11 @@ module Update : sig
     update_id            : int;
     message              : Message.message option;
     inline_query         : InlineQuery.inline_query option;
-    chosen_inline_result : InlineQuery.chosen_inline_result option
+    chosen_inline_result : InlineQuery.chosen_inline_result option;
+    callback_query       : CallbackQuery.callback_query option
   }
   (** Create an `update` in a concise manner *)
-  val create : update_id:int -> ?message:Message.message option -> ?inline_query:InlineQuery.inline_query option -> ?chosen_inline_result:InlineQuery.chosen_inline_result option -> unit -> update
+  val create : update_id:int -> ?message:Message.message option -> ?inline_query:InlineQuery.inline_query option -> ?chosen_inline_result:InlineQuery.chosen_inline_result option -> ?callback_query:CallbackQuery.callback_query option -> unit -> update
   (** Read an `update` out of some JSON *)
   val read : json -> update
 
@@ -656,6 +674,8 @@ module Update : sig
   val is_inline_query : update -> bool
   (** Check if an update contains a reply to an inline query *)
   val is_chosen_inline_result : update -> bool
+  (** Check if an update contains a callback query *)
+  val is_callback_query : update -> bool
 end
 
 (** Used for representing results of various actions where a success or failure can occur. Contains helper functions to implement a monadic and functorial interface. *)
@@ -740,9 +760,6 @@ module type BOT = sig
   (** The function to call on inline queries *)
   val inline : InlineQuery.inline_query -> Command.action
 end
-
-(** Default options for a bot, if no configuration is needed. Warning: You still need to provide an API key *)
-module BotDefaults : BOT
 
 (** TELEGRAM_BOT represents the interface to a running bot *)
 module type TELEGRAM_BOT = sig

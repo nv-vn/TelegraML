@@ -719,6 +719,27 @@ module File = struct
           Cohttp_lwt_body.to_string body)
 end
 
+module CallbackQuery = struct
+  type callback_query = {
+    id                : string;
+    from              : User.user;
+    message           : Message.message option;
+    inline_message_id : string option;
+    data              : string
+  }
+
+  let create ~id ~from ?(message=None) ?(inline_message_id=None) ~data () =
+    {id; from; message; inline_message_id; data}
+
+  let read obj =
+    let id = the_string @@ get_field "id" obj in
+    let from = User.read @@ get_field "from" obj in
+    let message = Message.read <$> get_opt_field "message" obj in
+    let inline_message_id = the_string <$> get_opt_field "inline_message_id" obj in
+    let data = the_string @@ get_field "data" obj in
+    create ~id ~from ~message ~inline_message_id ~data ()
+end
+
 module InlineQuery = struct
   type inline_query = {
     id     : string;
@@ -936,29 +957,35 @@ module Update = struct
     update_id            : int;
     message              : Message.message option;
     inline_query         : InlineQuery.inline_query option;
-    chosen_inline_result : InlineQuery.chosen_inline_result option
+    chosen_inline_result : InlineQuery.chosen_inline_result option;
+    callback_query       : CallbackQuery.callback_query option
   }
 
-  let create ~update_id ?(message=None) ?(inline_query=None) ?(chosen_inline_result=None) () =
-    {update_id; message; inline_query; chosen_inline_result}
+  let create ~update_id ?(message=None) ?(inline_query=None) ?(chosen_inline_result=None) ?(callback_query=None) () =
+    {update_id; message; inline_query; chosen_inline_result; callback_query}
 
   let read obj =
     let update_id = the_int @@ get_field "update_id" obj in
     let message = Message.read <$> get_opt_field "message" obj in
     let inline_query = InlineQuery.read <$> get_opt_field "inline_query" obj in
     let chosen_inline_result = InlineQuery.read_chosen_inline_result <$> get_opt_field "chosen_inline_result" obj in
-    create ~update_id ~message ~inline_query ~chosen_inline_result ()
+    let callback_query = CallbackQuery.read <$> get_opt_field "callback_query" obj in
+    create ~update_id ~message ~inline_query ~chosen_inline_result ~callback_query ()
 
   let is_message = function
     | {message = Some _} -> true
     | _ -> false
 
   let is_inline_query = function
-    | {inline_query = Some inline_query} -> true
+    | {inline_query = Some _} -> true
     | _ -> false
 
   let is_chosen_inline_result = function
-    | {chosen_inline_result = Some chosen_inline_result} -> true
+    | {chosen_inline_result = Some _} -> true
+    | _ -> false
+
+  let is_callback_query = function
+    | {callback_query = Some _} -> true
     | _ -> false
 end
 
@@ -1046,12 +1073,6 @@ module type BOT = sig
   val token : string
   val commands : Command.command list
   val inline : InlineQuery.inline_query -> Command.action
-end
-
-module BotDefaults = struct
-  let token = ""
-  let commands = []
-  let inline query = Command.Nothing
 end
 
 module type TELEGRAM_BOT = sig

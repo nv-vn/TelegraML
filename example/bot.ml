@@ -6,7 +6,7 @@ module MyBot = Mk (struct
   open Command
   open Message
 
-  include BotDefaults
+  include Telegram.BotDefaults
 
   let token = [%blob "../bot.token"]
 

@@ -11,22 +11,17 @@ Full OCamldoc-generated documentation is available [here](http://nv-vn.github.io
 ### Send "Hello, world" message
 
 ```ocaml
-open Lwt
-open Telegram.Api
-
-module MyBot = Mk (struct
-  include BotDefaults
+module MyBot = Telegram.Api.Mk (struct
+  include Telegram.BotDefaults
   let token = [%blob "../bot.token"]
-end)
+end);;
 
-let () =
-  Lwt_main.run begin
-    MyBot.send_message ~chat_id:(int_of_string [%blob "../chat.id"])
-                       ~text:"Hello, world"
-                       ~reply_to:None
-                       ~reply_markup:None
-    >>= fun _ -> return ()
-  end
+Lwt_main.run begin
+  MyBot.send_message ~chat_id:(int_of_string [%blob "../chat.id"])
+                     ~text:"Hello, world"
+                     ~reply_to:None
+                     ~reply_markup:None
+end
 ```
 
 Note that this example loads the files "chat.id" and "bot.token" from
@@ -61,6 +56,7 @@ here with a link and a short description.
 
 ### Implemented Types:
 
+* `Update`
 * `User`
 * `Chat`
 * `Message`
@@ -75,15 +71,15 @@ here with a link and a short description.
 * `Location`
 * `Venue`
 * `UserProfilePhotos`
-* `Update`
 * `File`
-* `InputFile`
 * `ReplyKeyboardMarkup`
 * `KeyboardButton`
+* `ReplyKeyboardHide`
 * `InlineKeyboardMarkup`
 * `InlineKeyboardButton`
-* `ReplyKeyboardHide`
+* `CallbackQuery`
 * `ForceReply`
+* `InputFile`
 * `InlineQuery`
 * `InlineQueryResult`
 * `InlineQueryResultArticle`
