@@ -19,6 +19,7 @@ end);;
 Lwt_main.run begin
   MyBot.send_message ~chat_id:(int_of_string [%blob "../chat.id"])
                      ~text:"Hello, world"
+                     ~disable_notification:true
                      ~reply_to:None
                      ~reply_markup:None
 end
@@ -101,6 +102,7 @@ here with a link and a short description.
 * `sendVideo`
 * `sendVoice`
 * `sendLocation`
+* `sendVenue`
 * `getUserProfilePhotos`
 * `getFile`
 * `sendChatAction`

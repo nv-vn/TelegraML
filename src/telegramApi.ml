@@ -229,29 +229,32 @@ module PhotoSize = struct
 
   module Out = struct
     type photo_size = {
-      chat_id             : int;
-      photo               : string;
-      caption             : string option;
-      reply_to_message_id : int option;
-      reply_markup        : ReplyMarkup.reply_markup option
+      chat_id              : int;
+      photo                : string;
+      caption              : string option;
+      disable_notification : bool;
+      reply_to_message_id  : int option;
+      reply_markup         : ReplyMarkup.reply_markup option
     }
 
-    let create ~chat_id ~photo ?(caption = None) ?(reply_to = None) ?(reply_markup = None) () =
-      {chat_id; photo; caption; reply_to_message_id = reply_to; reply_markup}
+    let create ~chat_id ~photo ?(caption=None) ?(disable_notification=false) ?(reply_to=None) ?(reply_markup=None) () =
+      {chat_id; photo; caption; disable_notification; reply_to_message_id = reply_to; reply_markup}
 
     let prepare = function
-    | {chat_id; photo; caption; reply_to_message_id; reply_markup} ->
+    | {chat_id; photo; caption; disable_notification; reply_to_message_id; reply_markup} ->
       let json = `Assoc ([("chat_id", `Int chat_id);
-                          ("photo", `String photo)] +? ("caption", this_string <$> caption)
-                                                    +? ("reply_to_message_id", this_int <$> reply_to_message_id)
-                                                    +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup))in
+                          ("photo", `String photo);
+                          ("disable_notification", `Bool disable_notification)] +? ("caption", this_string <$> caption)
+                                                                                +? ("reply_to_message_id", this_int <$> reply_to_message_id)
+                                                                                +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup))in
       Yojson.Safe.to_string json
 
     let prepare_multipart = function
-      | {chat_id; photo; caption; reply_to_message_id; reply_markup} ->
-        let fields = ([("chat_id", string_of_int chat_id)] +? ("caption", caption)
-                                                           +? ("reply_to_message_id", string_of_int <$> reply_to_message_id)
-                                                           +? ("reply_markup", Yojson.Safe.to_string <$> (ReplyMarkup.prepare <$> reply_markup))) in
+      | {chat_id; photo; caption; disable_notification; reply_to_message_id; reply_markup} ->
+        let fields = ([("chat_id", string_of_int chat_id);
+                       ("disable_notification", string_of_bool disable_notification)] +? ("caption", caption)
+                                                                                      +? ("reply_to_message_id", string_of_int <$> reply_to_message_id)
+                                                                                      +? ("reply_markup", Yojson.Safe.to_string <$> (ReplyMarkup.prepare <$> reply_markup))) in
         let open Batteries.String in
         let mime =
           if ends_with photo ".jpg" || ends_with photo ".jpeg" then "image/jpeg" else
@@ -285,33 +288,38 @@ module Audio = struct
 
   module Out = struct
     type audio = {
-      chat_id             : int;
-      audio               : string;
-      duration            : int option;
-      performer           : string;
-      title               : string;
-      reply_to_message_id : int option;
-      reply_markup        : ReplyMarkup.reply_markup option
+      chat_id              : int;
+      audio                : string;
+      duration             : int option;
+      performer            : string;
+      title                : string;
+      disable_notification : bool;
+      reply_to_message_id  : int option;
+      reply_markup         : ReplyMarkup.reply_markup option
     }
 
-    let create ~chat_id ~audio ?(duration = None) ~performer ~title ?(reply_to = None) ?(reply_markup = None) () =
-      {chat_id; audio; duration; performer; title; reply_to_message_id = reply_to; reply_markup}
+    let create ~chat_id ~audio ?(duration=None) ~performer ~title ?(disable_notification=false) ?(reply_to=None) ?(reply_markup=None) () =
+      {chat_id; audio; duration; performer; title; disable_notification; reply_to_message_id = reply_to; reply_markup}
 
     let prepare = function
-    | {chat_id; audio; duration; performer; title; reply_to_message_id; reply_markup} ->
-      let json = `Assoc ([("chat_id", `Int chat_id);
-                          ("audio", `String audio);
-                          ("performer", `String performer);
-                          ("title", `String title)] +? ("duration", this_int <$> duration)
-                                                    +? ("reply_to_message_id", this_int <$> reply_to_message_id)) in
-      Yojson.Safe.to_string json
+      | {chat_id; audio; duration; performer; title; disable_notification; reply_to_message_id; reply_markup} ->
+        let json = `Assoc ([("chat_id", `Int chat_id);
+                            ("audio", `String audio);
+                            ("performer", `String performer);
+                            ("title", `String title);
+                            ("disable_notifcation", `Bool disable_notification)] +? ("duration", this_int <$> duration)
+                                                                                 +? ("reply_to_message_id", this_int <$> reply_to_message_id)
+                                                                                 +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
+        Yojson.Safe.to_string json
 
     let prepare_multipart = function
-      | {chat_id; audio; duration; performer; title; reply_to_message_id} ->
+      | {chat_id; audio; duration; performer; title; disable_notification; reply_to_message_id; reply_markup} ->
         let fields = [("chat_id", string_of_int chat_id);
                       ("performer", performer);
-                      ("title", title)] +? ("duration", string_of_int <$> duration)
-                                        +? ("reply_to_message_id", string_of_int <$> reply_to_message_id) in
+                      ("title", title);
+                      ("disable_notification", string_of_bool disable_notification)] +? ("duration", string_of_int <$> duration)
+                                                                                     +? ("reply_to_message_id", string_of_int <$> reply_to_message_id)
+                                                                                     +? ("reply_markup", Yojson.Safe.to_string <$> (ReplyMarkup.prepare <$> reply_markup)) in
         InputFile.multipart_body fields ("audio", audio, "audio/mpeg")
   end
 end
@@ -338,26 +346,29 @@ module Document = struct
 
   module Out = struct
     type document = {
-      chat_id             : int;
-      document            : string;
-      reply_to_message_id : int option;
-      reply_markup        : ReplyMarkup.reply_markup option
+      chat_id              : int;
+      document             : string;
+      disable_notification : bool;
+      reply_to_message_id  : int option;
+      reply_markup         : ReplyMarkup.reply_markup option
     }
 
-    let create ~chat_id ~document ?(reply_to = None) ?(reply_markup = None) () =
-      {chat_id; document; reply_to_message_id = reply_to; reply_markup}
+    let create ~chat_id ~document ?(disable_notification=false) ?(reply_to=None) ?(reply_markup=None) () =
+      {chat_id; document; disable_notification; reply_to_message_id = reply_to; reply_markup}
 
     let prepare = function
-    | {chat_id; document; reply_to_message_id; reply_markup} ->
+      | {chat_id; document; disable_notification; reply_to_message_id; reply_markup} ->
       let json = `Assoc ([("chat_id", `Int chat_id);
-                          ("document", `String document)] +? ("reply_to_message_id", this_int <$> reply_to_message_id)
-                                                          +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
+                          ("document", `String document);
+                          ("disable_notification", `Bool disable_notification)] +? ("reply_to_message_id", this_int <$> reply_to_message_id)
+                                                                                +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
       Yojson.Safe.to_string json
 
     let prepare_multipart = function
-      | {chat_id; document; reply_to_message_id; reply_markup} ->
-        let fields = [("chat_id", string_of_int chat_id)] +? ("reply_to_message_id", string_of_int <$> reply_to_message_id)
-                                                          +? ("reply_markup", Yojson.Safe.to_string <$> (ReplyMarkup.prepare <$> reply_markup)) in
+      | {chat_id; document; disable_notification; reply_to_message_id; reply_markup} ->
+        let fields = [("chat_id", string_of_int chat_id);
+                      ("disable_notification", string_of_bool disable_notification)] +? ("reply_to_message_id", string_of_int <$> reply_to_message_id)
+                                                                                     +? ("reply_markup", Yojson.Safe.to_string <$> (ReplyMarkup.prepare <$> reply_markup)) in
         InputFile.multipart_body fields ("document", document, "text/plain") (* FIXME? *)
   end
 end
@@ -384,26 +395,29 @@ module Sticker = struct
 
   module Out = struct
     type sticker = {
-      chat_id             : int;
-      sticker             : string;
-      reply_to_message_id : int option;
-      reply_markup        : ReplyMarkup.reply_markup option
+      chat_id              : int;
+      sticker              : string;
+      disable_notification : bool;
+      reply_to_message_id  : int option;
+      reply_markup         : ReplyMarkup.reply_markup option
     }
 
-    let create ~chat_id ~sticker ?(reply_to = None) ?(reply_markup = None) () =
-      {chat_id; sticker; reply_to_message_id = reply_to; reply_markup}
+    let create ~chat_id ~sticker ?(disable_notification=false) ?(reply_to=None) ?(reply_markup=None) () =
+      {chat_id; sticker; disable_notification; reply_to_message_id = reply_to; reply_markup}
 
     let prepare = function
-    | {chat_id; sticker; reply_to_message_id; reply_markup} ->
-      let json = `Assoc ([("chat_id", `Int chat_id);
-                          ("sticker", `String sticker)] +? ("reply_to_message_id", this_int <$> reply_to_message_id)
-                                                        +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
+      | {chat_id; sticker; disable_notification; reply_to_message_id; reply_markup} ->
+        let json = `Assoc ([("chat_id", `Int chat_id);
+                            ("sticker", `String sticker);
+                            ("disable_notification", `Bool disable_notification)] +? ("reply_to_message_id", this_int <$> reply_to_message_id)
+                                                                                  +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
       Yojson.Safe.to_string json
 
     let prepare_multipart = function
-      | {chat_id; sticker; reply_to_message_id; reply_markup} ->
-        let fields = [("chat_id", string_of_int chat_id)] +? ("reply_to_message_id", string_of_int <$> reply_to_message_id)
-                                                          +? ("reply_markup", Yojson.Safe.to_string <$> (ReplyMarkup.prepare <$> reply_markup)) in
+      | {chat_id; sticker; disable_notification; reply_to_message_id; reply_markup} ->
+        let fields = [("chat_id", string_of_int chat_id);
+                      ("disable_notification", string_of_bool disable_notification)] +? ("reply_to_message_id", string_of_int <$> reply_to_message_id)
+                                                                            +? ("reply_markup", Yojson.Safe.to_string <$> (ReplyMarkup.prepare <$> reply_markup)) in
         InputFile.multipart_body fields ("sticker", sticker, "image/webp") (* FIXME? *)
   end
 end
@@ -434,32 +448,35 @@ module Video = struct
 
   module Out = struct
     type video = {
-      chat_id             : int;
-      video               : string;
-      duration            : int option;
-      caption             : string option;
-      reply_to_message_id : int option;
-      reply_markup        : ReplyMarkup.reply_markup option
+      chat_id              : int;
+      video                : string;
+      duration             : int option;
+      caption              : string option;
+      disable_notification : bool;
+      reply_to_message_id  : int option;
+      reply_markup         : ReplyMarkup.reply_markup option
     }
 
-    let create ~chat_id ~video ?(duration = None) ?(caption = None) ?(reply_to = None) ?(reply_markup = None) () =
-      {chat_id; video; duration; caption; reply_to_message_id = reply_to; reply_markup}
+    let create ~chat_id ~video ?(duration=None) ?(caption=None) ?(disable_notification=false) ?(reply_to=None) ?(reply_markup=None) () =
+      {chat_id; video; duration; caption; disable_notification; reply_to_message_id = reply_to; reply_markup}
 
     let prepare = function
-    | {chat_id; video; duration; caption; reply_to_message_id; reply_markup} ->
+      | {chat_id; video; duration; caption; disable_notification; reply_to_message_id; reply_markup} ->
       let json = `Assoc ([("chat_id", `Int chat_id);
-                          ("video", `String video)] +? ("duration", this_int <$> duration)
-                                                    +? ("caption", this_string <$> caption)
-                                                    +? ("reply_to_message_id", this_int <$> reply_to_message_id)
-                                                    +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
+                          ("video", `String video);
+                          ("disable_notification", `Bool disable_notification)] +? ("duration", this_int <$> duration)
+                                                                                +? ("caption", this_string <$> caption)
+                                                                                +? ("reply_to_message_id", this_int <$> reply_to_message_id)
+                                                                                +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
       Yojson.Safe.to_string json
 
     let prepare_multipart = function
-      | {chat_id; video; duration; caption; reply_to_message_id; reply_markup} ->
-        let fields = [("chat_id", string_of_int chat_id)] +? ("duration", string_of_int <$> duration)
-                                                          +? ("caption", caption)
-                                                          +? ("reply_to_message_id", string_of_int <$> reply_to_message_id)
-                                                          +? ("reply_markup", Yojson.Safe.to_string <$> (ReplyMarkup.prepare <$> reply_markup)) in
+      | {chat_id; video; duration; caption; disable_notification; reply_to_message_id; reply_markup} ->
+        let fields = [("chat_id", string_of_int chat_id);
+                      ("disable_notification", string_of_bool disable_notification)] +? ("duration", string_of_int <$> duration)
+                                                                                     +? ("caption", caption)
+                                                                                     +? ("reply_to_message_id", string_of_int <$> reply_to_message_id)
+                                                                                     +? ("reply_markup", Yojson.Safe.to_string <$> (ReplyMarkup.prepare <$> reply_markup)) in
         let open Batteries.String in
         let mime =
           if ends_with video ".mp4" then "video/mp4" else
@@ -490,29 +507,32 @@ module Voice = struct
 
   module Out = struct
     type voice = {
-      chat_id             : int;
-      voice               : string;
-      duration            : int option;
-      reply_to_message_id : int option;
-      reply_markup        : ReplyMarkup.reply_markup option
+      chat_id              : int;
+      voice                : string;
+      duration             : int option;
+      disable_notification : bool;
+      reply_to_message_id  : int option;
+      reply_markup         : ReplyMarkup.reply_markup option
     }
 
-    let create ~chat_id ~voice ?(duration = None) ?(reply_to = None) ?(reply_markup = None) () =
-      {chat_id; voice; duration; reply_to_message_id = reply_to; reply_markup}
+    let create ~chat_id ~voice ?(duration=None) ?(disable_notification=false) ?(reply_to=None) ?(reply_markup=None) () =
+      {chat_id; voice; duration; disable_notification; reply_to_message_id = reply_to; reply_markup}
 
     let prepare = function
-      | {chat_id; voice; duration; reply_to_message_id; reply_markup} ->
+      | {chat_id; voice; duration; disable_notification; reply_to_message_id; reply_markup} ->
         let json = `Assoc ([("chat_id", `Int chat_id);
-                            ("voice", `String voice)] +? ("duration", this_int <$> duration)
-                                                      +? ("reply_to_message_id", this_int <$> reply_to_message_id)
-                                                      +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
+                            ("voice", `String voice);
+                            ("disable_notification", `Bool disable_notification)] +? ("duration", this_int <$> duration)
+                                                                                  +? ("reply_to_message_id", this_int <$> reply_to_message_id)
+                                                                                  +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
         Yojson.Safe.to_string json
 
     let prepare_multipart = function
-      | {chat_id; voice; duration; reply_to_message_id; reply_markup} ->
-        let fields = [("chat_id", string_of_int chat_id)] +? ("duration", string_of_int <$> duration)
-                                                          +? ("reply_to_message_id", string_of_int <$> reply_to_message_id)
-                                                          +? ("reply_markup", Yojson.Safe.to_string <$> (ReplyMarkup.prepare <$> reply_markup)) in
+      | {chat_id; voice; duration; disable_notification; reply_to_message_id; reply_markup} ->
+        let fields = [("chat_id", string_of_int chat_id);
+                      ("disable_notification", string_of_bool disable_notification)] +? ("duration", string_of_int <$> duration)
+                                                                                     +? ("reply_to_message_id", string_of_int <$> reply_to_message_id)
+                                                                                     +? ("reply_markup", Yojson.Safe.to_string <$> (ReplyMarkup.prepare <$> reply_markup)) in
         InputFile.multipart_body fields ("voice", voice, "audio/ogg")
   end
 end
@@ -552,22 +572,24 @@ module Location = struct
 
   module Out = struct
     type location = {
-      chat_id             : int;
-      latitude            : float;
-      longitude           : float;
-      reply_to_message_id : int option;
-      reply_markup        : ReplyMarkup.reply_markup option
+      chat_id              : int;
+      latitude             : float;
+      longitude            : float;
+      disable_notification : bool;
+      reply_to_message_id  : int option;
+      reply_markup         : ReplyMarkup.reply_markup option
     }
 
-    let create ~chat_id ~latitude ~longitude ?(reply_to = None) ?(reply_markup = None) () =
-      {chat_id; latitude; longitude; reply_to_message_id = reply_to; reply_markup}
+    let create ~chat_id ~latitude ~longitude ?(disable_notification=false) ?(reply_to=None) ?(reply_markup=None) () =
+      {chat_id; latitude; longitude; disable_notification; reply_to_message_id = reply_to; reply_markup}
 
     let prepare = function
-    | {chat_id; latitude; longitude; reply_to_message_id; reply_markup} ->
-      let json = `Assoc ([("chat_id", `Int chat_id);
-                          ("latitude", `Float latitude);
-                          ("longitude", `Float longitude)] +? ("reply_to_message_id", this_int <$> reply_to_message_id)
-                                                           +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
+      | {chat_id; latitude; longitude; disable_notification; reply_to_message_id; reply_markup} ->
+        let json = `Assoc ([("chat_id", `Int chat_id);
+                            ("latitude", `Float latitude);
+                            ("longitude", `Float longitude);
+                            ("disable_notification", `Bool disable_notification)] +? ("reply_to_message_id", this_int <$> reply_to_message_id)
+                                                                                  +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
       Yojson.Safe.to_string json
   end
 end
@@ -589,6 +611,35 @@ module Venue = struct
     let address = the_string @@ get_field "address" obj in
     let foursquare_id = the_string <$> get_opt_field "foursquare_id" obj in
     create ~location ~title ~address ~foursquare_id ()
+
+  module Out = struct
+    type venue = {
+      chat_id              : int;
+      latitude             : float;
+      longitude            : float;
+      title                : string;
+      address              : string;
+      foursquare_id        : string option;
+      disable_notification : bool;
+      reply_to_message_id  : int option;
+      reply_markup         : ReplyMarkup.reply_markup option
+    }
+
+    let create ~chat_id ~latitude ~longitude ~title ~address ?(foursquare_id=None) ?(disable_notification=false) ~reply_to ~reply_markup () =
+      {chat_id; latitude; longitude; title; address; foursquare_id; disable_notification; reply_to_message_id = reply_to; reply_markup}
+
+    let prepare = function
+      | {chat_id; latitude; longitude; title; address; foursquare_id; disable_notification; reply_to_message_id; reply_markup} ->
+        let json = `Assoc ([("chat_id", `Int chat_id);
+                            ("latitude", `Float latitude);
+                            ("longitude", `Float longitude);
+                            ("title", `String title);
+                            ("address", `String address);
+                            ("disable_notification", `Bool disable_notification)] +? ("foursquare_id", this_string <$> foursquare_id)
+                                                                                  +? ("reply_to_message_id", this_int <$> reply_to_message_id)
+                                                                                  +? ("replay_markup", ReplyMarkup.prepare <$> reply_markup)) in
+        Yojson.Safe.to_string json
+  end
 end
 
 module UserProfilePhotos = struct
@@ -1001,22 +1052,22 @@ module Command = struct
   type action =
     | Nothing
     | GetMe of (User.user Result.result -> action)
-    | SendMessage of int * string * int option * ReplyMarkup.reply_markup option
-    | ForwardMessage of int * int * int
+    | SendMessage of int * string * bool * int option * ReplyMarkup.reply_markup option
+    | ForwardMessage of int * int * bool * int
     | SendChatAction of int * ChatAction.action
-    | SendPhoto of int * string * string option * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
-    | ResendPhoto of int * string * string option * int option * ReplyMarkup.reply_markup option
-    | SendAudio of int * string * string * string * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
-    | ResendAudio of int * string * string * string * int option * ReplyMarkup.reply_markup option
-    | SendDocument of int * string * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
-    | ResendDocument of int * string * int option * ReplyMarkup.reply_markup option
-    | SendSticker of int * string * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
-    | ResendSticker of int * string * int option * ReplyMarkup.reply_markup option
-    | SendVideo of int * string * int option * string option * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
-    | ResendVideo of int * string * int option * string option * int option * ReplyMarkup.reply_markup option
-    | SendVoice of int * string * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
-    | ResendVoice of int * string * int option * ReplyMarkup.reply_markup option
-    | SendLocation of int * float * float * int option * ReplyMarkup.reply_markup option
+    | SendPhoto of int * string * string option * bool * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
+    | ResendPhoto of int * string * string option * bool * int option * ReplyMarkup.reply_markup option
+    | SendAudio of int * string * string * string * bool * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
+    | ResendAudio of int * string * string * string * bool * int option * ReplyMarkup.reply_markup option
+    | SendDocument of int * string * bool * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
+    | ResendDocument of int * string * bool * int option * ReplyMarkup.reply_markup option
+    | SendSticker of int * string * bool * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
+    | ResendSticker of int * string * bool * int option * ReplyMarkup.reply_markup option
+    | SendVideo of int * string * int option * string option * bool * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
+    | ResendVideo of int * string * int option * string option * bool * int option * ReplyMarkup.reply_markup option
+    | SendVoice of int * string * bool * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
+    | ResendVoice of int * string * bool * int option * ReplyMarkup.reply_markup option
+    | SendLocation of int * float * float * bool * int option * ReplyMarkup.reply_markup option
     | GetUserProfilePhotos of int * int option * int option * (UserProfilePhotos.user_profile_photos Result.result -> action)
     | GetFile of string * (File.file Result.result -> action)
     | GetFile' of string * (string option -> action)
@@ -1081,22 +1132,23 @@ module type TELEGRAM_BOT = sig
   val inline : InlineQuery.inline_query -> Command.action
 
   val get_me : User.user Result.result Lwt.t
-  val send_message : chat_id:int -> text:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
-  val forward_message : chat_id:int -> from_chat_id:int -> message_id:int -> unit Result.result Lwt.t
+  val send_message : chat_id:int -> text:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val forward_message : chat_id:int -> from_chat_id:int -> ?disable_notification:bool -> message_id:int -> unit Result.result Lwt.t
   val send_chat_action : chat_id:int -> action:ChatAction.action -> unit Result.result Lwt.t
-  val send_photo : chat_id:int -> photo:string -> ?caption:string option -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
-  val resend_photo : chat_id:int -> photo:string -> ?caption:string option -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
-  val send_audio : chat_id:int -> audio:string -> performer:string -> title:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
-  val resend_audio : chat_id:int -> audio:string -> performer:string -> title:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
-  val send_document : chat_id:int -> document:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
-  val resend_document : chat_id:int -> document:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
-  val send_sticker : chat_id:int -> sticker:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
-  val resend_sticker : chat_id:int -> sticker:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
-  val send_video : chat_id:int -> video:string -> ?duration:int option -> ?caption:string option -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
-  val resend_video : chat_id:int -> video:string -> ?duration:int option -> ?caption:string option -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
-  val send_voice : chat_id:int -> voice:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
-  val resend_voice : chat_id:int -> voice:string -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
-  val send_location : chat_id:int -> latitude:float -> longitude:float -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val send_photo : chat_id:int -> photo:string -> ?caption:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
+  val resend_photo : chat_id:int -> photo:string -> ?caption:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val send_audio : chat_id:int -> audio:string -> performer:string -> title:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
+  val resend_audio : chat_id:int -> audio:string -> performer:string -> title:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val send_document : chat_id:int -> document:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
+  val resend_document : chat_id:int -> document:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val send_sticker : chat_id:int -> sticker:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
+  val resend_sticker : chat_id:int -> sticker:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val send_video : chat_id:int -> video:string -> ?duration:int option -> ?caption:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
+  val resend_video : chat_id:int -> video:string -> ?duration:int option -> ?caption:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val send_voice : chat_id:int -> voice:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
+  val resend_voice : chat_id:int -> voice:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val send_location : chat_id:int -> latitude:float -> longitude:float -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val send_venue : chat_id:int -> latitude:float -> longitude:float -> title:string -> address:string -> foursquare_id:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
   val get_user_profile_photos : user_id:int -> offset:int option -> limit:int option -> UserProfilePhotos.user_profile_photos Result.result Lwt.t
   val get_file : file_id:string -> File.file Result.result Lwt.t
   val get_file' : file_id:string -> string option Lwt.t
@@ -1119,7 +1171,8 @@ module Mk (B : BOT) = struct
     let open Chat in
     let open Message in
     {name = "help"; description = "Show this message"; enabled = true; run = function
-         | {chat} -> SendMessage (chat.id, "Commands:" ^ Command.make_help commands, None, None)} :: B.commands
+         (* Don't wake up users just to show a help message *)
+         | {chat} -> SendMessage (chat.id, "Commands:" ^ Command.make_help commands, true, None, None)} :: B.commands
   let inline = B.inline
 
   let get_me =
@@ -1130,10 +1183,11 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success (User.read @@ get_field "result" obj)
     | _ -> Result.Failure (the_string @@ get_field "description" obj)
 
-  let send_message ~chat_id ~text ~reply_to ~reply_markup =
+  let send_message ~chat_id ~text ?(disable_notification=false) ~reply_to ~reply_markup =
     let json = `Assoc ([("chat_id", `Int chat_id);
-                        ("text", `String text)] +? ("reply_to_message_id", this_int <$> reply_to)
-                                                +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
+                        ("text", `String text);
+                        ("disable_notification", `Bool disable_notification)] +? ("reply_to_message_id", this_int <$> reply_to)
+                                                                              +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
     let body = Yojson.Safe.to_string json in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendMessage")) >>= fun (resp, body) ->
@@ -1143,10 +1197,11 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure (the_string @@ get_field "description" obj)
 
-  let forward_message ~chat_id ~from_chat_id ~message_id =
+  let forward_message ~chat_id ~from_chat_id ?(disable_notification=false) ~message_id =
     let json = `Assoc [("chat_id", `Int chat_id);
                        ("from_chat_id", `Int from_chat_id);
-                       ("message_id", `Int message_id)] in
+                       ("message_id", `Int message_id);
+                       ("disable_notification", `Bool disable_notification)] in
     let body = Yojson.Safe.to_string json in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "forwardMessage")) >>= fun (resp, body) ->
@@ -1168,9 +1223,9 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure (the_string @@ get_field "description" obj)
 
-  let send_photo ~chat_id ~photo ?(caption = None) ~reply_to ~reply_markup =
+  let send_photo ~chat_id ~photo ?(caption = None) ?(disable_notification=false) ~reply_to ~reply_markup =
     let boundary = "--1234567890" in
-    PhotoSize.Out.prepare_multipart (PhotoSize.Out.create ~chat_id ~photo ~caption ~reply_to ~reply_markup ()) boundary >>= fun body ->
+    PhotoSize.Out.prepare_multipart (PhotoSize.Out.create ~chat_id ~photo ~caption ~disable_notification ~reply_to ~reply_markup ()) boundary >>= fun body ->
     let headers = Cohttp.Header.init_with "Content-Type" ("multipart/form-data; boundary=" ^ boundary) in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendPhoto")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1179,8 +1234,8 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success (the_string @@ get_field "file_id" @@ List.hd @@ the_list @@ get_field "photo" @@ get_field "result" obj)
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-  let resend_photo ~chat_id ~photo ?(caption = None) ~reply_to ~reply_markup =
-    let body = PhotoSize.Out.prepare @@ PhotoSize.Out.create ~chat_id ~photo ~caption ~reply_to ~reply_markup () in
+  let resend_photo ~chat_id ~photo ?(caption = None) ?(disable_notification=false) ~reply_to ~reply_markup =
+    let body = PhotoSize.Out.prepare @@ PhotoSize.Out.create ~chat_id ~photo ~caption ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendPhoto")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1189,9 +1244,9 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-  let send_audio ~chat_id ~audio ~performer ~title ~reply_to ~reply_markup =
+  let send_audio ~chat_id ~audio ~performer ~title ?(disable_notification=false) ~reply_to ~reply_markup =
     let boundary = "---1234567890" in
-    Audio.Out.prepare_multipart (Audio.Out.create ~chat_id ~audio ~performer ~title ~reply_to ~reply_markup ()) boundary >>= fun body ->
+    Audio.Out.prepare_multipart (Audio.Out.create ~chat_id ~audio ~performer ~title ~disable_notification ~reply_to ~reply_markup ()) boundary >>= fun body ->
     let headers = Cohttp.Header.init_with "Content-Type" ("multipart/form-data; boundary=" ^ boundary) in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendAudio")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1200,8 +1255,8 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success (the_string @@ get_field "file_id" @@ get_field "audio" @@ get_field "result" obj)
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-  let resend_audio ~chat_id ~audio ~performer ~title ~reply_to ~reply_markup =
-    let body = Audio.Out.prepare @@ Audio.Out.create ~chat_id ~audio ~performer ~title ~reply_to ~reply_markup () in
+  let resend_audio ~chat_id ~audio ~performer ~title ?(disable_notification=false) ~reply_to ~reply_markup =
+    let body = Audio.Out.prepare @@ Audio.Out.create ~chat_id ~audio ~performer ~title ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendAudio")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1210,9 +1265,9 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-  let send_document ~chat_id ~document ~reply_to ~reply_markup =
+  let send_document ~chat_id ~document ?(disable_notification=false) ~reply_to ~reply_markup =
     let boundary = "--1234567890" in
-    Document.Out.prepare_multipart (Document.Out.create ~chat_id ~document ~reply_to ~reply_markup ()) boundary >>= fun body ->
+    Document.Out.prepare_multipart (Document.Out.create ~chat_id ~document ~disable_notification ~reply_to ~reply_markup ()) boundary >>= fun body ->
     let headers = Cohttp.Header.init_with "Content-Type" ("multipart/form-data; boundary=" ^ boundary) in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendDocument")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1221,8 +1276,8 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success (the_string @@ get_field "file_id" @@ get_field "document" @@ get_field "result" obj)
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-  let resend_document ~chat_id ~document ~reply_to ~reply_markup =
-    let body = Document.Out.prepare @@ Document.Out.create ~chat_id ~document ~reply_to ~reply_markup () in
+  let resend_document ~chat_id ~document ?(disable_notification=false) ~reply_to ~reply_markup =
+    let body = Document.Out.prepare @@ Document.Out.create ~chat_id ~document ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendDocument")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1231,9 +1286,9 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-   let send_video ~chat_id ~video ?(duration = None) ?(caption = None) ~reply_to ~reply_markup =
+   let send_video ~chat_id ~video ?(duration = None) ?(caption = None) ?(disable_notification=false) ~reply_to ~reply_markup =
     let boundary = "--1234567890" in
-    Video.Out.prepare_multipart (Video.Out.create ~chat_id ~video ~duration ~caption ~reply_to ~reply_markup ()) boundary >>= fun body ->
+    Video.Out.prepare_multipart (Video.Out.create ~chat_id ~video ~duration ~caption ~disable_notification ~reply_to ~reply_markup ()) boundary >>= fun body ->
     let headers = Cohttp.Header.init_with "Content-Type" ("multipart/form-data; boundary=" ^ boundary) in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendVideo")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1242,8 +1297,8 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success (the_string @@ get_field "file_id" @@ get_field "video" @@ get_field "result" obj)
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-  let resend_video ~chat_id ~video ?(duration = None) ?(caption = None) ~reply_to ~reply_markup =
-    let body = Video.Out.prepare @@ Video.Out.create ~chat_id ~video ~duration ~caption ~reply_to ~reply_markup () in
+  let resend_video ~chat_id ~video ?(duration = None) ?(caption = None) ?(disable_notification=false)~reply_to ~reply_markup =
+    let body = Video.Out.prepare @@ Video.Out.create ~chat_id ~video ~duration ~caption ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendVideo")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1252,9 +1307,9 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-   let send_sticker ~chat_id ~sticker ~reply_to ~reply_markup =
+   let send_sticker ~chat_id ~sticker ?(disable_notification=false) ~reply_to ~reply_markup =
     let boundary = "--1234567890" in
-    Sticker.Out.prepare_multipart (Sticker.Out.create ~chat_id ~sticker ~reply_to ~reply_markup ()) boundary >>= fun body ->
+    Sticker.Out.prepare_multipart (Sticker.Out.create ~chat_id ~sticker ~disable_notification ~reply_to ~reply_markup ()) boundary >>= fun body ->
     let headers = Cohttp.Header.init_with "Content-Type" ("multipart/form-data; boundary=" ^ boundary) in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendSticker")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1263,8 +1318,8 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success (the_string @@ get_field "file_id" @@ get_field "sticker" @@ get_field "result" obj)
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-  let resend_sticker ~chat_id ~sticker ~reply_to ~reply_markup =
-    let body = Sticker.Out.prepare @@ Sticker.Out.create ~chat_id ~sticker ~reply_to ~reply_markup () in
+  let resend_sticker ~chat_id ~sticker ?(disable_notification=false) ~reply_to ~reply_markup =
+    let body = Sticker.Out.prepare @@ Sticker.Out.create ~chat_id ~sticker ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendSticker")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1273,9 +1328,9 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-  let send_voice ~chat_id ~voice ~reply_to ~reply_markup =
+  let send_voice ~chat_id ~voice ?(disable_notification=false) ~reply_to ~reply_markup =
     let boundary = "---1234567890" in
-    Voice.Out.prepare_multipart (Voice.Out.create ~chat_id ~voice ~reply_to ~reply_markup ()) boundary >>= fun body ->
+    Voice.Out.prepare_multipart (Voice.Out.create ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup ()) boundary >>= fun body ->
     let headers = Cohttp.Header.init_with "Content-Type" ("multipart/form-data; boundary=" ^ boundary) in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendVoice")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1284,8 +1339,8 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success (the_string @@ get_field "file_id" @@ get_field "voice" @@ get_field "result" obj)
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-  let resend_voice ~chat_id ~voice ~reply_to ~reply_markup =
-    let body = Voice.Out.prepare @@ Voice.Out.create ~chat_id ~voice ~reply_to ~reply_markup () in
+  let resend_voice ~chat_id ~voice ?(disable_notification=false) ~reply_to ~reply_markup =
+    let body = Voice.Out.prepare @@ Voice.Out.create ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendVoice")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1294,10 +1349,20 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-  let send_location ~chat_id ~latitude ~longitude ~reply_to ~reply_markup =
-    let body = Location.Out.prepare @@ Location.Out.create ~chat_id ~latitude ~longitude ~reply_to ~reply_markup () in
+  let send_location ~chat_id ~latitude ~longitude ?(disable_notification=false) ~reply_to ~reply_markup =
+    let body = Location.Out.prepare @@ Location.Out.create ~chat_id ~latitude ~longitude ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendLocation")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success ()
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
+  let send_venue ~chat_id ~latitude ~longitude ~title ~address ~foursquare_id ?(disable_notification=false) ~reply_to ~reply_markup =
+    let body = Venue.Out.prepare @@ Venue.Out.create ~chat_id ~latitude ~longitude ~title ~address ~foursquare_id ~disable_notification ~reply_to ~reply_markup () in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendVenue")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
@@ -1418,22 +1483,22 @@ module Mk (B : BOT) = struct
   and evaluator = function
     | Nothing -> return ()
     | GetMe f -> get_me >>= fun x -> evaluator (f x)
-    | SendMessage (chat_id, text, reply_to, reply_markup) -> send_message ~chat_id ~text ~reply_to ~reply_markup >>= fun _ -> return ()
-    | ForwardMessage (chat_id, from_chat_id, message_id) -> forward_message ~chat_id ~from_chat_id ~message_id >>= fun _ -> return ()
+    | SendMessage (chat_id, text, disable_notification, reply_to, reply_markup) -> send_message ~chat_id ~text ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
+    | ForwardMessage (chat_id, from_chat_id, disable_notification, message_id) -> forward_message ~chat_id ~from_chat_id ~disable_notification ~message_id >>= fun _ -> return ()
     | SendChatAction (chat_id, action) -> send_chat_action ~chat_id ~action >>= fun _ -> return ()
-    | SendPhoto (chat_id, photo, caption, reply_to, reply_markup, f) -> send_photo ~chat_id ~photo ~caption ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
-    | ResendPhoto (chat_id, photo, caption, reply_to, reply_markup) -> resend_photo ~chat_id ~photo ~caption ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendAudio (chat_id, audio, performer, title, reply_to, reply_markup, f) -> send_audio ~chat_id ~audio ~performer ~title ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
-    | ResendAudio (chat_id, audio, performer, title, reply_to, reply_markup) -> resend_audio ~chat_id ~audio ~performer ~title ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendDocument (chat_id, document, reply_to, reply_markup, f) -> send_document ~chat_id ~document ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
-    | ResendDocument (chat_id, document, reply_to, reply_markup) -> resend_document ~chat_id ~document ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendSticker (chat_id, sticker, reply_to, reply_markup, f) -> send_sticker ~chat_id ~sticker ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
-    | ResendSticker (chat_id, sticker, reply_to, reply_markup) -> resend_sticker ~chat_id ~sticker ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendVideo (chat_id, video, duration, caption, reply_to, reply_markup, f) -> send_video ~chat_id ~video ~duration ~caption ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
-    | ResendVideo (chat_id, video, duration, caption, reply_to, reply_markup) -> resend_video ~chat_id ~video ~duration ~caption ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendVoice (chat_id, voice, reply_to, reply_markup, f) -> send_voice ~chat_id ~voice ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
-    | ResendVoice (chat_id, voice, reply_to, reply_markup) -> resend_voice ~chat_id ~voice ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendLocation (chat_id, latitude, longitude, reply_to, reply_markup) -> send_location ~chat_id ~latitude ~longitude ~reply_to ~reply_markup >>= fun _ -> return ()
+    | SendPhoto (chat_id, photo, caption, disable_notification, reply_to, reply_markup, f) -> send_photo ~chat_id ~photo ~caption ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
+    | ResendPhoto (chat_id, photo, caption, disable_notification, reply_to, reply_markup) -> resend_photo ~chat_id ~photo ~caption ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
+    | SendAudio (chat_id, audio, performer, title, disable_notification, reply_to, reply_markup, f) -> send_audio ~chat_id ~audio ~performer ~title ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
+    | ResendAudio (chat_id, audio, performer, title, disable_notification, reply_to, reply_markup) -> resend_audio ~chat_id ~audio ~performer ~title ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
+    | SendDocument (chat_id, document, disable_notification, reply_to, reply_markup, f) -> send_document ~chat_id ~document ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
+    | ResendDocument (chat_id, document, disable_notification, reply_to, reply_markup) -> resend_document ~chat_id ~document ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
+    | SendSticker (chat_id, sticker, disable_notification, reply_to, reply_markup, f) -> send_sticker ~chat_id ~sticker ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
+    | ResendSticker (chat_id, sticker, disable_notification, reply_to, reply_markup) -> resend_sticker ~chat_id ~sticker ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
+    | SendVideo (chat_id, video, duration, caption, disable_notification, reply_to, reply_markup, f) -> send_video ~chat_id ~video ~duration ~caption ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
+    | ResendVideo (chat_id, video, duration, caption, disable_notification, reply_to, reply_markup) -> resend_video ~chat_id ~video ~duration ~caption ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
+    | SendVoice (chat_id, voice, disable_notification, reply_to, reply_markup, f) -> send_voice ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
+    | ResendVoice (chat_id, voice, disable_notification, reply_to, reply_markup) -> resend_voice ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
+    | SendLocation (chat_id, latitude, longitude, disable_notification, reply_to, reply_markup) -> send_location ~chat_id ~latitude ~longitude ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
     | GetUserProfilePhotos (user_id, offset, limit, f) -> get_user_profile_photos ~user_id ~offset ~limit >>= fun x -> evaluator (f x)
     | GetFile (file_id, f) -> get_file ~file_id >>= fun x -> evaluator (f x)
     | GetFile' (file_id, f) -> get_file' ~file_id >>= fun x -> evaluator (f x)
