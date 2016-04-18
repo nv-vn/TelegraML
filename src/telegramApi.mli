@@ -382,6 +382,24 @@ module Contact : sig
   val create : phone_number:string -> first_name:string -> ?last_name:string option -> ?user_id:int option -> unit -> contact
   (** Read a `contact` out of some JSON *)
   val read : json -> contact
+
+  (** This module deals with outgoing contact messages *)
+  module Out : sig
+    (** Represents the outgoing contact message *)
+    type contact = {
+      chat_id              : int;
+      phone_number         : string;
+      first_name           : string;
+      last_name            : string option;
+      disable_notification : bool;
+      reply_to_message_id  : int option;
+      reply_markup         : ReplyMarkup.reply_markup option
+    }
+    (** Create a `contact` in a concise manner *)
+    val create : chat_id:int -> phone_number:string -> first_name:string -> ?last_name:string option -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> contact
+    (** Prepare a `contact` for sending *)
+    val prepare : contact -> string
+  end
 end
 
 module Location : sig
@@ -743,6 +761,8 @@ module Command : sig
     | SendVoice of int * string * bool * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
     | ResendVoice of int * string * bool * int option * ReplyMarkup.reply_markup option
     | SendLocation of int * float * float * bool * int option * ReplyMarkup.reply_markup option
+    | SendVenue of int * float * float * string * string * string option * bool * int option * ReplyMarkup.reply_markup option
+    | SendContact of int * string * string * string option * bool * int option * ReplyMarkup.reply_markup option
     | GetUserProfilePhotos of int * int option * int option * (UserProfilePhotos.user_profile_photos Result.result -> action)
     | GetFile of string * (File.file Result.result -> action)
     | GetFile' of string * (string option -> action)
@@ -851,6 +871,9 @@ module type TELEGRAM_BOT = sig
 
   (** Send a venue to a specified chat *)
   val send_venue : chat_id:int -> latitude:float -> longitude:float -> title:string -> address:string -> foursquare_id:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+
+  (** Send a contact to a specified chat *)
+  val send_contact : chat_id:int -> phone_number:string -> first_name:string -> last_name:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
 
   (** Get a given user's profile pictures *)
   val get_user_profile_photos : user_id:int -> offset:int option -> limit:int option -> UserProfilePhotos.user_profile_photos Result.result Lwt.t

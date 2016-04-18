@@ -103,6 +103,7 @@ here with a link and a short description.
 * `sendVoice`
 * `sendLocation`
 * `sendVenue`
+* `sendContact`
 * `getUserProfilePhotos`
 * `getFile`
 * `sendChatAction`

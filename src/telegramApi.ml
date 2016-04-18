@@ -545,7 +545,7 @@ module Contact = struct
     user_id      : int option
   }
 
-  let create ~phone_number ~first_name ?(last_name = None) ?(user_id = None) () =
+  let create ~phone_number ~first_name ?(last_name=None) ?(user_id=None) () =
     {phone_number; first_name; last_name; user_id}
 
   let read obj =
@@ -554,6 +554,31 @@ module Contact = struct
     let last_name = the_string <$> get_opt_field "last_name" obj in
     let user_id = the_int <$> get_opt_field "user_id" obj in
     create ~phone_number ~first_name ~last_name ~user_id ()
+
+  module Out = struct
+    type contact = {
+      chat_id              : int;
+      phone_number         : string;
+      first_name           : string;
+      last_name            : string option;
+      disable_notification : bool;
+      reply_to_message_id  : int option;
+      reply_markup         : ReplyMarkup.reply_markup option
+    }
+
+    let create ~chat_id ~phone_number ~first_name ?(last_name=None) ?(disable_notification=false) ?(reply_to=None) ?(reply_markup=None) () =
+      {chat_id; phone_number; first_name; last_name; disable_notification; reply_to_message_id = reply_to; reply_markup}
+
+    let prepare = function
+      | {chat_id; phone_number; first_name; last_name; disable_notification; reply_to_message_id; reply_markup} ->
+        let json = `Assoc ([("chat_id", `Int chat_id);
+                            ("phone_number", `String phone_number);
+                            ("first_name", `String first_name);
+                            ("disable_notification", `Bool disable_notification)] +? ("last_name", this_string <$> last_name)
+                                                                                  +? ("reply_to_message_id", this_int <$> reply_to_message_id)
+                                                                                  +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
+        Yojson.Safe.to_string json
+  end
 end
 
 module Location = struct
@@ -1068,6 +1093,8 @@ module Command = struct
     | SendVoice of int * string * bool * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
     | ResendVoice of int * string * bool * int option * ReplyMarkup.reply_markup option
     | SendLocation of int * float * float * bool * int option * ReplyMarkup.reply_markup option
+    | SendVenue of int * float * float * string * string * string option * bool * int option * ReplyMarkup.reply_markup option
+    | SendContact of int * string * string * string option * bool * int option * ReplyMarkup.reply_markup option
     | GetUserProfilePhotos of int * int option * int option * (UserProfilePhotos.user_profile_photos Result.result -> action)
     | GetFile of string * (File.file Result.result -> action)
     | GetFile' of string * (string option -> action)
@@ -1149,6 +1176,7 @@ module type TELEGRAM_BOT = sig
   val resend_voice : chat_id:int -> voice:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
   val send_location : chat_id:int -> latitude:float -> longitude:float -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
   val send_venue : chat_id:int -> latitude:float -> longitude:float -> title:string -> address:string -> foursquare_id:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val send_contact : chat_id:int -> phone_number:string -> first_name:string -> last_name:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
   val get_user_profile_photos : user_id:int -> offset:int option -> limit:int option -> UserProfilePhotos.user_profile_photos Result.result Lwt.t
   val get_file : file_id:string -> File.file Result.result Lwt.t
   val get_file' : file_id:string -> string option Lwt.t
@@ -1369,6 +1397,16 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
+  let send_contact ~chat_id ~phone_number ~first_name ~last_name ?(disable_notification=false) ~reply_to ~reply_markup =
+    let body = Contact.Out.prepare @@ Contact.Out.create ~chat_id ~phone_number ~first_name ~last_name ~disable_notification ~reply_to ~reply_markup () in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendContact")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success ()
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
   let get_user_profile_photos ~user_id ~offset ~limit =
     let body = `Assoc ([("user_id", `Int user_id)] +? ("offset", this_int <$> offset)
                                                    +? ("limit", this_int <$> limit)) |> Yojson.Safe.to_string in
@@ -1499,6 +1537,8 @@ module Mk (B : BOT) = struct
     | SendVoice (chat_id, voice, disable_notification, reply_to, reply_markup, f) -> send_voice ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
     | ResendVoice (chat_id, voice, disable_notification, reply_to, reply_markup) -> resend_voice ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
     | SendLocation (chat_id, latitude, longitude, disable_notification, reply_to, reply_markup) -> send_location ~chat_id ~latitude ~longitude ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
+    | SendVenue (chat_id, latitude, longitude, title, address, foursquare_id, disable_notification, reply_to, reply_markup) -> send_venue ~chat_id ~latitude ~longitude ~title ~address ~foursquare_id ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
+    | SendContact (chat_id, phone_number, first_name, last_name, disable_notification, reply_to, reply_markup) -> send_contact ~chat_id ~phone_number ~first_name ~last_name ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
     | GetUserProfilePhotos (user_id, offset, limit, f) -> get_user_profile_photos ~user_id ~offset ~limit >>= fun x -> evaluator (f x)
     | GetFile (file_id, f) -> get_file ~file_id >>= fun x -> evaluator (f x)
     | GetFile' (file_id, f) -> get_file' ~file_id >>= fun x -> evaluator (f x)
