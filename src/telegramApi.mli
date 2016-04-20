@@ -767,6 +767,8 @@ module Command : sig
     | GetFile of string * (File.file Result.result -> action)
     | GetFile' of string * (string option -> action)
     | DownloadFile of File.file * (string option -> action)
+    | KickChatMember of int * int
+    | UnbanChatMember of int * int
     | AnswerInlineQuery of string * InlineQuery.Out.inline_query_result list * int option * bool option * string option
     | GetUpdates of (Update.update list Result.result -> action)
     | PeekUpdate of (Update.update Result.result -> action)
@@ -886,6 +888,12 @@ module type TELEGRAM_BOT = sig
 
   (** Download a file that's been uploaded to Telegram's servers by the `file` *)
   val download_file : file:File.file -> string option Lwt.t
+
+  (** Kick/ban a given user from the given chat *)
+  val kick_chat_member : chat_id:int -> user_id:int -> unit Result.result Lwt.t
+
+  (** Unban a given user from the given chat *)
+  val unban_chat_member : chat_id:int -> user_id:int -> unit Result.result Lwt.t
 
   (** Answers between 1 to 50 inline queries *)
   val answer_inline_query : inline_query_id:string -> results:InlineQuery.Out.inline_query_result list -> ?cache_time:int option -> ?is_personal:bool option -> ?next_offset:string option -> unit -> unit Result.result Lwt.t

@@ -106,6 +106,8 @@ here with a link and a short description.
 * `sendContact`
 * `getUserProfilePhotos`
 * `getFile`
+* `kickChatMember`
+* `unbanChatMember`
 * `sendChatAction`
 * `getUpdates`
 * `answerInlineQuery`
