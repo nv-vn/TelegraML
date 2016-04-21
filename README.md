@@ -110,4 +110,5 @@ here with a link and a short description.
 * `unbanChatMember`
 * `sendChatAction`
 * `getUpdates`
+* `answerCallbackQuery`
 * `answerInlineQuery`
