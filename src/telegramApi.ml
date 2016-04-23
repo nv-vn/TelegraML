@@ -3,6 +3,14 @@ open Yojson.Safe
 
 exception ApiException of string
 
+module ParseMode = struct
+  type parse_mode = Markdown | Html
+
+  let string_of_parse_mode = function
+    | Markdown -> "Markdown"
+    | Html -> "HTML"
+end
+
 module User = struct
   type user = {
     id         : int;
@@ -847,17 +855,11 @@ module InlineQuery = struct
     {result_id; from; query}
 
   module Out = struct
-    type parse_mode = Markdown | Html
-
-    let string_of_parse_mode = function
-      | Markdown -> "Markdown"
-      | Html -> "HTML"
-
     type article = {
       id                       : string;
       title                    : string;
       message_text             : string;
-      parse_mode               : parse_mode option;
+      parse_mode               : ParseMode.parse_mode option;
       disable_web_page_preview : bool option;
       url                      : string option;
       hide_url                 : bool option;
@@ -877,7 +879,7 @@ module InlineQuery = struct
       description              : string option;
       caption                  : string option;
       message_text             : string option;
-      parse_mode               : parse_mode option;
+      parse_mode               : ParseMode.parse_mode option;
       disable_web_page_preview : bool option
     }
 
@@ -890,7 +892,7 @@ module InlineQuery = struct
       title                    : string option;
       caption                  : string option;
       message_text             : string option;
-      parse_mode               : parse_mode option;
+      parse_mode               : ParseMode.parse_mode option;
       disable_web_page_preview : bool option
     }
 
@@ -903,7 +905,7 @@ module InlineQuery = struct
       title                    : string option;
       caption                  : string option;
       message_text             : string option;
-      parse_mode               : parse_mode option;
+      parse_mode               : ParseMode.parse_mode option;
       disable_web_page_preview : bool option
     }
 
@@ -912,7 +914,7 @@ module InlineQuery = struct
       video_url                : string;
       mime_type                : string;
       message_text             : string;
-      parse_mode               : parse_mode option;
+      parse_mode               : ParseMode.parse_mode option;
       disable_web_page_preview : bool option;
       video_width              : int option;
       video_height             : int option;
@@ -949,7 +951,7 @@ module InlineQuery = struct
         `Assoc ([("type", `String "article");
                  ("id", `String id);
                  ("title", `String title);
-                 ("message_text", `String message_text)] +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                 ("message_text", `String message_text)] +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
                                                          +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)
                                                          +? ("url", this_string <$> url)
                                                          +? ("hide_url", this_bool <$> hide_url)
@@ -967,7 +969,7 @@ module InlineQuery = struct
                                                    +? ("description", this_string <$> description)
                                                    +? ("caption", this_string <$> caption)
                                                    +? ("message_text", this_string <$> message_text)
-                                                   +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                                   +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
                                                    +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview))
       | Gif {id; gif_url; gif_width; gif_height; thumb_url; title; caption; message_text; parse_mode; disable_web_page_preview} ->
         `Assoc ([("type", `String "gif");
@@ -978,7 +980,7 @@ module InlineQuery = struct
                                                    +? ("title", this_string <$> title)
                                                    +? ("caption", this_string <$> caption)
                                                    +? ("message_text", this_string <$> message_text)
-                                                   +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                                   +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
                                                    +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview))
       | Mpeg4Gif {id; mpeg4_url; mpeg4_width; mpeg4_height; thumb_url; title; caption; message_text; parse_mode; disable_web_page_preview} ->
         `Assoc ([("type", `String "mpeg4gif");
@@ -989,7 +991,7 @@ module InlineQuery = struct
                                                   +? ("title", this_string <$> title)
                                                   +? ("caption", this_string <$> caption)
                                                   +? ("message_text", this_string <$> message_text)
-                                                  +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                                                  +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
                                                   +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview))
       | Video {id; video_url; mime_type; message_text; parse_mode; disable_web_page_preview; video_width; video_height; video_duration; thumb_url; title; description} ->
         `Assoc ([("type", `String "video");
@@ -998,7 +1000,7 @@ module InlineQuery = struct
                  ("mime_type", `String mime_type);
                  ("message_text", `String message_text);
                  ("thumb_url", `String thumb_url);
-                 ("title", `String title)] +? ("parse_mode", this_string <$> (string_of_parse_mode <$> parse_mode))
+                 ("title", `String title)] +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
                                            +? ("video_width", this_int <$> video_width)
                                            +? ("video_height", this_int <$> video_height)
                                            +? ("video_duration", this_int <$> video_duration)
@@ -1102,6 +1104,7 @@ module Command = struct
     | KickChatMember of int * int
     | UnbanChatMember of int * int
     | AnswerInlineQuery of string * InlineQuery.Out.inline_query_result list * int option * bool option * string option
+    | EditMessageText of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * string * ParseMode.parse_mode option * bool * ReplyMarkup.reply_markup option
     | GetUpdates of (Update.update list Result.result -> action)
     | PeekUpdate of (Update.update Result.result -> action)
     | PopUpdate of (Update.update Result.result -> action)
@@ -1186,6 +1189,7 @@ module type TELEGRAM_BOT = sig
   val kick_chat_member : chat_id:int -> user_id:int -> unit Result.result Lwt.t
   val unban_chat_member : chat_id:int -> user_id:int -> unit Result.result Lwt.t
   val answer_inline_query : inline_query_id:string -> results:InlineQuery.Out.inline_query_result list -> ?cache_time:int option -> ?is_personal:bool option -> ?next_offset:string option -> unit -> unit Result.result Lwt.t
+  val edit_message_text : ?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> text:string -> parse_mode:ParseMode.parse_mode option -> disable_web_page_preview:bool -> reply_markup:ReplyMarkup.reply_markup option -> unit -> unit Result.result Lwt.t
   val get_updates : Update.update list Result.result Lwt.t
   val peek_update : Update.update Result.result Lwt.t
   val pop_update : ?run_cmds:bool -> unit -> Update.update Result.result Lwt.t
@@ -1478,6 +1482,24 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
+  let edit_message_text ?(chat_id=None) ?(message_id=None) ?(inline_message_id=None) ~text ~parse_mode ~disable_web_page_preview ~reply_markup () =
+    let id = match chat_id, message_id, inline_message_id with
+      | (None, None, None) -> raise (ApiException "editMessageText requires either a chat_id, message_id, or inline_message_id")
+      | (Some c, _, _) -> ("chat_id", `String c)
+      | (_, Some m, _) -> ("message_id", `Int m)
+      | (_, _, Some i) -> ("inline_message_id", `String i) in
+    let body = `Assoc ([("text", `String text);
+                        ("disable_web_page_preview", `Bool disable_web_page_preview);
+                        id] +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
+                            +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) |> Yojson.Safe.to_string in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "editMessageText")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success ()
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
   let get_updates =
     Client.get (Uri.of_string (url ^ "getUpdates")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1572,6 +1594,12 @@ module Mk (B : BOT) = struct
     | KickChatMember (chat_id, user_id) -> kick_chat_member ~chat_id ~user_id >>= fun _ -> return ()
     | UnbanChatMember (chat_id, user_id) -> unban_chat_member ~chat_id ~user_id >>= fun _ -> return ()
     | AnswerInlineQuery (inline_query_id, results, cache_time, is_personal, next_offset) -> answer_inline_query ~inline_query_id ~results ~cache_time ~is_personal ~next_offset () >>= fun _ -> return ()
+    | EditMessageText (id, text, parse_mode, disable_web_page_preview, reply_markup) -> begin
+        match id with
+        | `ChatId chat_id -> edit_message_text ~chat_id:(Some chat_id) ~text ~parse_mode ~disable_web_page_preview ~reply_markup () >>= fun _ -> return ()
+        | `MessageId message_id -> edit_message_text ~message_id:(Some message_id) ~text ~parse_mode ~disable_web_page_preview ~reply_markup () >>= fun _ -> return ()
+        | `InlineMessageId inline_message_id -> edit_message_text ~inline_message_id:(Some inline_message_id) ~text ~parse_mode ~disable_web_page_preview ~reply_markup () >>= fun _ -> return ()
+      end
     | GetUpdates f -> get_updates >>= fun x -> evaluator (f x)
     | PeekUpdate f -> peek_update >>= fun x -> evaluator (f x)
     | PopUpdate f -> pop_update () >>= fun x -> evaluator (f x)

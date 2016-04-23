@@ -5,6 +5,14 @@ open Yojson.Safe
 (** An exception thrown if some rules specified in the API are invalidated by incorrectly formatted data of some type *)
 exception ApiException of string
 
+(** This module deals with the parse mode used for formatting certain messages according to markup languages *)
+module ParseMode : sig
+    (** Represents the mode used for formatting text sent to the user (bold, italics, fixed-width, or inline URLs) *)
+    type parse_mode = Markdown | Html
+    (** Get the string representation of a `parse_mode` *)
+    val string_of_parse_mode : parse_mode -> string
+end
+
 module User : sig
   (** Represents a user profile *)
   type user = {
@@ -584,17 +592,12 @@ module InlineQuery : sig
 
   (** This module is used to deal with outgoing replies to inline queries for an InlineQuery bot *)
   module Out : sig
-    (** Represents the mode used for formatting text sent to the user (bold, italics, fixed-width, or inline URLs) *)
-    type parse_mode = Markdown | Html
-    (** Get the string representation of a `parse_mode` *)
-    val string_of_parse_mode : parse_mode -> string
-
     (** Represents an article sent as a reply *)
     type article = {
       id                       : string;
       title                    : string;
       message_text             : string;
-      parse_mode               : parse_mode option;
+      parse_mode               : ParseMode.parse_mode option;
       disable_web_page_preview : bool option;
       url                      : string option;
       hide_url                 : bool option;
@@ -614,7 +617,7 @@ module InlineQuery : sig
       description              : string option;
       caption                  : string option;
       message_text             : string option;
-      parse_mode               : parse_mode option;
+      parse_mode               : ParseMode.parse_mode option;
       disable_web_page_preview : bool option
     }
     (** Represents a gif sent as a reply *)
@@ -627,7 +630,7 @@ module InlineQuery : sig
       title                    : string option;
       caption                  : string option;
       message_text             : string option;
-      parse_mode               : parse_mode option;
+      parse_mode               : ParseMode.parse_mode option;
       disable_web_page_preview : bool option
     }
     (** Represents a gif sent as a reply, but converted to an mp4 video file *)
@@ -640,7 +643,7 @@ module InlineQuery : sig
       title                    : string option;
       caption                  : string option;
       message_text             : string option;
-      parse_mode               : parse_mode option;
+      parse_mode               : ParseMode.parse_mode option;
       disable_web_page_preview : bool option
     }
     (** Represents a video sent as a reply *)
@@ -649,7 +652,7 @@ module InlineQuery : sig
       video_url                : string;
       mime_type                : string;
       message_text             : string;
-      parse_mode               : parse_mode option;
+      parse_mode               : ParseMode.parse_mode option;
       disable_web_page_preview : bool option;
       video_width              : int option;
       video_height             : int option;
@@ -667,15 +670,15 @@ module InlineQuery : sig
       | Video of video
 
     (** Create an `Article` `inline_query_result` in a concise manner *)
-    val create_article : id:string -> title:string -> message_text:string -> ?parse_mode:parse_mode -> ?disable_web_page_preview:bool -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
+    val create_article : id:string -> title:string -> message_text:string -> ?parse_mode:ParseMode.parse_mode -> ?disable_web_page_preview:bool -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
     (** Create a `Photo` `inline_query_result` in a concise manner *)
-    val create_photo : id:string -> photo_url:string -> ?photo_width:int -> ?photo_height:int -> thumb_url:string -> ?title:string -> ?description:string -> ?caption:string -> ?message_text:string -> ?parse_mode:parse_mode -> ?disable_web_page_preview:bool -> unit -> inline_query_result
+    val create_photo : id:string -> photo_url:string -> ?photo_width:int -> ?photo_height:int -> thumb_url:string -> ?title:string -> ?description:string -> ?caption:string -> ?message_text:string -> ?parse_mode:ParseMode.parse_mode -> ?disable_web_page_preview:bool -> unit -> inline_query_result
     (** Create a `Gif` `inline_query_result` in a concise manner *)
-    val create_gif : id:string -> gif_url:string -> ?gif_width:int -> ?gif_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?message_text:string -> ?parse_mode:parse_mode -> ?disable_web_page_preview:bool -> unit -> inline_query_result
+    val create_gif : id:string -> gif_url:string -> ?gif_width:int -> ?gif_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?message_text:string -> ?parse_mode:ParseMode.parse_mode -> ?disable_web_page_preview:bool -> unit -> inline_query_result
     (** Create an `Mpeg4Gif` `inline_query_result` in a concise manner *)
-    val create_mpeg4gif : id:string -> mpeg4_url:string -> ?mpeg4_width:int -> ?mpeg4_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?message_text:string -> ?parse_mode:parse_mode -> ?disable_web_page_preview:bool -> unit -> inline_query_result
+    val create_mpeg4gif : id:string -> mpeg4_url:string -> ?mpeg4_width:int -> ?mpeg4_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?message_text:string -> ?parse_mode:ParseMode.parse_mode -> ?disable_web_page_preview:bool -> unit -> inline_query_result
     (** Create a `Video` `inline_query_result` in a concise manner *)
-    val create_video : id:string -> video_url:string -> mime_type:string -> message_text:string -> ?parse_mode:parse_mode -> ?disable_web_page_preview:bool -> ?video_width:int -> ?video_height:int -> ?video_duration:int -> thumb_url:string -> title:string -> ?description:string -> unit -> inline_query_result
+    val create_video : id:string -> video_url:string -> mime_type:string -> message_text:string -> ?parse_mode:ParseMode.parse_mode -> ?disable_web_page_preview:bool -> ?video_width:int -> ?video_height:int -> ?video_duration:int -> thumb_url:string -> title:string -> ?description:string -> unit -> inline_query_result
     (** Prepare an `inline_query_result` for sending *)
     val prepare : inline_query_result -> Yojson.Safe.json
   end
@@ -770,6 +773,7 @@ module Command : sig
     | KickChatMember of int * int
     | UnbanChatMember of int * int
     | AnswerInlineQuery of string * InlineQuery.Out.inline_query_result list * int option * bool option * string option
+    | EditMessageText of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * string * ParseMode.parse_mode option * bool * ReplyMarkup.reply_markup option
     | GetUpdates of (Update.update list Result.result -> action)
     | PeekUpdate of (Update.update Result.result -> action)
     | PopUpdate of (Update.update Result.result -> action)
@@ -897,6 +901,9 @@ module type TELEGRAM_BOT = sig
 
   (** Answers between 1 to 50 inline queries *)
   val answer_inline_query : inline_query_id:string -> results:InlineQuery.Out.inline_query_result list -> ?cache_time:int option -> ?is_personal:bool option -> ?next_offset:string option -> unit -> unit Result.result Lwt.t
+
+  (** Edit an existing message, selected by either the chat id, the message id, or the inline message id *)
+  val edit_message_text : ?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> text:string -> parse_mode:ParseMode.parse_mode option -> disable_web_page_preview:bool -> reply_markup:ReplyMarkup.reply_markup option -> unit -> unit Result.result Lwt.t
 
   (** Get a list of all available updates that the bot has received *)
   val get_updates : Update.update list Result.result Lwt.t
