@@ -1103,6 +1103,7 @@ module Command = struct
     | DownloadFile of File.file * (string option -> action)
     | KickChatMember of int * int
     | UnbanChatMember of int * int
+    | AnswerCallbackQuery of string * string option * bool
     | AnswerInlineQuery of string * InlineQuery.Out.inline_query_result list * int option * bool option * string option
     | EditMessageText of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * string * ParseMode.parse_mode option * bool * ReplyMarkup.reply_markup option
     | GetUpdates of (Update.update list Result.result -> action)
@@ -1188,6 +1189,7 @@ module type TELEGRAM_BOT = sig
   val download_file : file:File.file -> string option Lwt.t
   val kick_chat_member : chat_id:int -> user_id:int -> unit Result.result Lwt.t
   val unban_chat_member : chat_id:int -> user_id:int -> unit Result.result Lwt.t
+  val answer_callback_query : callback_query_id:string -> ?text:string option -> ?show_alert:bool -> unit -> unit Result.result Lwt.t
   val answer_inline_query : inline_query_id:string -> results:InlineQuery.Out.inline_query_result list -> ?cache_time:int option -> ?is_personal:bool option -> ?next_offset:string option -> unit -> unit Result.result Lwt.t
   val edit_message_text : ?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> text:string -> parse_mode:ParseMode.parse_mode option -> disable_web_page_preview:bool -> reply_markup:ReplyMarkup.reply_markup option -> unit -> unit Result.result Lwt.t
   val get_updates : Update.update list Result.result Lwt.t
@@ -1468,6 +1470,17 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
+  let answer_callback_query ~callback_query_id ?(text=None) ?(show_alert=false) () =
+    let body = `Assoc ([("callback_query_id", `String callback_query_id);
+                        ("show_alert", `Bool show_alert)] +? ("text", this_string <$> text)) |> Yojson.Safe.to_string in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "answerCallbackQuery")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success ()
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
   let answer_inline_query ~inline_query_id ~results ?(cache_time=None) ?(is_personal=None) ?(next_offset=None) () =
     let results' = List.map (fun result -> InlineQuery.Out.prepare result) results in
     let body = `Assoc ([("inline_query_id", `String inline_query_id);
@@ -1593,6 +1606,7 @@ module Mk (B : BOT) = struct
     | DownloadFile (file, f) -> download_file ~file >>= fun x -> evaluator (f x)
     | KickChatMember (chat_id, user_id) -> kick_chat_member ~chat_id ~user_id >>= fun _ -> return ()
     | UnbanChatMember (chat_id, user_id) -> unban_chat_member ~chat_id ~user_id >>= fun _ -> return ()
+    | AnswerCallbackQuery (callback_query_id, text, show_alert) -> answer_callback_query ~callback_query_id ~text ~show_alert () >>= fun _ -> return ()
     | AnswerInlineQuery (inline_query_id, results, cache_time, is_personal, next_offset) -> answer_inline_query ~inline_query_id ~results ~cache_time ~is_personal ~next_offset () >>= fun _ -> return ()
     | EditMessageText (id, text, parse_mode, disable_web_page_preview, reply_markup) -> begin
         match id with
