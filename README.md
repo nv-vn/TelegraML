@@ -67,7 +67,6 @@ here with a link and a short description.
 
 * No webhooks
 * Missing most 2.0 API features
-* Can't currently disable notifications for sent messages
 
 ### Implemented Types:
 
