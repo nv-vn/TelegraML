@@ -1,6 +1,20 @@
 # TelegraML
 
-OCaml implementation of the Telegram Bot API
+An OCaml library for creating bots for [Telegram Messenger](https://telegram.org/).
+Bots are built using the official API provided by Telegram. The documentation can be viewd [here](https://core.telegram.org/bots/api#inline-mode-methods).
+
+## Introduction:
+
+Before creating a bot, it's recommended that you read through [this page](https://core.telegram.org/bots), which outlines some of the basic usage of bots and the process of registering and managing your bots.
+
+The API is designed to make heavy use of OCaml's module system to provide a configurable template for creating new bots, with optional higher-level representations of features such as commands or inline responses.
+All bots are created as modules, by instantiating the `Telegram.Api.Mk` functor, which will generate a module for using your bot directly.
+The direct commands can be accessed as members of the module, with the API's methods in `snake_case` with `~named` arguments.
+However, when using the higher-level APIs (for the inline responses or commands), it may be useful to reuse the same command generically across different bots. As a result, the commands/inline response functions are expected to return values of the `Telegram.Api.Command.action`.
+Using this type, the command is represented as an abstract data type. These commands are named in `CamelCase`, but they are equivalent to those directly accessible through the module. Note that the arguments are not named, so read the official documentation or the type signatures of the equivalent functions in order to understand what each argument represents.
+
+If you need to get around the restrictions of using the `action` type to encode the responses, you can use the peek_update function to view the update before it's removed from the queue and process it manually.
+Note that the `Telegram.Api.Command` module provides convenience functions for helping you parse incoming commands manually if necessary.
 
 ## Documentation:
 

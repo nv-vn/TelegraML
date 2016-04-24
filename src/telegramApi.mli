@@ -60,8 +60,7 @@ module InputFile : sig
       {li The name of the data field}
       {li The path to the file/the file's name}
       {li The mime type of the file}}
-    - A string to be used as a boundary to split different parts of the data; ideally, this text should 
-not be present in the raw data of the file being sent
+    - A string to be used as a boundary to split different parts of the data; ideally, this text should not be present in the raw data of the file being sent
     @return The formatted string to use as the HTTP body (make sure to correctly format the headers for multipart/form-data) *)
   val multipart_body : (string * string) list -> string * string * string -> string -> string Lwt.t
 end
