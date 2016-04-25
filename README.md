@@ -66,7 +66,7 @@ here with a link and a short description.
 ### What doesn't?
 
 * No webhooks
-* Missing most 2.0 API features
+* Missing the 2.0 inline mode API changes
 
 ### Implemented Types:
 
@@ -124,4 +124,7 @@ here with a link and a short description.
 * `sendChatAction`
 * `getUpdates`
 * `answerCallbackQuery`
+* `editMessageText`
+* `editMessageCaption`
+* `editMessageReplyMarkup`
 * `answerInlineQuery`
