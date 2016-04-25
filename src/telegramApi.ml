@@ -1106,6 +1106,8 @@ module Command = struct
     | AnswerCallbackQuery of string * string option * bool
     | AnswerInlineQuery of string * InlineQuery.Out.inline_query_result list * int option * bool option * string option
     | EditMessageText of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * string * ParseMode.parse_mode option * bool * ReplyMarkup.reply_markup option
+    | EditMessageCaption of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * string * ReplyMarkup.reply_markup option
+    | EditMessageReplyMarkup of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * ReplyMarkup.reply_markup option
     | GetUpdates of (Update.update list Result.result -> action)
     | PeekUpdate of (Update.update Result.result -> action)
     | PopUpdate of (Update.update Result.result -> action)
@@ -1192,6 +1194,8 @@ module type TELEGRAM_BOT = sig
   val answer_callback_query : callback_query_id:string -> ?text:string option -> ?show_alert:bool -> unit -> unit Result.result Lwt.t
   val answer_inline_query : inline_query_id:string -> results:InlineQuery.Out.inline_query_result list -> ?cache_time:int option -> ?is_personal:bool option -> ?next_offset:string option -> unit -> unit Result.result Lwt.t
   val edit_message_text : ?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> text:string -> parse_mode:ParseMode.parse_mode option -> disable_web_page_preview:bool -> reply_markup:ReplyMarkup.reply_markup option -> unit -> unit Result.result Lwt.t
+  val edit_message_caption : ?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> caption:string -> reply_markup:ReplyMarkup.reply_markup option -> unit -> unit Result.result Lwt.t
+  val edit_message_reply_markup : ?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> reply_markup:ReplyMarkup.reply_markup option -> unit -> unit Result.result Lwt.t
   val get_updates : Update.update list Result.result Lwt.t
   val peek_update : Update.update Result.result Lwt.t
   val pop_update : ?run_cmds:bool -> unit -> Update.update Result.result Lwt.t
@@ -1513,6 +1517,37 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
+  let edit_message_caption ?(chat_id=None) ?(message_id=None) ?(inline_message_id=None) ~caption ~reply_markup () =
+    let id = match chat_id, message_id, inline_message_id with
+      | (None, None, None) -> raise (ApiException "editMessageText requires either a chat_id, message_id, or inline_message_id")
+      | (Some c, _, _) -> ("chat_id", `String c)
+      | (_, Some m, _) -> ("message_id", `Int m)
+      | (_, _, Some i) -> ("inline_message_id", `String i) in
+    let body = `Assoc ([("caption", `String caption);
+                        id] +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) |> Yojson.Safe.to_string in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "editMessageCaption")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success ()
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
+  let edit_message_reply_markup ?(chat_id=None) ?(message_id=None) ?(inline_message_id=None) ~reply_markup () =
+    let id = match chat_id, message_id, inline_message_id with
+      | (None, None, None) -> raise (ApiException "editMessageText requires either a chat_id, message_id, or inline_message_id")
+      | (Some c, _, _) -> ("chat_id", `String c)
+      | (_, Some m, _) -> ("message_id", `Int m)
+      | (_, _, Some i) -> ("inline_message_id", `String i) in
+    let body = `Assoc ([id] +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) |> Yojson.Safe.to_string in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "editMessageReplyMarkup")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success ()
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
   let get_updates =
     Client.get (Uri.of_string (url ^ "getUpdates")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
@@ -1579,43 +1614,52 @@ module Mk (B : BOT) = struct
       end
     | _ -> return @@ Result.Failure (the_string @@ get_field "description" obj)
 
-  and evaluator = function
+  and evaluator =
+    let (>>) x y = x >>= fun _ -> y in
+    let dispose x = x >> return ()
+    and eval f x = x >>= fun y -> evaluator (f y)
+    and identify : 'a. (?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> 'a) -> [`ChatId of string | `MessageId of int | `InlineMessageId of string] -> 'a =
+      fun f id -> match id with
+        | `ChatId c -> f ~chat_id:(Some c) ~message_id:None ~inline_message_id:None
+        | `MessageId m -> f ~chat_id:None ~message_id:(Some m) ~inline_message_id:None
+        | `InlineMessageId i -> f ~chat_id:None ~message_id:None ~inline_message_id:(Some i) in
+    function
     | Nothing -> return ()
-    | GetMe f -> get_me >>= fun x -> evaluator (f x)
-    | SendMessage (chat_id, text, disable_notification, reply_to, reply_markup) -> send_message ~chat_id ~text ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
-    | ForwardMessage (chat_id, from_chat_id, disable_notification, message_id) -> forward_message ~chat_id ~from_chat_id ~disable_notification ~message_id >>= fun _ -> return ()
-    | SendChatAction (chat_id, action) -> send_chat_action ~chat_id ~action >>= fun _ -> return ()
-    | SendPhoto (chat_id, photo, caption, disable_notification, reply_to, reply_markup, f) -> send_photo ~chat_id ~photo ~caption ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
-    | ResendPhoto (chat_id, photo, caption, disable_notification, reply_to, reply_markup) -> resend_photo ~chat_id ~photo ~caption ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendAudio (chat_id, audio, performer, title, disable_notification, reply_to, reply_markup, f) -> send_audio ~chat_id ~audio ~performer ~title ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
-    | ResendAudio (chat_id, audio, performer, title, disable_notification, reply_to, reply_markup) -> resend_audio ~chat_id ~audio ~performer ~title ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendDocument (chat_id, document, disable_notification, reply_to, reply_markup, f) -> send_document ~chat_id ~document ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
-    | ResendDocument (chat_id, document, disable_notification, reply_to, reply_markup) -> resend_document ~chat_id ~document ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendSticker (chat_id, sticker, disable_notification, reply_to, reply_markup, f) -> send_sticker ~chat_id ~sticker ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
-    | ResendSticker (chat_id, sticker, disable_notification, reply_to, reply_markup) -> resend_sticker ~chat_id ~sticker ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendVideo (chat_id, video, duration, caption, disable_notification, reply_to, reply_markup, f) -> send_video ~chat_id ~video ~duration ~caption ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
-    | ResendVideo (chat_id, video, duration, caption, disable_notification, reply_to, reply_markup) -> resend_video ~chat_id ~video ~duration ~caption ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendVoice (chat_id, voice, disable_notification, reply_to, reply_markup, f) -> send_voice ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup >>= fun x -> evaluator (f x)
-    | ResendVoice (chat_id, voice, disable_notification, reply_to, reply_markup) -> resend_voice ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendLocation (chat_id, latitude, longitude, disable_notification, reply_to, reply_markup) -> send_location ~chat_id ~latitude ~longitude ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
+    | GetMe f -> get_me |> eval f
+    | SendMessage (chat_id, text, disable_notification, reply_to, reply_markup) -> send_message ~chat_id ~text ~disable_notification ~reply_to ~reply_markup |> dispose
+    | ForwardMessage (chat_id, from_chat_id, disable_notification, message_id) -> forward_message ~chat_id ~from_chat_id ~disable_notification ~message_id |> dispose
+    | SendChatAction (chat_id, action) -> send_chat_action ~chat_id ~action |> dispose
+    | SendPhoto (chat_id, photo, caption, disable_notification, reply_to, reply_markup, f) -> send_photo ~chat_id ~photo ~caption ~disable_notification ~reply_to ~reply_markup |> eval f
+    | ResendPhoto (chat_id, photo, caption, disable_notification, reply_to, reply_markup) -> resend_photo ~chat_id ~photo ~caption ~disable_notification ~reply_to ~reply_markup |> dispose
+    | SendAudio (chat_id, audio, performer, title, disable_notification, reply_to, reply_markup, f) -> send_audio ~chat_id ~audio ~performer ~title ~disable_notification ~reply_to ~reply_markup |> eval f
+    | ResendAudio (chat_id, audio, performer, title, disable_notification, reply_to, reply_markup) -> resend_audio ~chat_id ~audio ~performer ~title ~disable_notification ~reply_to ~reply_markup |> dispose
+    | SendDocument (chat_id, document, disable_notification, reply_to, reply_markup, f) -> send_document ~chat_id ~document ~disable_notification ~reply_to ~reply_markup |> eval f
+    | ResendDocument (chat_id, document, disable_notification, reply_to, reply_markup) -> resend_document ~chat_id ~document ~disable_notification ~reply_to ~reply_markup |> dispose
+    | SendSticker (chat_id, sticker, disable_notification, reply_to, reply_markup, f) -> send_sticker ~chat_id ~sticker ~disable_notification ~reply_to ~reply_markup |> eval f
+    | ResendSticker (chat_id, sticker, disable_notification, reply_to, reply_markup) -> resend_sticker ~chat_id ~sticker ~disable_notification ~reply_to ~reply_markup |> dispose
+    | SendVideo (chat_id, video, duration, caption, disable_notification, reply_to, reply_markup, f) -> send_video ~chat_id ~video ~duration ~caption ~disable_notification ~reply_to ~reply_markup |> eval f
+    | ResendVideo (chat_id, video, duration, caption, disable_notification, reply_to, reply_markup) -> resend_video ~chat_id ~video ~duration ~caption ~disable_notification ~reply_to ~reply_markup |> dispose
+    | SendVoice (chat_id, voice, disable_notification, reply_to, reply_markup, f) -> send_voice ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup |> eval f
+    | ResendVoice (chat_id, voice, disable_notification, reply_to, reply_markup) -> resend_voice ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup |> dispose
+    | SendLocation (chat_id, latitude, longitude, disable_notification, reply_to, reply_markup) -> send_location ~chat_id ~latitude ~longitude ~disable_notification ~reply_to ~reply_markup |> dispose
     | SendVenue (chat_id, latitude, longitude, title, address, foursquare_id, disable_notification, reply_to, reply_markup) -> send_venue ~chat_id ~latitude ~longitude ~title ~address ~foursquare_id ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
-    | SendContact (chat_id, phone_number, first_name, last_name, disable_notification, reply_to, reply_markup) -> send_contact ~chat_id ~phone_number ~first_name ~last_name ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
-    | GetUserProfilePhotos (user_id, offset, limit, f) -> get_user_profile_photos ~user_id ~offset ~limit >>= fun x -> evaluator (f x)
-    | GetFile (file_id, f) -> get_file ~file_id >>= fun x -> evaluator (f x)
-    | GetFile' (file_id, f) -> get_file' ~file_id >>= fun x -> evaluator (f x)
-    | DownloadFile (file, f) -> download_file ~file >>= fun x -> evaluator (f x)
-    | KickChatMember (chat_id, user_id) -> kick_chat_member ~chat_id ~user_id >>= fun _ -> return ()
-    | UnbanChatMember (chat_id, user_id) -> unban_chat_member ~chat_id ~user_id >>= fun _ -> return ()
-    | AnswerCallbackQuery (callback_query_id, text, show_alert) -> answer_callback_query ~callback_query_id ~text ~show_alert () >>= fun _ -> return ()
-    | AnswerInlineQuery (inline_query_id, results, cache_time, is_personal, next_offset) -> answer_inline_query ~inline_query_id ~results ~cache_time ~is_personal ~next_offset () >>= fun _ -> return ()
-    | EditMessageText (id, text, parse_mode, disable_web_page_preview, reply_markup) -> begin
-        match id with
-        | `ChatId chat_id -> edit_message_text ~chat_id:(Some chat_id) ~text ~parse_mode ~disable_web_page_preview ~reply_markup () >>= fun _ -> return ()
-        | `MessageId message_id -> edit_message_text ~message_id:(Some message_id) ~text ~parse_mode ~disable_web_page_preview ~reply_markup () >>= fun _ -> return ()
-        | `InlineMessageId inline_message_id -> edit_message_text ~inline_message_id:(Some inline_message_id) ~text ~parse_mode ~disable_web_page_preview ~reply_markup () >>= fun _ -> return ()
-      end
-    | GetUpdates f -> get_updates >>= fun x -> evaluator (f x)
-    | PeekUpdate f -> peek_update >>= fun x -> evaluator (f x)
-    | PopUpdate f -> pop_update () >>= fun x -> evaluator (f x)
-    | Chain (first, second) -> evaluator first >>= fun _ -> evaluator second
+    | SendContact (chat_id, phone_number, first_name, last_name, disable_notification, reply_to, reply_markup) -> send_contact ~chat_id ~phone_number ~first_name ~last_name ~disable_notification ~reply_to ~reply_markup |> dispose
+    | GetUserProfilePhotos (user_id, offset, limit, f) -> get_user_profile_photos ~user_id ~offset ~limit |> eval f
+    | GetFile (file_id, f) -> get_file ~file_id |> eval f
+    | GetFile' (file_id, f) -> get_file' ~file_id |> eval f
+    | DownloadFile (file, f) -> download_file ~file |> eval f
+    | KickChatMember (chat_id, user_id) -> kick_chat_member ~chat_id ~user_id |> dispose
+    | UnbanChatMember (chat_id, user_id) -> unban_chat_member ~chat_id ~user_id |> dispose
+    | AnswerCallbackQuery (callback_query_id, text, show_alert) -> answer_callback_query ~callback_query_id ~text ~show_alert () |> dispose
+    | AnswerInlineQuery (inline_query_id, results, cache_time, is_personal, next_offset) -> answer_inline_query ~inline_query_id ~results ~cache_time ~is_personal ~next_offset () |> dispose
+    | EditMessageText (id, text, parse_mode, disable_web_page_preview, reply_markup) ->
+      (identify edit_message_text id) ~text ~parse_mode ~disable_web_page_preview ~reply_markup () |> dispose
+    | EditMessageCaption (id, caption, reply_markup) ->
+      (identify edit_message_caption id) ~caption ~reply_markup () |> dispose
+    | EditMessageReplyMarkup (id, reply_markup) ->
+      (identify edit_message_reply_markup id) ~reply_markup () |> dispose
+    | GetUpdates f -> get_updates |> eval f
+    | PeekUpdate f -> peek_update |> eval f
+    | PopUpdate f -> pop_update () |> eval f
+    | Chain (first, second) -> evaluator first >> evaluator second
 end

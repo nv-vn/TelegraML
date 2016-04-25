@@ -774,6 +774,8 @@ module Command : sig
     | AnswerCallbackQuery of string * string option * bool
     | AnswerInlineQuery of string * InlineQuery.Out.inline_query_result list * int option * bool option * string option
     | EditMessageText of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * string * ParseMode.parse_mode option * bool * ReplyMarkup.reply_markup option
+    | EditMessageCaption of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * string * ReplyMarkup.reply_markup option
+    | EditMessageReplyMarkup of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * ReplyMarkup.reply_markup option
     | GetUpdates of (Update.update list Result.result -> action)
     | PeekUpdate of (Update.update Result.result -> action)
     | PopUpdate of (Update.update Result.result -> action)
@@ -907,6 +909,12 @@ module type TELEGRAM_BOT = sig
 
   (** Edit an existing message, selected by either the chat id, the message id, or the inline message id *)
   val edit_message_text : ?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> text:string -> parse_mode:ParseMode.parse_mode option -> disable_web_page_preview:bool -> reply_markup:ReplyMarkup.reply_markup option -> unit -> unit Result.result Lwt.t
+
+  (** Edit the caption of an existing message, selected by either the chat id, the message id, or the inline message id *)
+  val edit_message_caption : ?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> caption:string -> reply_markup:ReplyMarkup.reply_markup option -> unit -> unit Result.result Lwt.t
+
+  (** Edit the reply markup of an existing message, selected by either the chat id, the message id, or the inline message id. Use `None` to remove the reply markup *)
+  val edit_message_reply_markup : ?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> reply_markup:ReplyMarkup.reply_markup option -> unit -> unit Result.result Lwt.t
 
   (** Get a list of all available updates that the bot has received *)
   val get_updates : Update.update list Result.result Lwt.t
