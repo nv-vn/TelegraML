@@ -566,6 +566,42 @@ module CallbackQuery : sig
   val read : Yojson.Safe.json -> callback_query
 end
 
+(** This module is used to deal with the content being sent as the result of an inline query *)
+module InputMessageContent : sig
+  (** Represents the content of a text message to be sent as the result of an inline query *)
+  type text = {
+    message_text             : string;
+    parse_mode               : ParseMode.parse_mode option;
+    disable_web_page_preview : bool
+  }
+  (** Represents the content of a location message to be sent as the result of an inline query *)
+  type location = {
+    latitude  : float;
+    longitude : float
+  }
+  (** Represents the content of a venue message to be sent as the result of an inline query *)
+  type venue = {
+    latitude      : float;
+    longitude     : float;
+    title         : string;
+    address       : string;
+    foursquare_id : string option
+  }
+  (** Represents the content of a contact message to be sent as the result of an inline query *)
+  type contact = {
+    phone_number : string;
+    first_name   : string;
+    last_name    : string option
+  }
+  (** Represents the content of a message to be sent as the result of an inline query *)
+  type input_message_content =
+    | Text of text
+    | Location of location
+    | Venue of venue
+    | Contact of contact
+end
+
+
 (** This module is used for InlineQuery bots *)
 module InlineQuery : sig
   (** Represents incoming messages for an InlineQuery bot *)

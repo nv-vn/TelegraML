@@ -101,6 +101,11 @@ here with a link and a short description.
 * `InlineQueryResultGif`
 * `InlineQueryResultMpeg4Gif`
 * `InlineQueryResultVideo`
+* `InputMessageContent`
+* `InputTextMessageContent`
+* `InputLocationMessageContent`
+* `InputVenuMessageContent`
+* `InputContactMessageContent`
 * `ChosenInlineResult`
 
 ### Implemented methods:

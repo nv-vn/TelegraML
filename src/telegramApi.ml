@@ -824,6 +824,39 @@ module CallbackQuery = struct
     create ~id ~from ~message ~inline_message_id ~data ()
 end
 
+module InputMessageContent = struct
+  type text = {
+    message_text             : string;
+    parse_mode               : ParseMode.parse_mode option;
+    disable_web_page_preview : bool
+  }
+
+  type location = {
+    latitude  : float;
+    longitude : float
+  }
+
+  type venue = {
+    latitude      : float;
+    longitude     : float;
+    title         : string;
+    address       : string;
+    foursquare_id : string option
+  }
+
+  type contact = {
+    phone_number : string;
+    first_name   : string;
+    last_name    : string option
+  }
+
+  type input_message_content =
+    | Text of text
+    | Location of location
+    | Venue of venue
+    | Contact of contact
+end
+
 module InlineQuery = struct
   type inline_query = {
     id     : string;
