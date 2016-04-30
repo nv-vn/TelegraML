@@ -855,6 +855,22 @@ module InputMessageContent = struct
     | Location of location
     | Venue of venue
     | Contact of contact
+
+  let prepare = function
+    | Text {message_text; parse_mode; disable_web_page_preview} ->
+      `Assoc ([("message_text", `String message_text);
+               ("disable_web_page_preview", `Bool disable_web_page_preview)] +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode)))
+    | Location {latitude; longitude} ->
+      `Assoc ([("latitude", `Float latitude);
+               ("longitude", `Float longitude)])
+    | Venue {latitude; longitude; title; address; foursquare_id} ->
+      `Assoc ([("latitude", `Float latitude);
+               ("longitude", `Float longitude);
+               ("title", `String title);
+               ("address", `String address)] +? ("foursquare_id", this_string <$> foursquare_id))
+    | Contact {phone_number; first_name; last_name} ->
+      `Assoc ([("phone_number", `String phone_number);
+               ("first_name", `String first_name)] +? ("last_name", this_string <$> last_name))
 end
 
 module InlineQuery = struct
@@ -891,9 +907,8 @@ module InlineQuery = struct
     type article = {
       id                       : string;
       title                    : string;
-      message_text             : string;
-      parse_mode               : ParseMode.parse_mode option;
-      disable_web_page_preview : bool option;
+      input_message_content    : InputMessageContent.input_message_content;
+      reply_markup             : ReplyMarkup.reply_markup option;
       url                      : string option;
       hide_url                 : bool option;
       description              : string option;
@@ -905,15 +920,14 @@ module InlineQuery = struct
     type photo = {
       id                       : string;
       photo_url                : string;
+      thumb_url                : string;
       photo_width              : int option;
       photo_height             : int option;
-      thumb_url                : string;
       title                    : string option;
       description              : string option;
       caption                  : string option;
-      message_text             : string option;
-      parse_mode               : ParseMode.parse_mode option;
-      disable_web_page_preview : bool option
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
     }
 
     type gif = {
@@ -924,9 +938,8 @@ module InlineQuery = struct
       thumb_url                : string;
       title                    : string option;
       caption                  : string option;
-      message_text             : string option;
-      parse_mode               : ParseMode.parse_mode option;
-      disable_web_page_preview : bool option
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
     }
 
     type mpeg4gif = {
@@ -937,24 +950,23 @@ module InlineQuery = struct
       thumb_url                : string;
       title                    : string option;
       caption                  : string option;
-      message_text             : string option;
-      parse_mode               : ParseMode.parse_mode option;
-      disable_web_page_preview : bool option
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
     }
 
     type video = {
       id                       : string;
       video_url                : string;
       mime_type                : string;
-      message_text             : string;
-      parse_mode               : ParseMode.parse_mode option;
-      disable_web_page_preview : bool option;
+      thumb_url                : string;
+      title                    : string;
+      caption                  : string option;
       video_width              : int option;
       video_height             : int option;
       video_duration           : int option;
-      thumb_url                : string;
-      title                    : string;
-      description              : string option
+      description              : string option;
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
     }
 
     type inline_query_result =
@@ -964,35 +976,34 @@ module InlineQuery = struct
       | Mpeg4Gif of mpeg4gif
       | Video of video
 
-    let create_article ~id ~title ~message_text ?parse_mode ?disable_web_page_preview ?url ?hide_url ?description ?thumb_url ?thumb_width ?thumb_height () =
-      Article {id; title; message_text; parse_mode; disable_web_page_preview; url; hide_url; description; thumb_url; thumb_width; thumb_height}
+    let create_article ~id ~title ~input_message_content ?reply_markup ?url ?hide_url ?description ?thumb_url ?thumb_width ?thumb_height () =
+      Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height}
 
-    let create_photo ~id ~photo_url ?photo_width ?photo_height ~thumb_url ?title ?description ?caption ?message_text ?parse_mode ?disable_web_page_preview () =
-      Photo {id; photo_url; photo_width; photo_height; thumb_url; title; description; caption; message_text; parse_mode; disable_web_page_preview}
+    let create_photo ~id ~photo_url ~thumb_url ?photo_width ?photo_height ?title ?description ?caption ?reply_markup ?input_message_content () =
+      Photo {id; photo_url; thumb_url; photo_width; photo_height; title; description; caption; reply_markup; input_message_content}
 
-    let create_gif ~id ~gif_url ?gif_width ?gif_height ~thumb_url ?title ?caption ?message_text ?parse_mode ?disable_web_page_preview () =
-      Gif {id; gif_url; gif_width; gif_height; thumb_url; title; caption; message_text; parse_mode; disable_web_page_preview}
+    let create_gif ~id ~gif_url ?gif_width ?gif_height ~thumb_url ?title ?caption ?reply_markup ?input_message_content () =
+      Gif {id; gif_url; gif_width; gif_height; thumb_url; title; caption; reply_markup; input_message_content}
 
-    let create_mpeg4gif ~id ~mpeg4_url ?mpeg4_width ?mpeg4_height ~thumb_url ?title ?caption ?message_text ?parse_mode ?disable_web_page_preview () =
-      Mpeg4Gif {id; mpeg4_url; mpeg4_width; mpeg4_height; thumb_url; title; caption; message_text; parse_mode; disable_web_page_preview}
+    let create_mpeg4gif ~id ~mpeg4_url ?mpeg4_width ?mpeg4_height ~thumb_url ?title ?caption ?reply_markup ?input_message_content () =
+      Mpeg4Gif {id; mpeg4_url; mpeg4_width; mpeg4_height; thumb_url; title; caption; reply_markup; input_message_content}
 
-    let create_video ~id ~video_url ~mime_type ~message_text ?parse_mode ?disable_web_page_preview ?video_width ?video_height ?video_duration ~thumb_url ~title ?description () =
-      Video {id; video_url; mime_type; message_text; parse_mode; disable_web_page_preview; video_width; video_height; video_duration; thumb_url; title; description}
+    let create_video ~id ~video_url ~mime_type ~thumb_url ~title ?caption ?video_width ?video_height ?video_duration ?description ?reply_markup ?input_message_content () =
+      Video {id; video_url; mime_type; thumb_url; title; caption; video_width; video_height; video_duration; description; reply_markup; input_message_content}
 
     let prepare = function
-      | Article {id; title; message_text; parse_mode; disable_web_page_preview; url; hide_url; description; thumb_url; thumb_width; thumb_height} ->
+      | Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height} ->
         `Assoc ([("type", `String "article");
                  ("id", `String id);
                  ("title", `String title);
-                 ("message_text", `String message_text)] +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
-                                                         +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview)
+                 ("input_message_content", InputMessageContent.prepare input_message_content)] +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
                                                          +? ("url", this_string <$> url)
                                                          +? ("hide_url", this_bool <$> hide_url)
                                                          +? ("description", this_string <$> description)
                                                          +? ("thumb_url", this_string <$> thumb_url)
                                                          +? ("thumb_width", this_int <$> thumb_width)
                                                          +? ("thumb_height", this_int <$> thumb_height))
-      | Photo {id; photo_url; photo_width; photo_height; thumb_url; title; description; caption; message_text; parse_mode; disable_web_page_preview} ->
+      |  Photo {id; photo_url; thumb_url; photo_width; photo_height; title; description; caption; reply_markup; input_message_content} ->
         `Assoc ([("type", `String "photo");
                  ("id", `String id);
                  ("photo_url", `String photo_url);
@@ -1001,10 +1012,9 @@ module InlineQuery = struct
                                                    +? ("title", this_string <$> title)
                                                    +? ("description", this_string <$> description)
                                                    +? ("caption", this_string <$> caption)
-                                                   +? ("message_text", this_string <$> message_text)
-                                                   +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
-                                                   +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview))
-      | Gif {id; gif_url; gif_width; gif_height; thumb_url; title; caption; message_text; parse_mode; disable_web_page_preview} ->
+                                                   +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                                   +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      | Gif {id; gif_url; gif_width; gif_height; thumb_url; title; caption; reply_markup; input_message_content} ->
         `Assoc ([("type", `String "gif");
                  ("id", `String id);
                  ("gif_url", `String gif_url);
@@ -1012,10 +1022,9 @@ module InlineQuery = struct
                                                    +? ("gif_height", this_int <$> gif_height)
                                                    +? ("title", this_string <$> title)
                                                    +? ("caption", this_string <$> caption)
-                                                   +? ("message_text", this_string <$> message_text)
-                                                   +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
-                                                   +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview))
-      | Mpeg4Gif {id; mpeg4_url; mpeg4_width; mpeg4_height; thumb_url; title; caption; message_text; parse_mode; disable_web_page_preview} ->
+                                                   +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                                   +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      | Mpeg4Gif {id; mpeg4_url; mpeg4_width; mpeg4_height; thumb_url; title; caption; reply_markup; input_message_content} ->
         `Assoc ([("type", `String "mpeg4gif");
                 ("id", `String id);
                 ("mpeg4_url", `String mpeg4_url);
@@ -1023,21 +1032,21 @@ module InlineQuery = struct
                                                   +? ("mpeg4_height", this_int <$> mpeg4_height)
                                                   +? ("title", this_string <$> title)
                                                   +? ("caption", this_string <$> caption)
-                                                  +? ("message_text", this_string <$> message_text)
-                                                  +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
-                                                  +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview))
-      | Video {id; video_url; mime_type; message_text; parse_mode; disable_web_page_preview; video_width; video_height; video_duration; thumb_url; title; description} ->
+                                                  +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                                  +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      | Video {id; video_url; mime_type; thumb_url; title; caption; video_width; video_height; video_duration; description; reply_markup; input_message_content} ->
         `Assoc ([("type", `String "video");
                  ("id", `String id);
                  ("video_url", `String video_url);
                  ("mime_type", `String mime_type);
-                 ("message_text", `String message_text);
                  ("thumb_url", `String thumb_url);
-                 ("title", `String title)] +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
+                 ("title", `String title)] +? ("caption", this_string <$> caption)
                                            +? ("video_width", this_int <$> video_width)
                                            +? ("video_height", this_int <$> video_height)
                                            +? ("video_duration", this_int <$> video_duration)
-                                           +? ("disable_web_page_preview", this_bool <$> disable_web_page_preview))
+                                           +? ("description", this_string <$> description)
+                                           +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                           +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
   end
 end
 

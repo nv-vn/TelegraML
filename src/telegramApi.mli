@@ -599,6 +599,8 @@ module InputMessageContent : sig
     | Location of location
     | Venue of venue
     | Contact of contact
+  (** Prepare `input_message_content` for sending by converting it to JSON *)
+  val prepare : input_message_content -> Yojson.Safe.json
 end
 
 
@@ -631,9 +633,8 @@ module InlineQuery : sig
     type article = {
       id                       : string;
       title                    : string;
-      message_text             : string;
-      parse_mode               : ParseMode.parse_mode option;
-      disable_web_page_preview : bool option;
+      input_message_content    : InputMessageContent.input_message_content;
+      reply_markup             : ReplyMarkup.reply_markup option;
       url                      : string option;
       hide_url                 : bool option;
       description              : string option;
@@ -645,15 +646,14 @@ module InlineQuery : sig
     type photo = {
       id                       : string;
       photo_url                : string;
+      thumb_url                : string;
       photo_width              : int option;
       photo_height             : int option;
-      thumb_url                : string;
       title                    : string option;
       description              : string option;
       caption                  : string option;
-      message_text             : string option;
-      parse_mode               : ParseMode.parse_mode option;
-      disable_web_page_preview : bool option
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
     }
     (** Represents a gif sent as a reply *)
     type gif = {
@@ -664,9 +664,8 @@ module InlineQuery : sig
       thumb_url                : string;
       title                    : string option;
       caption                  : string option;
-      message_text             : string option;
-      parse_mode               : ParseMode.parse_mode option;
-      disable_web_page_preview : bool option
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
     }
     (** Represents a gif sent as a reply, but converted to an mp4 video file *)
     type mpeg4gif = {
@@ -677,24 +676,23 @@ module InlineQuery : sig
       thumb_url                : string;
       title                    : string option;
       caption                  : string option;
-      message_text             : string option;
-      parse_mode               : ParseMode.parse_mode option;
-      disable_web_page_preview : bool option
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
     }
     (** Represents a video sent as a reply *)
-    type video = {
+     type video = {
       id                       : string;
       video_url                : string;
       mime_type                : string;
-      message_text             : string;
-      parse_mode               : ParseMode.parse_mode option;
-      disable_web_page_preview : bool option;
+      thumb_url                : string;
+      title                    : string;
+      caption                  : string option;
       video_width              : int option;
       video_height             : int option;
       video_duration           : int option;
-      thumb_url                : string;
-      title                    : string;
-      description              : string option
+      description              : string option;
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
     }
     (** Represents all the replies that can be given to an inline query *)
     type inline_query_result =
@@ -705,15 +703,15 @@ module InlineQuery : sig
       | Video of video
 
     (** Create an `Article` `inline_query_result` in a concise manner *)
-    val create_article : id:string -> title:string -> message_text:string -> ?parse_mode:ParseMode.parse_mode -> ?disable_web_page_preview:bool -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
+    val create_article : id:string -> title:string -> input_message_content:InputMessageContent.input_message_content -> ?reply_markup:ReplyMarkup.reply_markup -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
     (** Create a `Photo` `inline_query_result` in a concise manner *)
-    val create_photo : id:string -> photo_url:string -> ?photo_width:int -> ?photo_height:int -> thumb_url:string -> ?title:string -> ?description:string -> ?caption:string -> ?message_text:string -> ?parse_mode:ParseMode.parse_mode -> ?disable_web_page_preview:bool -> unit -> inline_query_result
+    val create_photo : id:string -> photo_url:string -> thumb_url:string -> ?photo_width:int -> ?photo_height:int -> ?title:string -> ?description:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
     (** Create a `Gif` `inline_query_result` in a concise manner *)
-    val create_gif : id:string -> gif_url:string -> ?gif_width:int -> ?gif_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?message_text:string -> ?parse_mode:ParseMode.parse_mode -> ?disable_web_page_preview:bool -> unit -> inline_query_result
+    val create_gif : id:string -> gif_url:string -> ?gif_width:int -> ?gif_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
     (** Create an `Mpeg4Gif` `inline_query_result` in a concise manner *)
-    val create_mpeg4gif : id:string -> mpeg4_url:string -> ?mpeg4_width:int -> ?mpeg4_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?message_text:string -> ?parse_mode:ParseMode.parse_mode -> ?disable_web_page_preview:bool -> unit -> inline_query_result
+    val create_mpeg4gif : id:string -> mpeg4_url:string -> ?mpeg4_width:int -> ?mpeg4_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
     (** Create a `Video` `inline_query_result` in a concise manner *)
-    val create_video : id:string -> video_url:string -> mime_type:string -> message_text:string -> ?parse_mode:ParseMode.parse_mode -> ?disable_web_page_preview:bool -> ?video_width:int -> ?video_height:int -> ?video_duration:int -> thumb_url:string -> title:string -> ?description:string -> unit -> inline_query_result
+    val create_video : id:string -> video_url:string -> mime_type:string -> thumb_url:string -> title:string -> ?caption:string -> ?video_width:int -> ?video_height:int -> ?video_duration:int -> ?description:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
     (** Prepare an `inline_query_result` for sending *)
     val prepare : inline_query_result -> Yojson.Safe.json
   end
