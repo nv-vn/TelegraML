@@ -12,7 +12,7 @@ Plugins: META (0.4), DevFiles (0.4)
 Library "telegraml"
   Path: src/
   Modules: Telegram, TelegramApi, TelegramUtil
-  BuildDepends: lwt, cohttp, cohttp.lwt, yojson, batteries
+  BuildDepends: lwt, cohttp, yojson, batteries
   Install: true
 
 Document "telegram_api"

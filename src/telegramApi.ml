@@ -969,12 +969,33 @@ module InlineQuery = struct
       input_message_content    : InputMessageContent.input_message_content option
     }
 
+    type audio = {
+      id                    : string;
+      audio_url             : string;
+      title                 : string;
+      performer             : string option;
+      audio_duration        : int option;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option
+    }
+
+    type voice = {
+      id                    : string;
+      voice_url             : string;
+      title                 : string;
+      voice_duration        : int option;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option
+    }
+
     type inline_query_result =
       | Article of article
       | Photo of photo
       | Gif of gif
       | Mpeg4Gif of mpeg4gif
       | Video of video
+      | Audio of audio
+      | Voice of voice
 
     let create_article ~id ~title ~input_message_content ?reply_markup ?url ?hide_url ?description ?thumb_url ?thumb_width ?thumb_height () =
       Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height}
@@ -991,6 +1012,12 @@ module InlineQuery = struct
     let create_video ~id ~video_url ~mime_type ~thumb_url ~title ?caption ?video_width ?video_height ?video_duration ?description ?reply_markup ?input_message_content () =
       Video {id; video_url; mime_type; thumb_url; title; caption; video_width; video_height; video_duration; description; reply_markup; input_message_content}
 
+    let create_audio ~id ~audio_url ~title ?performer ?audio_duration ?reply_markup ?input_message_content () =
+      Audio {id; audio_url; title; performer; audio_duration; reply_markup; input_message_content}
+
+    let create_voice ~id ~voice_url ~title ?voice_duration ?reply_markup ?input_message_content () =
+      Voice {id; voice_url; title; voice_duration; reply_markup; input_message_content}
+
     let prepare = function
       | Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height} ->
         `Assoc ([("type", `String "article");
@@ -1003,7 +1030,7 @@ module InlineQuery = struct
                                                          +? ("thumb_url", this_string <$> thumb_url)
                                                          +? ("thumb_width", this_int <$> thumb_width)
                                                          +? ("thumb_height", this_int <$> thumb_height))
-      |  Photo {id; photo_url; thumb_url; photo_width; photo_height; title; description; caption; reply_markup; input_message_content} ->
+      | Photo {id; photo_url; thumb_url; photo_width; photo_height; title; description; caption; reply_markup; input_message_content} ->
         `Assoc ([("type", `String "photo");
                  ("id", `String id);
                  ("photo_url", `String photo_url);
@@ -1045,6 +1072,21 @@ module InlineQuery = struct
                                            +? ("video_height", this_int <$> video_height)
                                            +? ("video_duration", this_int <$> video_duration)
                                            +? ("description", this_string <$> description)
+                                           +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                           +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      | Audio {id; audio_url; title; performer; audio_duration; reply_markup; input_message_content} ->
+        `Assoc ([("type", `String "audio");
+                 ("id", `String id);
+                 ("audio_url", `String audio_url);
+                 ("title", `String title)] +? ("performer", this_string <$> performer)
+                                           +? ("audio_duration", this_int <$> audio_duration)
+                                           +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                           +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      | Voice {id; voice_url; title; voice_duration; reply_markup; input_message_content} ->
+         `Assoc ([("type", `String "voice");
+                 ("id", `String id);
+                 ("voice_url", `String voice_url);
+                 ("title", `String title)] +? ("voice_duration", this_int <$> voice_duration)
                                            +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
                                            +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
   end

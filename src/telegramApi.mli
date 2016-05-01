@@ -693,6 +693,25 @@ module InlineQuery : sig
       description              : string option;
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
+     }
+     (** Represents an audio file (mp3) sent as a reply *)
+     type audio = {
+      id                    : string;
+      audio_url             : string;
+      title                 : string;
+      performer             : string option;
+      audio_duration        : int option;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option
+    }
+    (** Represents a voice recording (ogg) sent as a reply *)
+    type voice = {
+      id                    : string;
+      voice_url             : string;
+      title                 : string;
+      voice_duration        : int option;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option
     }
     (** Represents all the replies that can be given to an inline query *)
     type inline_query_result =
@@ -701,6 +720,8 @@ module InlineQuery : sig
       | Gif of gif
       | Mpeg4Gif of mpeg4gif
       | Video of video
+      | Audio of audio
+      | Voice of voice
 
     (** Create an `Article` `inline_query_result` in a concise manner *)
     val create_article : id:string -> title:string -> input_message_content:InputMessageContent.input_message_content -> ?reply_markup:ReplyMarkup.reply_markup -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
@@ -712,6 +733,8 @@ module InlineQuery : sig
     val create_mpeg4gif : id:string -> mpeg4_url:string -> ?mpeg4_width:int -> ?mpeg4_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
     (** Create a `Video` `inline_query_result` in a concise manner *)
     val create_video : id:string -> video_url:string -> mime_type:string -> thumb_url:string -> title:string -> ?caption:string -> ?video_width:int -> ?video_height:int -> ?video_duration:int -> ?description:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+    val create_audio : id:string -> audio_url:string -> title:string -> ?performer:string -> ?audio_duration:int -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+    val create_voice : id:string -> voice_url:string -> title:string -> ?voice_duration:int -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
     (** Prepare an `inline_query_result` for sending *)
     val prepare : inline_query_result -> Yojson.Safe.json
   end
