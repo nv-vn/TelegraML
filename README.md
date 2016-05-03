@@ -106,6 +106,8 @@ here with a link and a short description.
 * `InlineQueryResultAudio`
 * `InlineQueryResultVoice`
 * `InlineQueryResultDocument`
+* `InlineQueryResultLocation`
+* `InlineQueryResultVenue`
 * `InputMessageContent`
 * `InputTextMessageContent`
 * `InputLocationMessageContent`

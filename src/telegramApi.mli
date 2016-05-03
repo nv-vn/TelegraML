@@ -727,6 +727,32 @@ module InlineQuery : sig
       thumb_width           : int option;
       thumb_height          : int option
     }
+    (** Represents a location on a map (usually the user's location) *)
+    type location = {
+      id                    : string;
+      latitude              : float;
+      longitude             : float;
+      title                 : string;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option;
+      thumb_url             : string option;
+      thumb_width           : int option;
+      thumb_height          : int option
+    }
+    (** Represents a venue for an event set by the user *)
+    type venue = {
+      id                    : string;
+      latitude              : float;
+      longitude             : float;
+      title                 : string;
+      address               : string;
+      foursquare_id         : string option;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option;
+      thumb_url             : string option;
+      thumb_width           : int option;
+      thumb_height          : int option
+    }
 
     (** Represents all the replies that can be given to an inline query *)
     type inline_query_result =
@@ -738,6 +764,8 @@ module InlineQuery : sig
       | Audio of audio
       | Voice of voice
       | Document of document
+      | Location of location
+      | Venue of venue
 
     (** Create an `Article` `inline_query_result` in a concise manner *)
     val create_article : id:string -> title:string -> input_message_content:InputMessageContent.input_message_content -> ?reply_markup:ReplyMarkup.reply_markup -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
@@ -755,6 +783,10 @@ module InlineQuery : sig
     val create_voice : id:string -> voice_url:string -> title:string -> ?voice_duration:int -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
     (** Create a `document` `inline_query_result` in a concise manner *)
     val create_document : id:string -> title:string -> ?caption:string -> document_url:string -> mime_type:string -> ?description:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
+    (** Create a `location` `inline_query_result` in a concise manner *)
+    val create_location : id:string -> latitude:float -> longitude:float -> title:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
+    (** Create a `venue` `inline_query_result` in a concise manner *)
+    val create_venue : id:string -> latitude:float -> longitude:float -> title:string -> address:string -> ?foursquare_id:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
     (** Prepare an `inline_query_result` for sending *)
     val prepare : inline_query_result -> Yojson.Safe.json
   end

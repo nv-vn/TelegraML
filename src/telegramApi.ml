@@ -1002,6 +1002,32 @@ module InlineQuery = struct
       thumb_height          : int option
     }
 
+    type location = {
+      id                    : string;
+      latitude              : float;
+      longitude             : float;
+      title                 : string;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option;
+      thumb_url             : string option;
+      thumb_width           : int option;
+      thumb_height          : int option
+    }
+
+    type venue = {
+      id                    : string;
+      latitude              : float;
+      longitude             : float;
+      title                 : string;
+      address               : string;
+      foursquare_id         : string option;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option;
+      thumb_url             : string option;
+      thumb_width           : int option;
+      thumb_height          : int option
+    }
+
     type inline_query_result =
       | Article of article
       | Photo of photo
@@ -1011,6 +1037,8 @@ module InlineQuery = struct
       | Audio of audio
       | Voice of voice
       | Document of document
+      | Location of location
+      | Venue of venue
 
     let create_article ~id ~title ~input_message_content ?reply_markup ?url ?hide_url ?description ?thumb_url ?thumb_width ?thumb_height () =
       Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height}
@@ -1035,6 +1063,12 @@ module InlineQuery = struct
 
     let create_document ~id ~title ?caption ~document_url ~mime_type ?description ?reply_markup ?input_message_content ?thumb_url ?thumb_width ?thumb_height () =
       Document {id; title; caption; document_url; mime_type; description; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height}
+
+    let create_location ~id ~latitude ~longitude ~title ?reply_markup ?input_message_content ?thumb_url ?thumb_width ?thumb_height () =
+      Location {id; longitude; latitude; title; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height}
+
+    let create_venue ~id ~latitude ~longitude ~title ~address ?foursquare_id ?reply_markup ?input_message_content ?thumb_url ?thumb_width ?thumb_height () =
+      Venue {id; longitude; latitude; title; address; foursquare_id; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height}
 
     let prepare = function
       | Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height} ->
@@ -1101,24 +1135,46 @@ module InlineQuery = struct
                                            +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
                                            +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
       | Voice {id; voice_url; title; voice_duration; reply_markup; input_message_content} ->
-         `Assoc ([("type", `String "voice");
+        `Assoc ([("type", `String "voice");
                  ("id", `String id);
                  ("voice_url", `String voice_url);
                  ("title", `String title)] +? ("voice_duration", this_int <$> voice_duration)
                                            +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
                                            +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
-      |  Document {id; title; caption; document_url; mime_type; description; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height} ->
-         `Assoc ([("type", `String "document");
-                  ("id", `String id);
-                  ("title", `String title);
-                  ("document_url", `String document_url);
-                  ("mime_type", `String mime_type)] +? ("caption", this_string <$> caption)
-                                                    +? ("description", this_string <$> description)
-                                                    +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
-                                                    +? ("input_message_content", InputMessageContent.prepare <$> input_message_content)
-                                                    +? ("thumb_url", this_string <$> thumb_url)
-                                                    +? ("thumb_width", this_int <$> thumb_width)
-                                                    +? ("thumb_height", this_int <$> thumb_height))
+      | Document {id; title; caption; document_url; mime_type; description; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height} ->
+        `Assoc ([("type", `String "document");
+                 ("id", `String id);
+                 ("title", `String title);
+                 ("document_url", `String document_url);
+                 ("mime_type", `String mime_type)] +? ("caption", this_string <$> caption)
+                                                   +? ("description", this_string <$> description)
+                                                   +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                                   +? ("input_message_content", InputMessageContent.prepare <$> input_message_content)
+                                                   +? ("thumb_url", this_string <$> thumb_url)
+                                                   +? ("thumb_width", this_int <$> thumb_width)
+                                                   +? ("thumb_height", this_int <$> thumb_height))
+      | Location {id; longitude; latitude; title; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height} ->
+        `Assoc ([("type", `String "location");
+                 ("id", `String id);
+                 ("latitude", `Float latitude);
+                 ("longitude", `Float longitude);
+                 ("title", `String title)] +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                           +? ("input_message_content", InputMessageContent.prepare <$> input_message_content)
+                                           +? ("thumb_url", this_string <$> thumb_url)
+                                           +? ("thumb_width", this_int <$> thumb_width)
+                                           +? ("thumb_height", this_int <$> thumb_height))
+      | Venue {id; longitude; latitude; title; address; foursquare_id; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height} ->
+        `Assoc ([("type", `String "venue");
+                 ("id", `String id);
+                 ("latitude", `Float latitude);
+                 ("longitude", `Float longitude);
+                 ("title", `String title);
+                 ("address", `String address)] +? ("foursquare_id", this_string <$> foursquare_id)
+                                               +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                               +? ("input_message_content", InputMessageContent.prepare <$> input_message_content)
+                                               +? ("thumb_url", this_string <$> thumb_url)
+                                               +? ("thumb_width", this_int <$> thumb_width)
+                                               +? ("thumb_height", this_int <$> thumb_height))
   end
 end
 
