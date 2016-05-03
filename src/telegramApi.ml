@@ -988,6 +988,20 @@ module InlineQuery = struct
       input_message_content : InputMessageContent.input_message_content option
     }
 
+    type document = {
+      id                    : string;
+      title                 : string;
+      caption               : string option;
+      document_url          : string;
+      mime_type             : string;
+      description           : string option;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option;
+      thumb_url             : string option;
+      thumb_width           : int option;
+      thumb_height          : int option
+    }
+
     type inline_query_result =
       | Article of article
       | Photo of photo
@@ -996,6 +1010,7 @@ module InlineQuery = struct
       | Video of video
       | Audio of audio
       | Voice of voice
+      | Document of document
 
     let create_article ~id ~title ~input_message_content ?reply_markup ?url ?hide_url ?description ?thumb_url ?thumb_width ?thumb_height () =
       Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height}
@@ -1017,6 +1032,9 @@ module InlineQuery = struct
 
     let create_voice ~id ~voice_url ~title ?voice_duration ?reply_markup ?input_message_content () =
       Voice {id; voice_url; title; voice_duration; reply_markup; input_message_content}
+
+    let create_document ~id ~title ?caption ~document_url ~mime_type ?description ?reply_markup ?input_message_content ?thumb_url ?thumb_width ?thumb_height () =
+      Document {id; title; caption; document_url; mime_type; description; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height}
 
     let prepare = function
       | Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height} ->
@@ -1089,6 +1107,18 @@ module InlineQuery = struct
                  ("title", `String title)] +? ("voice_duration", this_int <$> voice_duration)
                                            +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
                                            +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      |  Document {id; title; caption; document_url; mime_type; description; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height} ->
+         `Assoc ([("type", `String "document");
+                  ("id", `String id);
+                  ("title", `String title);
+                  ("document_url", `String document_url);
+                  ("mime_type", `String mime_type)] +? ("caption", this_string <$> caption)
+                                                    +? ("description", this_string <$> description)
+                                                    +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                                    +? ("input_message_content", InputMessageContent.prepare <$> input_message_content)
+                                                    +? ("thumb_url", this_string <$> thumb_url)
+                                                    +? ("thumb_width", this_int <$> thumb_width)
+                                                    +? ("thumb_height", this_int <$> thumb_height))
   end
 end
 
