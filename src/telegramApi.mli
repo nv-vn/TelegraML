@@ -1,16 +1,17 @@
 open Yojson.Safe
 
-(** Specifies the API used for creating Telegram bots, defined at https://core.telegram.org/bots/api *)
+(** Specifies the API used for creating Telegram bots, defined {{:https://core.telegram.org/bots/api} here.} *)
 
 (** An exception thrown if some rules specified in the API are invalidated by incorrectly formatted data of some type *)
 exception ApiException of string
 
 (** This module deals with the parse mode used for formatting certain messages according to markup languages *)
 module ParseMode : sig
-    (** Represents the mode used for formatting text sent to the user (bold, italics, fixed-width, or inline URLs) *)
-    type parse_mode = Markdown | Html
-    (** Get the string representation of a `parse_mode` *)
-    val string_of_parse_mode : parse_mode -> string
+  (** Represents the mode used for formatting text sent to the user (bold, italics, fixed-width, or inline URLs) *)
+  type parse_mode = Markdown | Html
+
+  (** Get the string representation of a [parse_mode] *)
+  val string_of_parse_mode : parse_mode -> string
 end
 
 module User : sig
@@ -21,9 +22,10 @@ module User : sig
     last_name  : string option;
     username   : string option
   }
-  (** Create a `user` in a concise manner *)
+
+  (** Create a [user] in a concise manner *)
   val create : id:int -> first_name:string -> ?last_name:string option -> ?username:string option -> unit -> user
-  (** Read a `user` out of some JSON *)
+  (** Read a [user] out of some JSON *)
   val read : json -> user
 end
 
@@ -31,7 +33,8 @@ end
 module Chat : sig
   (** The type of groupchat that the bot is in *)
   type chat_type = Private | Group | Supergroup | Channel
-  (** Turn a string into a `chat_type` *)
+
+  (** Turn a string into a [chat_type] *)
   val read_type : string -> chat_type
 
   (** Represents a chat where messages can be sent or received *)
@@ -43,9 +46,10 @@ module Chat : sig
     first_name : string option;
     last_name  : string option
   }
-  (** Create a `chat` in a concise manner *)
+
+  (** Create a [chat] in a concise manner *)
   val create : id:int -> chat_type:chat_type -> ?title:string option -> ?username:string option -> ?first_name:string option -> ?last_name:string option -> unit -> chat
-  (** Read a `chat` out of some JSON *)
+  (** Read a [chat] out of some JSON *)
   val read : json -> chat
 end
 
@@ -53,7 +57,7 @@ end
 module InputFile : sig
   (** Loads a file (by filename) and returns the raw bytes inside of it *)
   val load : string -> string Lwt.t
-(** Used to format data as HTTP `multipart/form-data`
+(** Used to format data as HTTP [multipart/form-data]
     Takes:
     - A list of fields to be included in the form data as a pair of strings (name, value)
     - A tuple of: {ul
@@ -79,7 +83,8 @@ module MessageEntity : sig
     | Code
     | Pre
     | TextLink of string
-  (** Takes the `url` field of the record and the `type` field, then creates a value of type entity_type based on that *)
+
+  (** Takes the [url] field of the record and the `type` field, then creates a value of type entity_type based on that *)
   val entity_type_of_string : string option -> string -> entity_type
 
   (** Represents the message entity inside of the message *)
@@ -88,9 +93,10 @@ module MessageEntity : sig
     offset      : int;
     length      : int
   }
-  (** Create a `message_entity` in a concise manner *)
+
+  (** Create a [message_entity] in a concise manner *)
   val create : entity_type:entity_type -> offset:int -> length:int -> unit -> message_entity
-  (** Read a `message_entity` out of some JSON *)
+  (** Read a [message_entity] out of some JSON *)
   val read : Yojson.Safe.json -> message_entity
 end
 
@@ -102,9 +108,10 @@ module KeyboardButton : sig
     request_contact  : bool option;
     request_location : bool option
   }
-  (** Create a `keyboard_button` in a concise manner *)
+
+  (** Create a [keyboard_button] in a concise manner *)
   val create : text:string -> ?request_contact:bool option -> ?request_location:bool option -> unit -> keyboard_button
-  (** Prepare an outgoing `keyboard_button` by serializing it to JSON *)
+  (** Prepare an outgoing [keyboard_button] by serializing it to JSON *)
   val prepare : keyboard_button -> Yojson.Safe.json
 end
 
@@ -117,9 +124,10 @@ module InlineKeyboardButton : sig
     callback_data       : string option;
     switch_inline_query : string option
   }
-  (** Create an `inline_keyboard_button` in a concise manner *)
+
+  (** Create an [inline_keyboard_button] in a concise manner *)
   val create : text:string -> ?url:string option -> ?callback_data:string option -> ?switch_inline_query:string option -> unit -> inline_keyboard_button
-  (** Prepare an outgoing `inline_keyboard_button` by serializing it to JSON *)
+  (** Prepare an outgoing [inline_keyboard_button] by serializing it to JSON *)
   val prepare : inline_keyboard_button -> Yojson.Safe.json
 end
 
@@ -157,16 +165,16 @@ module ReplyMarkup : sig
 
   val prepare : reply_markup -> json
 
-  (** Create a `ReplyKeyboardMarkup : reply_markup` in a concise way *)
+  (** Create a [ReplyKeyboardMarkup : reply_markup] in a concise way *)
   val create_reply_keyboard_markup : keyboard:KeyboardButton.keyboard_button list list -> ?resize_keyboard:bool option -> ?one_time_keyboard:bool option -> ?selective:bool option -> unit -> reply_markup
 
-  (** Create an `InlineKeyboardMarkup : reply_markup` in a concise way *)
+  (** Create an [InlineKeyboardMarkup : reply_markup] in a concise way *)
   val create_inline_keyboard_markup : inline_keyboard:InlineKeyboardButton.inline_keyboard_button list list -> unit -> reply_markup
 
-  (** Create a `ReplyKeyboardHide : reply_markup` in a concise way *)
+  (** Create a [ReplyKeyboardHide : reply_markup] in a concise way *)
   val create_reply_keyboard_hide : ?selective:bool option -> unit -> reply_markup
 
-  (** Create a `ForceReply : reply_markup` in a concise way *)
+  (** Create a [ForceReply : reply_markup] in a concise way *)
   val create_force_reply : ?selective:bool option -> unit -> reply_markup
 end
 
@@ -179,9 +187,10 @@ module PhotoSize : sig
     height    : int;
     file_size : int option
   }
-  (** Create a `photo_size` in a concise manner *)
+
+  (** Create a [photo_size] in a concise manner *)
   val create : file_id:string -> width:int -> height:int -> ?file_size:int option -> unit -> photo_size
-  (** Read a `photo_size` out of some JSON *)
+  (** Read a [photo_size] out of some JSON *)
   val read : json -> photo_size
 
   (** This module is used to deal with outgoing photo messages *)
@@ -195,11 +204,12 @@ module PhotoSize : sig
       reply_to_message_id  : int option;
       reply_markup         : ReplyMarkup.reply_markup option
     }
-    (** Create a `photo_size` in a concise manner *)
+
+    (** Create a [photo_size] in a concise manner *)
     val create : chat_id:int -> photo:string -> ?caption:string option -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> photo_size
-    (** Prepare a `photo_size` for sending -- used in the case of a file id *)
+    (** Prepare a [photo_size] for sending -- used in the case of a file id *)
     val prepare : photo_size -> string
-    (** Prepare a `photo_size` for sending -- used in the case of the raw bytes *)
+    (** Prepare a [photo_size] for sending -- used in the case of the raw bytes *)
     val prepare_multipart : photo_size -> string -> string Lwt.t
   end
 end
@@ -214,9 +224,10 @@ module Audio : sig
     mime_type : string option;
     file_size : int option
   }
-  (** Create an `audio` in a concise manner *)
+
+  (** Create an [audio] in a concise manner *)
   val create : file_id:string -> duration:int -> ?performer:string option -> ?title:string option -> ?mime_type:string option -> ?file_size:int option -> unit -> audio
-  (** Read an `audio` out of some JSON *)
+  (** Read an [audio] out of some JSON *)
   val read : json -> audio
 
   (** This module is used to deal with outgoing audio messages *)
@@ -232,11 +243,12 @@ module Audio : sig
       reply_to_message_id  : int option;
       reply_markup         : ReplyMarkup.reply_markup option
     }
-    (** Create an `audio` in a concise manner *)
+
+    (** Create an [audio] in a concise manner *)
     val create : chat_id:int -> audio:string -> ?duration:int option -> performer:string -> title:string -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> audio
-    (** Prepare an `audio` for sending -- used in the case of a file id *)
+    (** Prepare an [audio] for sending -- used in the case of a file id *)
     val prepare : audio -> string
-    (** Prepare an `audio` for sending -- used in the case of the raw bytes *)
+    (** Prepare an [audio] for sending -- used in the case of the raw bytes *)
     val prepare_multipart : audio -> string -> string Lwt.t
  end
 end
@@ -250,9 +262,10 @@ module Document : sig
     mime_type : string option;
     file_size : int option
   }
-  (** Create a `document` in a concise manner *)
+
+  (** Create a [document] in a concise manner *)
   val create : file_id:string -> ?thumb:PhotoSize.photo_size option -> ?file_name:string option -> ?mime_type:string option -> ?file_size:int option -> unit -> document
-  (** Read a `document` out of some JSON *)
+  (** Read a [document] out of some JSON *)
   val read : json -> document
 
   (** This module is used to deal with outgoing documents *)
@@ -265,11 +278,12 @@ module Document : sig
       reply_to_message_id  : int option;
       reply_markup         : ReplyMarkup.reply_markup option
     }
-    (** Create a `document` in a concise manner *)
+
+    (** Create a [document] in a concise manner *)
     val create : chat_id:int -> document:string -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> document
-    (** Prepare a `document` for sending -- used in the case of a file id *)
+    (** Prepare a [document] for sending -- used in the case of a file id *)
     val prepare : document -> string
-    (** Prepare a `document` for sending -- used in the case of the raw bytes *)
+    (** Prepare a [document] for sending -- used in the case of the raw bytes *)
     val prepare_multipart : document -> string -> string Lwt.t
   end
 end
@@ -283,14 +297,15 @@ module Sticker : sig
     thumb     : PhotoSize.photo_size option;
     file_size : int option
   }
-  (** Create a `sticker` in a concise manner *)
+
+  (** Create a [sticker] in a concise manner *)
   val create : file_id:string -> width:int -> height:int -> ?thumb:PhotoSize.photo_size option -> ?file_size:int option -> unit -> sticker
-  (** Read a `sticker` out of some JSON *)
+  (** Read a [sticker] out of some JSON *)
   val read : json -> sticker
 
   (** This module deals with outgoing sticker messages *)
   module Out : sig
-    (** Represents the outgoing sticker message. Note that the `sticker` field can either be an existing file id or the raw bytes from a file *)
+    (** Represents the outgoing sticker message. Note that the [sticker] field can either be an existing file id or the raw bytes from a file *)
     type sticker = {
       chat_id              : int;
       sticker              : string;
@@ -298,11 +313,12 @@ module Sticker : sig
       reply_to_message_id  : int option;
       reply_markup         : ReplyMarkup.reply_markup option
     }
-    (** Create a `sticker` in a concise manner *)
+
+    (** Create a [sticker] in a concise manner *)
     val create : chat_id:int -> sticker:string -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> sticker
-    (** Prepare a `sticker` for sending -- used in the case of a file id *)
+    (** Prepare a [sticker] for sending -- used in the case of a file id *)
     val prepare : sticker -> string
-    (** Prepare a `sticker for sending -- used in the case of the raw bytes *)
+    (** Prepare a [sticker] for sending -- used in the case of the raw bytes *)
     val prepare_multipart : sticker -> string -> string Lwt.t
   end
 end
@@ -318,14 +334,15 @@ module Video : sig
     mime_type : string option;
     file_size : int option
   }
-  (** Create a `video` in a concise manner *)
+
+  (** Create a [video] in a concise manner *)
   val create : file_id:string -> width:int -> height:int -> duration:int -> ?thumb:PhotoSize.photo_size option -> ?mime_type:string option -> ?file_size:int option -> unit -> video
-  (** Read a `video` out of some JSON *)
+  (** Read a [video] out of some JSON *)
   val read : json -> video
 
   (** This module deals with outgoing video messages *)
   module Out : sig
-    (** Represents the outgoing video message. Note that the `video` field can either be an existing file id or the raw bytes from a file *)
+    (** Represents the outgoing video message. Note that the [video] field can either be an existing file id or the raw bytes from a file *)
     type video = {
       chat_id              : int;
       video                : string;
@@ -335,11 +352,12 @@ module Video : sig
       reply_to_message_id  : int option;
       reply_markup         : ReplyMarkup.reply_markup option
     }
-    (** Create a `video` in a concise manner *)
+
+    (** Create a [video] in a concise manner *)
     val create : chat_id:int -> video:string -> ?duration:int option -> ?caption:string option -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> video
-    (** Prepare a `video` for sending -- used in the case of a file id *)
+    (** Prepare a [video] for sending -- used in the case of a file id *)
     val prepare : video -> string
-    (** Prepare a `video for sending -- used in the case of the raw bytes *)
+    (** Prepare a [video] for sending -- used in the case of the raw bytes *)
     val prepare_multipart : video -> string -> string Lwt.t
   end
 end
@@ -352,9 +370,10 @@ module Voice : sig
     mime_type : string option;
     file_size : int option
   }
-  (** Create a `voice` in a concise manner *)
+
+  (** Create a [voice] in a concise manner *)
   val create : file_id:string -> duration:int -> ?mime_type:string option -> ?file_size:int option -> unit -> voice
-  (** Read a `voice` out of some JSON *)
+  (** Read a [voice] out of some JSON *)
   val read : json -> voice
 
   (** This module is used to deal with outgoing voice messages *)
@@ -368,11 +387,12 @@ module Voice : sig
       reply_to_message_id  : int option;
       reply_markup         : ReplyMarkup.reply_markup option
     }
-    (** Create a `voice` in a concise manner *)
+
+    (** Create a [voice] in a concise manner *)
     val create : chat_id:int -> voice:string -> ?duration:int option -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> voice
-    (** Prepare a `voice` for sending -- used in the case of a file id *)
+    (** Prepare a [voice] for sending -- used in the case of a file id *)
     val prepare : voice -> string
-    (** Prepare a `voice` for sending -- used in the case of the raw bytes *)
+    (** Prepare a [voice] for sending -- used in the case of the raw bytes *)
     val prepare_multipart : voice -> string -> string Lwt.t
   end
 end
@@ -385,9 +405,10 @@ module Contact : sig
     last_name    : string option;
     user_id      : int option
   }
-  (** Create a `contact` in a concise manner *)
+
+  (** Create a [contact] in a concise manner *)
   val create : phone_number:string -> first_name:string -> ?last_name:string option -> ?user_id:int option -> unit -> contact
-  (** Read a `contact` out of some JSON *)
+  (** Read a [contact] out of some JSON *)
   val read : json -> contact
 
   (** This module deals with outgoing contact messages *)
@@ -402,9 +423,10 @@ module Contact : sig
       reply_to_message_id  : int option;
       reply_markup         : ReplyMarkup.reply_markup option
     }
-    (** Create a `contact` in a concise manner *)
+
+    (** Create a [contact] in a concise manner *)
     val create : chat_id:int -> phone_number:string -> first_name:string -> ?last_name:string option -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> contact
-    (** Prepare a `contact` for sending *)
+    (** Prepare a [contact] for sending *)
     val prepare : contact -> string
   end
 end
@@ -415,9 +437,10 @@ module Location : sig
     longitude : float;
     latitude  : float
   }
-  (** Create a `location` in a concise manner *)
+
+  (** Create a [location] in a concise manner *)
   val create : longitude:float -> latitude:float -> unit -> location
-  (** Read a `location` out of some JSON *)
+  (** Read a [location] out of some JSON *)
   val read : json -> location
 
   (** This module deals with outgoing location messages *)
@@ -431,9 +454,10 @@ module Location : sig
       reply_to_message_id  : int option;
       reply_markup         : ReplyMarkup.reply_markup option
     }
-    (** Create a `location` in a concise manner *)
+
+    (** Create a [location] in a concise manner *)
     val create : chat_id:int -> latitude:float -> longitude:float -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> location
-    (** Prepare a `location` for sending *)
+    (** Prepare a [location] for sending *)
     val prepare : location -> string
   end
 end
@@ -446,9 +470,10 @@ module Venue : sig
     address       : string;
     foursquare_id : string option
   }
-  (** Create a `venue` in a concise manner *)
+
+  (** Create a [venue] in a concise manner *)
   val create : location:Location.location -> title:string -> address:string -> ?foursquare_id:string option -> unit -> venue
-  (** Read a `venue` out of some JSON *)
+  (** Read a [venue] out of some JSON *)
   val read : Yojson.Safe.json -> venue
 
   module Out : sig
@@ -464,9 +489,9 @@ module Venue : sig
       reply_markup         : ReplyMarkup.reply_markup option
     }
 
-    (** Create a `venue` in a concise manner *)
+    (** Create a [venue] in a concise manner *)
     val create : chat_id:int -> latitude:float -> longitude:float -> title:string -> address:string -> ?foursquare_id:string option ->  ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit -> venue
-    (** Prepare a `venue` for sending *)
+    (** Prepare a [venue] for sending *)
     val prepare : venue -> string
   end
 end
@@ -478,14 +503,14 @@ module UserProfilePhotos : sig
     photos      : PhotoSize.photo_size list list
   }
 
-  (** Create `user_profile_photos` in a concise manner *)
+  (** Create [user_profile_photos] in a concise manner *)
   val create : total_count:int -> photos:PhotoSize.photo_size list list -> unit -> user_profile_photos
-  (** Read `user_profile_photos` out of some JSON *)
+  (** Read [user_profile_photos] out of some JSON *)
   val read : Yojson.Safe.json -> user_profile_photos
 end
 
 module Message : sig
-  (** Represents a message in a chat. Note that `photo` should be a list of `PhotoSize.photo_size`s if it exists *)
+  (** Represents a message in a chat. Note that [photo] should be a list of [PhotoSize.photo_size]s if it exists *)
   type message = {
     message_id              : int;
     from                    : User.user option;
@@ -518,9 +543,10 @@ module Message : sig
     migrate_from_chat_id    : int option;
     pinned_message          : message option
   }
-  (** Create a `message` in a concise manner *)
+
+  (** Create a [message] in a concise manner *)
   val create : message_id:int -> ?from:User.user option -> date:int -> chat:Chat.chat -> ?forward_from:User.user option -> ?forward_date:int option -> ?reply_to:message option -> ?text:string option -> ?entities:MessageEntity.message_entity list option -> ?audio:Audio.audio option -> ?document:Document.document option -> ?photo:PhotoSize.photo_size list option -> ?sticker:Sticker.sticker option -> ?video:Video.video option -> ?voice:Voice.voice option -> ?caption:string option -> ?contact:Contact.contact option -> ?location:Location.location option -> ?venue:Venue.venue option -> ?new_chat_member:User.user option -> ?left_chat_member:User.user option -> ?new_chat_title:string option -> ?new_chat_photo:PhotoSize.photo_size list option -> ?delete_chat_photo:bool option -> ?group_chat_created:bool option -> ?supergroup_chat_created:bool option -> ?channel_chat_created:bool option -> ?migrate_to_chat_id:int option -> ?migrate_from_chat_id:int option -> ?pinned_message:message option -> unit -> message
-  (** Read a `message` out of some JSON *)
+  (** Read a [message] out of some JSON *)
   val read : json -> message
 
   (** Get the first name of the user who sent the message *)
@@ -540,9 +566,9 @@ module File : sig
     file_path : string option
   }
 
-  (** Create a `file` in a concise manner *)
+  (** Create a [file] in a concise manner *)
   val create : file_id:string -> ?file_size:int option -> ?file_path:string option -> unit -> file
-  (** Read a `file` out of some JSON *)
+  (** Read a [file] out of some JSON *)
   val read : Yojson.Safe.json -> file
 
   (** Download the file from Telegram's servers if it exists *)
@@ -560,9 +586,9 @@ module CallbackQuery : sig
     data              : string
   }
 
-  (** Create a `callback_query` in a concise manner *)
+  (** Create a [callback_query] in a concise manner *)
   val create : id:string -> from:User.user -> ?message:Message.message option -> ?inline_message_id:string option -> data:string -> unit -> callback_query
-  (** Read a `callback_query` out of some JSON *)
+  (** Read a [callback_query] out of some JSON *)
   val read : Yojson.Safe.json -> callback_query
 end
 
@@ -599,7 +625,8 @@ module InputMessageContent : sig
     | Location of location
     | Venue of venue
     | Contact of contact
-  (** Prepare `input_message_content` for sending by converting it to JSON *)
+
+  (** Prepare [input_message_content] for sending by converting it to JSON *)
   val prepare : input_message_content -> Yojson.Safe.json
 end
 
@@ -613,9 +640,10 @@ module InlineQuery : sig
     query  : string;
     offset : string
   }
-  (** Create an `inline_query` in a concise manner *)
+
+  (** Create an [inline_query] in a concise manner *)
   val create : id:string -> from:User.user -> query:string -> offset:string -> unit -> inline_query
-  (** Read an `inline_query` out of some JSON *)
+  (** Read an [inline_query] out of some JSON *)
   val read : Yojson.Safe.json -> inline_query
 
   (** Represents the reply to an InlineQuery bot if one is requested *)
@@ -624,7 +652,8 @@ module InlineQuery : sig
     from      : User.user;
     query     : string
   }
-  (** Read a `chosen_inline_query` out of some JSON *)
+
+  (** Read a [chosen_inline_query] out of some JSON *)
   val read_chosen_inline_result : Yojson.Safe.json -> chosen_inline_result
 
   (** This module is used to deal with outgoing replies to inline queries for an InlineQuery bot *)
@@ -680,7 +709,7 @@ module InlineQuery : sig
       input_message_content    : InputMessageContent.input_message_content option
     }
     (** Represents a video sent as a reply *)
-     type video = {
+    type video = {
       id                       : string;
       video_url                : string;
       mime_type                : string;
@@ -693,9 +722,9 @@ module InlineQuery : sig
       description              : string option;
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
-     }
-     (** Represents an audio file (mp3) sent as a reply *)
-     type audio = {
+    }
+    (** Represents an audio file (mp3) sent as a reply *)
+    type audio = {
       id                    : string;
       audio_url             : string;
       title                 : string;
@@ -767,25 +796,25 @@ module InlineQuery : sig
       | Location of location
       | Venue of venue
 
-    (** Create an `Article` `inline_query_result` in a concise manner *)
+    (** Create an [Article : inline_query_result] in a concise manner *)
     val create_article : id:string -> title:string -> input_message_content:InputMessageContent.input_message_content -> ?reply_markup:ReplyMarkup.reply_markup -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
-    (** Create a `Photo` `inline_query_result` in a concise manner *)
+    (** Create a [Photo : inline_query_result] in a concise manner *)
     val create_photo : id:string -> photo_url:string -> thumb_url:string -> ?photo_width:int -> ?photo_height:int -> ?title:string -> ?description:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
-    (** Create a `Gif` `inline_query_result` in a concise manner *)
+    (** Create a [Gif : inline_query_result] in a concise manner *)
     val create_gif : id:string -> gif_url:string -> ?gif_width:int -> ?gif_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
-    (** Create an `Mpeg4Gif` `inline_query_result` in a concise manner *)
+    (** Create an [Mpeg4Gif : inline_query_result] in a concise manner *)
     val create_mpeg4gif : id:string -> mpeg4_url:string -> ?mpeg4_width:int -> ?mpeg4_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
-    (** Create a `Video` `inline_query_result` in a concise manner *)
+    (** Create a [Video : inline_query_result] in a concise manner *)
     val create_video : id:string -> video_url:string -> mime_type:string -> thumb_url:string -> title:string -> ?caption:string -> ?video_width:int -> ?video_height:int -> ?video_duration:int -> ?description:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
-    (** Create an `audio` `inline_query_result` in a concise manner *)
+    (** Create an [Audio : inline_query_result] in a concise manner *)
     val create_audio : id:string -> audio_url:string -> title:string -> ?performer:string -> ?audio_duration:int -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
-    (** Create a `voice` `inline_query_result` in a concise manner *)
+    (** Create a [Voice : inline_query_result] in a concise manner *)
     val create_voice : id:string -> voice_url:string -> title:string -> ?voice_duration:int -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
-    (** Create a `document` `inline_query_result` in a concise manner *)
+    (** Create a [Document : inline_query_result] in a concise manner *)
     val create_document : id:string -> title:string -> ?caption:string -> document_url:string -> mime_type:string -> ?description:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
-    (** Create a `location` `inline_query_result` in a concise manner *)
+    (** Create a [Location : inline_query_result] in a concise manner *)
     val create_location : id:string -> latitude:float -> longitude:float -> title:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
-    (** Create a `venue` `inline_query_result` in a concise manner *)
+    (** Create a [Venue : inline_query_result] in a concise manner *)
     val create_venue : id:string -> latitude:float -> longitude:float -> title:string -> address:string -> ?foursquare_id:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
     (** Prepare an `inline_query_result` for sending *)
     val prepare : inline_query_result -> Yojson.Safe.json
@@ -818,9 +847,10 @@ module Update : sig
     chosen_inline_result : InlineQuery.chosen_inline_result option;
     callback_query       : CallbackQuery.callback_query option
   }
-  (** Create an `update` in a concise manner *)
+
+  (** Create an [update] in a concise manner *)
   val create : update_id:int -> ?message:Message.message option -> ?inline_query:InlineQuery.inline_query option -> ?chosen_inline_result:InlineQuery.chosen_inline_result option -> ?callback_query:CallbackQuery.callback_query option -> unit -> update
-  (** Read an `update` out of some JSON *)
+  (** Read an [update] out of some JSON *)
   val read : json -> update
 
   (** Check if an update contains a message *)
@@ -838,16 +868,16 @@ module Result : sig
   (** Stores the return value if a function succeeded or a string if the function failed *)
   type 'a result = Success of 'a | Failure of string
 
-  (** Raise a normal value into a result (Success) *)
+  (** Raise a normal value into a [Success : result] *)
   val return : 'a -> 'a result
 
   (** Take the value of the result, if it succeeded, or the other argument by default and return that *)
   val default : 'a -> 'a result -> 'a
 
-  (** Monadic bind *)
+  (** Bind [Success]es through the given function *)
   val (>>=) : 'a result -> ('a -> 'b result) -> 'b result
 
-  (** Functorial map *)
+  (** Map [Success]es through the given function *)
   val (<$>) : ('a -> 'b) -> 'a result -> 'b result
 end
 
@@ -890,7 +920,7 @@ module Command : sig
     | PopUpdate of (Update.update Result.result -> action)
     | Chain of action * action
 
-  (** This type is used to represent available commands. The `name` field is the command's name (without a slash) and the `description` field is the description to be used in the help message. `run` is the function called when invoking the command. *)
+  (** This type is used to represent available commands. The [name] field is the command's name (without a slash) and the [description] field is the description to be used in the help message. [run] is the function called when invoking the command. *)
   type command = {
     name            : string;
     description     : string;
@@ -947,40 +977,40 @@ module type TELEGRAM_BOT = sig
   (** Send an action report to the chat, to show that a command will take some time *)
   val send_chat_action : chat_id:int -> action:ChatAction.action -> unit Result.result Lwt.t
 
-  (** Send a new image file (jpeg/png) to a specified chat. Note that `photo` refers to the file's name to send. *)
+  (** Send a new image file (jpeg/png) to a specified chat. Note that [photo] refers to the file's name to send. *)
   val send_photo : chat_id:int -> photo:string -> ?caption:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
 
-  (** Send an existing image file (jpeg/png) to a specified chat. Note that `photo` refers to the file's id on the Telegram servers. *)
+  (** Send an existing image file (jpeg/png) to a specified chat. Note that [photo] refers to the file's id on the Telegram servers. *)
   val resend_photo : chat_id:int -> photo:string -> ?caption:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
 
-  (** Send a new audio file (mp3) to a specified chat. Note that `audio` refers to the file's name to send. *)
+ (** Send a new audio file (mp3) to a specified chat. Note that [audio] refers to the file's name to send. *)
   val send_audio : chat_id:int -> audio:string -> performer:string -> title:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
 
-  (** Send an existing audio file (mp3) to a specified chat. Note that `audio` refers to the file's id on the Telegram servers. *)
+  (** Send an existing audio file (mp3) to a specified chat. Note that [audio] refers to the file's id on the Telegram servers. *)
   val resend_audio : chat_id:int -> audio:string -> performer:string -> title:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
 
-  (** Send a new document file to a specified chat. Note that `document` refers to the file's name to send. *)
+  (** Send a new document file to a specified chat. Note that [document] refers to the file's name to send. *)
   val send_document : chat_id:int -> document:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
 
-  (** Send an existing document file to a specified chat. Note that `document` refers to the file's id on the Telegram servers. *)
+  (** Send an existing document file to a specified chat. Note that [document] refers to the file's id on the Telegram servers. *)
   val resend_document : chat_id:int -> document:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
 
-  (** Send a new sticker file (webp) to a specified chat. Note that `sticker` refers to the file's name to send. *)
+  (** Send a new sticker file (webp) to a specified chat. Note that [sticker] refers to the file's name to send. *)
   val send_sticker : chat_id:int -> sticker:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
 
-  (** Send an existing sticker file (webp) to a specified chat. Note that `sticker` refers to the file's id on the Telegram servers. *)
+  (** Send an existing sticker file (webp) to a specified chat. Note that [sticker] refers to the file's id on the Telegram servers. *)
   val resend_sticker : chat_id:int -> sticker:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
 
-  (** Send a new video file (mp4/mov/webm) to a specified chat. Note that `video` refers to the file's name to send. *)
+  (** Send a new video file (mp4/mov/webm) to a specified chat. Note that [video] refers to the file's name to send. *)
   val send_video : chat_id:int -> video:string -> ?duration:int option -> ?caption:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
 
-  (** Send an existing video (mp4/mov/webm) file to a specified chat. Note that `video` refers to the file's id on the Telegram servers. *)
+  (** Send an existing video (mp4/mov/webm) file to a specified chat. Note that [video] refers to the file's id on the Telegram servers. *)
   val resend_video : chat_id:int -> video:string -> ?duration:int option -> ?caption:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
 
-  (** Send a new voice message (ogg) to a specified chat. Note that `voice` refers to the file's name to send. *)
+  (** Send a new voice message (ogg) to a specified chat. Note that [voice] refers to the file's name to send. *)
   val send_voice : chat_id:int -> voice:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
 
-  (** Send an existing voice message (ogg) to a specified chat. Note that `voice` refers to the file's id on the Telegram servers. *)
+  (** Send an existing voice message (ogg) to a specified chat. Note that [voice] refers to the file's id on the Telegram servers. *)
   val resend_voice : chat_id:int -> voice:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
 
   (** Send a location to a specified chat *)
@@ -995,13 +1025,13 @@ module type TELEGRAM_BOT = sig
   (** Get a given user's profile pictures *)
   val get_user_profile_photos : user_id:int -> offset:int option -> limit:int option -> UserProfilePhotos.user_profile_photos Result.result Lwt.t
 
-  (** Get the information for a file that's been uploaded to Telegram's servers by the `file_id` *)
+  (** Get the information for a file that's been uploaded to Telegram's servers by the [file_id] *)
   val get_file : file_id:string -> File.file Result.result Lwt.t
 
-  (** Download a file that's been uploaded to Telegram's servers by the `file_id` *)
+  (** Download a file that's been uploaded to Telegram's servers by the [file_id] *)
   val get_file' : file_id:string -> string option Lwt.t
 
-  (** Download a file that's been uploaded to Telegram's servers by the `file` *)
+  (** Download a file that's been uploaded to Telegram's servers by the [file] *)
   val download_file : file:File.file -> string option Lwt.t
 
   (** Kick/ban a given user from the given chat *)
@@ -1022,7 +1052,7 @@ module type TELEGRAM_BOT = sig
   (** Edit the caption of an existing message, selected by either the chat id, the message id, or the inline message id *)
   val edit_message_caption : ?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> caption:string -> reply_markup:ReplyMarkup.reply_markup option -> unit -> unit Result.result Lwt.t
 
-  (** Edit the reply markup of an existing message, selected by either the chat id, the message id, or the inline message id. Use `None` to remove the reply markup *)
+  (** Edit the reply markup of an existing message, selected by either the chat id, the message id, or the inline message id. Use [None] to remove the reply markup *)
   val edit_message_reply_markup : ?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> reply_markup:ReplyMarkup.reply_markup option -> unit -> unit Result.result Lwt.t
 
   (** Get a list of all available updates that the bot has received *)
