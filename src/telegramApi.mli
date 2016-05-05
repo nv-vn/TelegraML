@@ -783,6 +783,19 @@ module InlineQuery : sig
       thumb_height          : int option
     }
 
+    (** Represents contact info for a user being sent *)
+    type contact = {
+      id                    : string;
+      phone_number          : string;
+      first_name            : string;
+      last_name             : string option;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option;
+      thumb_url             : string option;
+      thumb_width           : int option;
+      thumb_height          : int option
+    }
+
     (** Represents all the replies that can be given to an inline query *)
     type inline_query_result =
       | Article of article
@@ -795,6 +808,7 @@ module InlineQuery : sig
       | Document of document
       | Location of location
       | Venue of venue
+      | Contact of contact
 
     (** Create an [Article : inline_query_result] in a concise manner *)
     val create_article : id:string -> title:string -> input_message_content:InputMessageContent.input_message_content -> ?reply_markup:ReplyMarkup.reply_markup -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
@@ -816,7 +830,9 @@ module InlineQuery : sig
     val create_location : id:string -> latitude:float -> longitude:float -> title:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
     (** Create a [Venue : inline_query_result] in a concise manner *)
     val create_venue : id:string -> latitude:float -> longitude:float -> title:string -> address:string -> ?foursquare_id:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
-    (** Prepare an `inline_query_result` for sending *)
+    (** Create a [Contact : inline_query_result] in a concise manner *)
+    val create_contact : id:string -> phone_number:string -> first_name:string -> ?last_name:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
+    (** Prepare an [inline_query_result] for sending *)
     val prepare : inline_query_result -> Yojson.Safe.json
   end
 end

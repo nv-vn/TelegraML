@@ -1,7 +1,7 @@
 # TelegraML
 
 An OCaml library for creating bots for [Telegram Messenger](https://telegram.org/).
-Bots are built using the official API provided by Telegram. The documentation can be viewd [here](https://core.telegram.org/bots/api#inline-mode-methods).
+Bots are built using the official API provided by Telegram. The documentation can be viewed [here](https://core.telegram.org/bots/api#inline-mode-methods).
 
 ## Introduction:
 
@@ -108,6 +108,7 @@ here with a link and a short description.
 * `InlineQueryResultDocument`
 * `InlineQueryResultLocation`
 * `InlineQueryResultVenue`
+* `InlineQueryResultContact`
 * `InputMessageContent`
 * `InputTextMessageContent`
 * `InputLocationMessageContent`

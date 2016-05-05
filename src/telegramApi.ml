@@ -1028,6 +1028,18 @@ module InlineQuery = struct
       thumb_height          : int option
     }
 
+    type contact = {
+      id                    : string;
+      phone_number          : string;
+      first_name            : string;
+      last_name             : string option;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option;
+      thumb_url             : string option;
+      thumb_width           : int option;
+      thumb_height          : int option
+    }
+
     type inline_query_result =
       | Article of article
       | Photo of photo
@@ -1039,6 +1051,7 @@ module InlineQuery = struct
       | Document of document
       | Location of location
       | Venue of venue
+      | Contact of contact
 
     let create_article ~id ~title ~input_message_content ?reply_markup ?url ?hide_url ?description ?thumb_url ?thumb_width ?thumb_height () =
       Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height}
@@ -1069,6 +1082,9 @@ module InlineQuery = struct
 
     let create_venue ~id ~latitude ~longitude ~title ~address ?foursquare_id ?reply_markup ?input_message_content ?thumb_url ?thumb_width ?thumb_height () =
       Venue {id; longitude; latitude; title; address; foursquare_id; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height}
+
+    let create_contact ~id ~phone_number ~first_name ?last_name ?reply_markup ?input_message_content ?thumb_url ?thumb_width ?thumb_height () =
+      Contact {id; phone_number; first_name; last_name; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height}
 
     let prepare = function
       | Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height} ->
@@ -1175,6 +1191,16 @@ module InlineQuery = struct
                                                +? ("thumb_url", this_string <$> thumb_url)
                                                +? ("thumb_width", this_int <$> thumb_width)
                                                +? ("thumb_height", this_int <$> thumb_height))
+      | Contact {id; phone_number; first_name; last_name; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height} ->
+        `Assoc ([("type", `String "contact");
+                 ("id", `String id);
+                 ("phone_number", `String phone_number);
+                 ("first_name", `String first_name)] +? ("last_name", this_string <$> last_name)
+                                                     +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                                     +? ("input_message_content", InputMessageContent.prepare <$> input_message_content)
+                                                     +? ("thumb_url", this_string <$> thumb_url)
+                                                     +? ("thumb_width", this_int <$> thumb_width)
+                                                     +? ("thumb_height", this_int <$> thumb_height))
   end
 end
 
