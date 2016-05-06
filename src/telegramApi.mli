@@ -57,15 +57,15 @@ end
 module InputFile : sig
   (** Loads a file (by filename) and returns the raw bytes inside of it *)
   val load : string -> string Lwt.t
-(** Used to format data as HTTP [multipart/form-data]
-    Takes:
-    - A list of fields to be included in the form data as a pair of strings (name, value)
-    - A tuple of: {ul
-      {li The name of the data field}
-      {li The path to the file/the file's name}
-      {li The mime type of the file}}
-    - A string to be used as a boundary to split different parts of the data; ideally, this text should not be present in the raw data of the file being sent
-    @return The formatted string to use as the HTTP body (make sure to correctly format the headers for multipart/form-data) *)
+  (** Used to format data as HTTP [multipart/form-data]
+      Takes:
+      - A list of fields to be included in the form data as a pair of strings (name, value)
+      - A tuple of: {ul
+        {li The name of the data field}
+        {li The path to the file/the file's name}
+        {li The mime type of the file}}
+      - A string to be used as a boundary to split different parts of the data; ideally, this text should not be present in the raw data of the file being sent
+      @return The formatted string to use as the HTTP body (make sure to correctly format the headers for multipart/form-data) *)
   val multipart_body : (string * string) list -> string * string * string -> string -> string Lwt.t
 end
 
@@ -84,7 +84,7 @@ module MessageEntity : sig
     | Pre
     | TextLink of string
 
-  (** Takes the [url] field of the record and the `type` field, then creates a value of type entity_type based on that *)
+  (** Takes the [url] field of the record and the [type] field, then creates a value of type entity_type based on that *)
   val entity_type_of_string : string option -> string -> entity_type
 
   (** Represents the message entity inside of the message *)
@@ -195,7 +195,7 @@ module PhotoSize : sig
 
   (** This module is used to deal with outgoing photo messages *)
   module Out : sig
-    (** Represents the outgoing photo message. Note that the `photo` field can either be an existing file id or the raw bytes from a file *)
+    (** Represents the outgoing photo message. Note that the [photo] field can either be an existing file id or the raw bytes from a file *)
     type photo_size = {
       chat_id              : int;
       photo                : string;
@@ -232,7 +232,7 @@ module Audio : sig
 
   (** This module is used to deal with outgoing audio messages *)
   module Out : sig
-    (** Represents the outgoing audio message. Note that the `audio` field can either be an existing file id or the raw bytes from a file *)
+    (** Represents the outgoing audio message. Note that the [audio] field can either be an existing file id or the raw bytes from a file *)
     type audio = {
       chat_id              : int;
       audio                : string;
@@ -270,7 +270,7 @@ module Document : sig
 
   (** This module is used to deal with outgoing documents *)
   module Out : sig
-    (** Represents the document voice message. Note that the `document` field can either be an existing file id or the raw bytes from a file *)
+    (** Represents the document voice message. Note that the [document] field can either be an existing file id or the raw bytes from a file *)
     type document = {
       chat_id              : int;
       document             : string;
@@ -378,7 +378,7 @@ module Voice : sig
 
   (** This module is used to deal with outgoing voice messages *)
   module Out : sig
-    (** Represents the outgoing voice message. Note that the `voice` field can either be an existing file id or the raw bytes from a file *)
+    (** Represents the outgoing voice message. Note that the [voice] field can either be an existing file id or the raw bytes from a file *)
     type voice = {
       chat_id              : int;
       voice                : string;
@@ -559,7 +559,7 @@ end
 
 (** This module is used for downloadable files uploaded to the Telegram servers *)
 module File : sig
-  (** Represents the information returned by `getFile` for the file_id *)
+  (** Represents the information returned by [getFile] for the file_id *)
   type file = {
     file_id   : string;
     file_size : int option;
