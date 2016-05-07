@@ -1040,6 +1040,34 @@ module InlineQuery = struct
       thumb_height          : int option
     }
 
+    type cached_photo = {
+      id                       : string;
+      photo_file_id            : string;
+      title                    : string option;
+      description              : string option;
+      caption                  : string option;
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
+    }
+
+    type cached_gif = {
+      id                       : string;
+      gif_file_id              : string;
+      title                    : string option;
+      caption                  : string option;
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
+    }
+
+    type cached_mpeg4gif = {
+      id                       : string;
+      mpeg4_file_id            : string;
+      title                    : string option;
+      caption                  : string option;
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
+    }
+
     type inline_query_result =
       | Article of article
       | Photo of photo
@@ -1052,6 +1080,9 @@ module InlineQuery = struct
       | Location of location
       | Venue of venue
       | Contact of contact
+      | CachedPhoto of cached_photo
+      | CachedGif of cached_gif
+      | CachedMpeg4Gif of cached_mpeg4gif
 
     let create_article ~id ~title ~input_message_content ?reply_markup ?url ?hide_url ?description ?thumb_url ?thumb_width ?thumb_height () =
       Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height}
@@ -1085,6 +1116,15 @@ module InlineQuery = struct
 
     let create_contact ~id ~phone_number ~first_name ?last_name ?reply_markup ?input_message_content ?thumb_url ?thumb_width ?thumb_height () =
       Contact {id; phone_number; first_name; last_name; reply_markup; input_message_content; thumb_url; thumb_width; thumb_height}
+
+    let create_cached_photo ~id ~photo_file_id ?title ?description ?caption ?reply_markup ?input_message_content () =
+      CachedPhoto {id; photo_file_id; title; description; caption; reply_markup; input_message_content}
+
+    let create_cached_gif ~id ~gif_file_id ?title ?caption ?reply_markup ?input_message_content () =
+      CachedGif {id; gif_file_id; title; caption; reply_markup; input_message_content}
+
+    let create_cached_mpeg4gif ~id ~mpeg4_file_id ?title ?caption ?reply_markup ?input_message_content () =
+      CachedMpeg4Gif {id; mpeg4_file_id; title; caption; reply_markup; input_message_content}
 
     let prepare = function
       | Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height} ->
@@ -1201,6 +1241,28 @@ module InlineQuery = struct
                                                      +? ("thumb_url", this_string <$> thumb_url)
                                                      +? ("thumb_width", this_int <$> thumb_width)
                                                      +? ("thumb_height", this_int <$> thumb_height))
+      | CachedPhoto {id; photo_file_id; title; description; caption; reply_markup; input_message_content} ->
+        `Assoc ([("type", `String "photo");
+                 ("id", `String id);
+                 ("photo_file_id", `String photo_file_id)] +? ("title", this_string <$> title)
+                                                           +? ("description", this_string <$> description)
+                                                           +? ("caption", this_string <$> caption)
+                                                           +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                                           +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      | CachedGif {id; gif_file_id; title; caption; reply_markup; input_message_content} ->
+        `Assoc ([("type", `String "gif");
+                 ("id", `String id);
+                 ("gif_file_id", `String gif_file_id)] +? ("title", this_string <$> title)
+                                                       +? ("caption", this_string <$> caption)
+                                                       +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                                       +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      | CachedMpeg4Gif {id; mpeg4_file_id; title; caption; reply_markup; input_message_content} ->
+        `Assoc ([("type", `String "mpeg4gif");
+                 ("id", `String id);
+                 ("mpeg4_file_id", `String mpeg4_file_id)] +? ("title", this_string <$> title)
+                                                           +? ("caption", this_string <$> caption)
+                                                           +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                                           +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
   end
 end
 

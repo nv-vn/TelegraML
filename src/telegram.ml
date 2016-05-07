@@ -8,4 +8,3 @@ module BotDefaults : Api.BOT = struct
   let commands = []
   let inline query = Api.Command.Nothing
 end
-

@@ -671,7 +671,7 @@ module InlineQuery : sig
       thumb_width              : int option;
       thumb_height             : int option
     }
-    (** Represents a photo sent as a reply *)
+    (** Represents a photo (jpeg) sent as a reply *)
     type photo = {
       id                       : string;
       photo_url                : string;
@@ -796,6 +796,37 @@ module InlineQuery : sig
       thumb_height          : int option
     }
 
+    (** Represents a photo, which has already been uploaded to the Telegram servers, sent as a reply *)
+    type cached_photo = {
+      id                       : string;
+      photo_file_id            : string;
+      title                    : string option;
+      description              : string option;
+      caption                  : string option;
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
+    }
+
+    (** Represents a gif, which has already been uploaded to the Telegram servers, sent as a reply *)
+    type cached_gif = {
+      id                       : string;
+      gif_file_id              : string;
+      title                    : string option;
+      caption                  : string option;
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
+    }
+
+    (** Represents a gif, which has already been uploaded to the Telegram servers, sent as a reply, but converted to an mp4 video file *)
+    type cached_mpeg4gif = {
+      id                       : string;
+      mpeg4_file_id            : string;
+      title                    : string option;
+      caption                  : string option;
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
+    }
+
     (** Represents all the replies that can be given to an inline query *)
     type inline_query_result =
       | Article of article
@@ -809,6 +840,9 @@ module InlineQuery : sig
       | Location of location
       | Venue of venue
       | Contact of contact
+      | CachedPhoto of cached_photo
+      | CachedGif of cached_gif
+      | CachedMpeg4Gif of cached_mpeg4gif
 
     (** Create an [Article : inline_query_result] in a concise manner *)
     val create_article : id:string -> title:string -> input_message_content:InputMessageContent.input_message_content -> ?reply_markup:ReplyMarkup.reply_markup -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
@@ -832,6 +866,12 @@ module InlineQuery : sig
     val create_venue : id:string -> latitude:float -> longitude:float -> title:string -> address:string -> ?foursquare_id:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
     (** Create a [Contact : inline_query_result] in a concise manner *)
     val create_contact : id:string -> phone_number:string -> first_name:string -> ?last_name:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
+    (** Create a [CachedPhoto : inline_query_result] in a concise manner *)
+    val create_cached_photo : id:string -> photo_file_id:string -> ?title:string -> ?description:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+    (** Create a [CachedGif : inline_query_result] in a concise manner *)
+    val create_cached_gif : id:string -> gif_file_id:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+    (** Create a [CachedMpeg4Gif : inline_query_result] in a concise manner *)
+    val create_cached_mpeg4gif : id:string -> mpeg4_file_id:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
     (** Prepare an [inline_query_result] for sending *)
     val prepare : inline_query_result -> Yojson.Safe.json
   end

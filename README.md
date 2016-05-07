@@ -109,6 +109,9 @@ here with a link and a short description.
 * `InlineQueryResultLocation`
 * `InlineQueryResultVenue`
 * `InlineQueryResultContact`
+* `InlineQueryResultCachedPhoto`
+* `InlineQueryResultCachedGif`
+* `InlineQueryResultCachedMpeg4Gif`
 * `InputMessageContent`
 * `InputTextMessageContent`
 * `InputLocationMessageContent`
