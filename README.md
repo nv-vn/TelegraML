@@ -62,13 +62,12 @@ here with a link and a short description.
 * File uploading
 * Inline replies
 * Custom keyboards
-* Most of the data types
-* Most of the methods
+* All of the data types
+* Most of the methods (everything but `set_webhook`)
 
 ### What doesn't?
 
 * No webhooks
-* Missing some of the 2.0 inline mode API changes
 
 ### Implemented Types:
 
@@ -113,6 +112,10 @@ here with a link and a short description.
 * `InlineQueryResultCachedGif`
 * `InlineQueryResultCachedMpeg4Gif`
 * `InlineQueryResultCachedSticker`
+* `InlineQueryResultCachedDocument`
+* `InlineQueryResultCachedVideo`
+* `InlineQueryResultCachedVoice`
+* `InlineQueryResultCachedAudio`
 * `InputMessageContent`
 * `InputTextMessageContent`
 * `InputLocationMessageContent`

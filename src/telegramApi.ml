@@ -1075,6 +1075,41 @@ module InlineQuery = struct
       input_message_content : InputMessageContent.input_message_content option
     }
 
+    type cached_document = {
+      id                    : string;
+      title                 : string;
+      document_file_id      : string;
+      description           : string option;
+      caption               : string option;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option
+    }
+
+    type cached_video = {
+      id                       : string;
+      video_file_id            : string;
+      title                    : string;
+      description              : string option;
+      caption                  : string option;
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
+    }
+
+    type cached_voice = {
+      id                    : string;
+      voice_file_id         : string;
+      title                 : string;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option
+    }
+
+    type cached_audio = {
+      id                    : string;
+      audio_file_id         : string;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option
+    }
+
     type inline_query_result =
       | Article of article
       | Photo of photo
@@ -1091,6 +1126,10 @@ module InlineQuery = struct
       | CachedGif of cached_gif
       | CachedMpeg4Gif of cached_mpeg4gif
       | CachedSticker of cached_sticker
+      | CachedDocument of cached_document
+      | CachedVideo of cached_video
+      | CachedVoice of cached_voice
+      | CachedAudio of cached_audio
 
     let create_article ~id ~title ~input_message_content ?reply_markup ?url ?hide_url ?description ?thumb_url ?thumb_width ?thumb_height () =
       Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height}
@@ -1136,6 +1175,18 @@ module InlineQuery = struct
 
     let create_cached_sticker ~id ~sticker_file_id ?reply_markup ?input_message_content () =
       CachedSticker {id; sticker_file_id; reply_markup; input_message_content}
+
+    let create_cached_document ~id ~title ~document_file_id ?description ?caption ?reply_markup ?input_message_content () =
+      CachedDocument {id; title; document_file_id; description; caption; reply_markup; input_message_content}
+
+    let create_cached_video ~id ~video_file_id ~title ?description ?caption ?reply_markup ?input_message_content () =
+      CachedVideo {id; video_file_id; title; description; caption; reply_markup; input_message_content}
+
+    let create_cached_voice ~id ~voice_file_id ~title ?reply_markup ?input_message_content () =
+      CachedVoice {id; voice_file_id; title; reply_markup; input_message_content}
+
+    let create_cached_audio ~id ~audio_file_id ?reply_markup ?input_message_content () =
+      CachedAudio {id; audio_file_id; reply_markup; input_message_content}
 
     let prepare = function
       | Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height} ->
@@ -1278,7 +1329,34 @@ module InlineQuery = struct
         `Assoc ([("type", `String "sticker");
                  ("id", `String id);
                  ("sticker_file_id", `String sticker_file_id)] +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
-                                                               +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+                +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      | CachedDocument {id; title; document_file_id; description; caption; reply_markup; input_message_content} ->
+        `Assoc ([("type", `String "document");
+                 ("id", `String id);
+                 ("title", `String title);
+                 ("document_file_id", `String document_file_id)] +? ("description", this_string <$> description)
+                                                                 +? ("caption", this_string <$> caption)
+                                                                 +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                                                 +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      | CachedVideo {id; video_file_id; title; description; caption; reply_markup; input_message_content} ->
+        `Assoc ([("type", `String "video");
+                 ("id", `String id);
+                 ("video_file_id", `String video_file_id);
+                 ("title", `String title)] +? ("description", this_string <$> description)
+                                           +? ("caption", this_string <$> caption)
+                                           +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                           +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      | CachedVoice {id; voice_file_id; title; reply_markup; input_message_content} ->
+        `Assoc ([("type", `String "voice");
+                 ("id", `String id);
+                 ("voice_file_id", `String voice_file_id);
+                 ("title", `String title)] +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                           +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      | CachedAudio {id; audio_file_id; reply_markup; input_message_content} ->
+        `Assoc ([("type", `String "audio");
+                 ("id", `String id);
+                 ("audio_file_id", `String audio_file_id)] +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                                           +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
   end
 end
 

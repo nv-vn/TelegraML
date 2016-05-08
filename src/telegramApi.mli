@@ -829,6 +829,41 @@ module InlineQuery : sig
       reply_markup          : ReplyMarkup.reply_markup option;
       input_message_content : InputMessageContent.input_message_content option
     }
+    (** Represents a file (PDF or ZIP), which has already been uploaded to the Telegram servers, sent as a reply *)
+    type cached_document = {
+      id                    : string;
+      title                 : string;
+      document_file_id      : string;
+      description           : string option;
+      caption               : string option;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option
+    }
+    (** Represents a video, which has already been uploaded to the Telegram servers, sent as a reply *)
+    type cached_video = {
+      id                       : string;
+      video_file_id            : string;
+      title                    : string;
+      description              : string option;
+      caption                  : string option;
+      reply_markup             : ReplyMarkup.reply_markup option;
+      input_message_content    : InputMessageContent.input_message_content option
+    }
+    (** Represents a voice recording (OGG), which has already been uploaded to the Telegram servers, sent as a reply *)
+    type cached_voice = {
+      id                    : string;
+      voice_file_id         : string;
+      title                 : string;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option
+    }
+    (** Represents an audio clip (MP3), which has already been uploaded to the Telegram servers, sent as a reply *)
+    type cached_audio = {
+      id                    : string;
+      audio_file_id         : string;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option
+    }
 
     (** Represents all the replies that can be given to an inline query *)
     type inline_query_result =
@@ -847,6 +882,10 @@ module InlineQuery : sig
       | CachedGif of cached_gif
       | CachedMpeg4Gif of cached_mpeg4gif
       | CachedSticker of cached_sticker
+      | CachedDocument of cached_document
+      | CachedVideo of cached_video
+      | CachedVoice of cached_voice
+      | CachedAudio of cached_audio
 
     (** Create an [Article : inline_query_result] in a concise manner *)
     val create_article : id:string -> title:string -> input_message_content:InputMessageContent.input_message_content -> ?reply_markup:ReplyMarkup.reply_markup -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
@@ -878,6 +917,14 @@ module InlineQuery : sig
     val create_cached_mpeg4gif : id:string -> mpeg4_file_id:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
     (** Create a [CachedSticker : inline_query_result] in a concise manner *)
     val create_cached_sticker : id:string -> sticker_file_id:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+    (** Create a [CachedDocument : inline_query_result] in a concise manner *)
+    val create_cached_document : id:string -> title:string -> document_file_id:string -> ?description:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+    (** Create a [CachedVideo : inline_query_result] in a concise manner *)
+    val create_cached_video : id:string -> video_file_id:string -> title:string -> ?description:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+    (** Create a [CachedVoice : inline_query_result] in a concise manner *)
+    val create_cached_voice : id:string -> voice_file_id:string -> title:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+    (** Create a [CachedAudio : inline_query_result] in a concise manner *)
+    val create_cached_audio : id:string -> audio_file_id:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
     (** Prepare an [inline_query_result] for sending *)
     val prepare : inline_query_result -> Yojson.Safe.json
   end
