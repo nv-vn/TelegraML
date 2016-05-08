@@ -782,7 +782,6 @@ module InlineQuery : sig
       thumb_width           : int option;
       thumb_height          : int option
     }
-
     (** Represents contact info for a user being sent *)
     type contact = {
       id                    : string;
@@ -795,7 +794,6 @@ module InlineQuery : sig
       thumb_width           : int option;
       thumb_height          : int option
     }
-
     (** Represents a photo, which has already been uploaded to the Telegram servers, sent as a reply *)
     type cached_photo = {
       id                       : string;
@@ -806,7 +804,6 @@ module InlineQuery : sig
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
     }
-
     (** Represents a gif, which has already been uploaded to the Telegram servers, sent as a reply *)
     type cached_gif = {
       id                       : string;
@@ -816,7 +813,6 @@ module InlineQuery : sig
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
     }
-
     (** Represents a gif, which has already been uploaded to the Telegram servers, sent as a reply, but converted to an mp4 video file *)
     type cached_mpeg4gif = {
       id                       : string;
@@ -825,6 +821,13 @@ module InlineQuery : sig
       caption                  : string option;
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
+    }
+    (** Represents a link to a sticker stored on the Telegram servers *)
+    type cached_sticker = {
+      id                    : string;
+      sticker_file_id       : string;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option
     }
 
     (** Represents all the replies that can be given to an inline query *)
@@ -843,6 +846,7 @@ module InlineQuery : sig
       | CachedPhoto of cached_photo
       | CachedGif of cached_gif
       | CachedMpeg4Gif of cached_mpeg4gif
+      | CachedSticker of cached_sticker
 
     (** Create an [Article : inline_query_result] in a concise manner *)
     val create_article : id:string -> title:string -> input_message_content:InputMessageContent.input_message_content -> ?reply_markup:ReplyMarkup.reply_markup -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
@@ -872,6 +876,8 @@ module InlineQuery : sig
     val create_cached_gif : id:string -> gif_file_id:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
     (** Create a [CachedMpeg4Gif : inline_query_result] in a concise manner *)
     val create_cached_mpeg4gif : id:string -> mpeg4_file_id:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+    (** Create a [CachedSticker : inline_query_result] in a concise manner *)
+    val create_cached_sticker : id:string -> sticker_file_id:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
     (** Prepare an [inline_query_result] for sending *)
     val prepare : inline_query_result -> Yojson.Safe.json
   end

@@ -112,6 +112,7 @@ here with a link and a short description.
 * `InlineQueryResultCachedPhoto`
 * `InlineQueryResultCachedGif`
 * `InlineQueryResultCachedMpeg4Gif`
+* `InlineQueryResultCachedSticker`
 * `InputMessageContent`
 * `InputTextMessageContent`
 * `InputLocationMessageContent`

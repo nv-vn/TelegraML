@@ -1068,6 +1068,13 @@ module InlineQuery = struct
       input_message_content    : InputMessageContent.input_message_content option
     }
 
+    type cached_sticker = {
+      id                    : string;
+      sticker_file_id       : string;
+      reply_markup          : ReplyMarkup.reply_markup option;
+      input_message_content : InputMessageContent.input_message_content option
+    }
+
     type inline_query_result =
       | Article of article
       | Photo of photo
@@ -1083,6 +1090,7 @@ module InlineQuery = struct
       | CachedPhoto of cached_photo
       | CachedGif of cached_gif
       | CachedMpeg4Gif of cached_mpeg4gif
+      | CachedSticker of cached_sticker
 
     let create_article ~id ~title ~input_message_content ?reply_markup ?url ?hide_url ?description ?thumb_url ?thumb_width ?thumb_height () =
       Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height}
@@ -1125,6 +1133,9 @@ module InlineQuery = struct
 
     let create_cached_mpeg4gif ~id ~mpeg4_file_id ?title ?caption ?reply_markup ?input_message_content () =
       CachedMpeg4Gif {id; mpeg4_file_id; title; caption; reply_markup; input_message_content}
+
+    let create_cached_sticker ~id ~sticker_file_id ?reply_markup ?input_message_content () =
+      CachedSticker {id; sticker_file_id; reply_markup; input_message_content}
 
     let prepare = function
       | Article {id; title; input_message_content; reply_markup; url; hide_url; description; thumb_url; thumb_width; thumb_height} ->
@@ -1263,6 +1274,11 @@ module InlineQuery = struct
                                                            +? ("caption", this_string <$> caption)
                                                            +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
                                                            +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
+      | CachedSticker {id; sticker_file_id; reply_markup; input_message_content} ->
+        `Assoc ([("type", `String "sticker");
+                 ("id", `String id);
+                 ("sticker_file_id", `String sticker_file_id)] +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)
+                                                               +? ("input_message_content", InputMessageContent.prepare <$> input_message_content))
   end
 end
 
