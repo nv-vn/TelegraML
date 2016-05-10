@@ -856,6 +856,18 @@ module InputMessageContent = struct
     | Venue of venue
     | Contact of contact
 
+  let create_text ~message_text ?parse_mode ?(disable_web_page_preview=false) () =
+    Text {message_text; parse_mode; disable_web_page_preview}
+
+  let create_location ~latitude ~longitude () =
+    Location {latitude; longitude}
+
+  let create_venue ~latitude ~longitude ~title ~address ?foursquare_id () =
+    Venue {latitude; longitude; title; address; foursquare_id}
+
+  let create_contact ~phone_number ~first_name ?last_name () =
+    Contact {phone_number; first_name; last_name}
+
   let prepare = function
     | Text {message_text; parse_mode; disable_web_page_preview} ->
       `Assoc ([("message_text", `String message_text);

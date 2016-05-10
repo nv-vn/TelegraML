@@ -626,6 +626,15 @@ module InputMessageContent : sig
     | Venue of venue
     | Contact of contact
 
+  (** Create a [Text : input_message_content] in a concise manner *)
+  val create_text : message_text:string -> ?parse_mode:ParseMode.parse_mode -> ?disable_web_page_preview:bool -> unit -> input_message_content
+  (** Create a [Location : input_message_content] in a concise manner *)
+  val create_location : latitude:float -> longitude:float -> unit -> input_message_content
+  (** Create a [Venue : input_message_content] in a concise manner *)
+  val create_venue : latitude:float -> longitude:float -> title:string -> address:string -> ?foursquare_id:string -> unit -> input_message_content
+  (** Create a [Contact : input_message_content] in a concise manner *)
+  val create_contact : phone_number:string -> first_name:string -> ?last_name:string -> unit -> input_message_content
+
   (** Prepare [input_message_content] for sending by converting it to JSON *)
   val prepare : input_message_content -> Yojson.Safe.json
 end
