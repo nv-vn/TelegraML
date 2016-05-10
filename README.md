@@ -68,6 +68,8 @@ here with a link and a short description.
 ### What doesn't?
 
 * No webhooks
+* Haven't implemented May 6, 2016 updates (`emoji` field in stickers, `forward_from_chat` field in messages)
+* No high-level API for events send through messages
 
 ### Implemented Types:
 
