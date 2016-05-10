@@ -1,3 +1,4 @@
+(** The base module for the API, equivalent to [TelegramApi] *)
 module Api = struct
   include TelegramApi
 end

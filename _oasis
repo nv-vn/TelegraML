@@ -22,4 +22,4 @@ Document "telegram_api"
   Title: Telegram API reference
   Authors: nv-vn
   XOCamlbuildPath: src/
-  XOCamlbuildModules: TelegramApi
+  XOCamlbuildModules: Telegram, TelegramApi
