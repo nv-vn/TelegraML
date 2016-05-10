@@ -1,0 +1,90 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="TelegramApi.ChatAction.html">
+<link rel="next" href="TelegramApi.Result.html">
+<link rel="Up" href="TelegramApi.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.Update</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="TelegramApi.ChatAction.html" title="TelegramApi.ChatAction">Previous</a>
+&nbsp;<a class="up" href="TelegramApi.html" title="TelegramApi">Up</a>
+&nbsp;<a class="post" href="TelegramApi.Result.html" title="TelegramApi.Result">Next</a>
+</div>
+<h1>Module <a href="type_TelegramApi.Update.html">TelegramApi.Update</a></h1>
+
+<pre><span class="keyword">module</span> Update: <code class="code">sig</code> <a href="TelegramApi.Update.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><code><span id="TYPEupdate"><span class="keyword">type</span> <code class="type"></code>update</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTupdate.update_id">update_id</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTupdate.message">message</span>&nbsp;: <code class="type"><a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTupdate.inline_query">inline_query</span>&nbsp;: <code class="type"><a href="TelegramApi.InlineQuery.html#TYPEinline_query">TelegramApi.InlineQuery.inline_query</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTupdate.chosen_inline_result">chosen_inline_result</span>&nbsp;: <code class="type"><a href="TelegramApi.InlineQuery.html#TYPEchosen_inline_result">TelegramApi.InlineQuery.chosen_inline_result</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTupdate.callback_query">callback_query</span>&nbsp;: <code class="type"><a href="TelegramApi.CallbackQuery.html#TYPEcallback_query">TelegramApi.CallbackQuery.callback_query</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Stores the info for updates to a chat/group<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">update_id:int -><br>       ?message:<a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> option -><br>       ?inline_query:<a href="TelegramApi.InlineQuery.html#TYPEinline_query">TelegramApi.InlineQuery.inline_query</a> option -><br>       ?chosen_inline_result:<a href="TelegramApi.InlineQuery.html#TYPEchosen_inline_result">TelegramApi.InlineQuery.chosen_inline_result</a> option -><br>       ?callback_query:<a href="TelegramApi.CallbackQuery.html#TYPEcallback_query">TelegramApi.CallbackQuery.callback_query</a> option -><br>       unit -> <a href="TelegramApi.Update.html#TYPEupdate">update</a></code></pre><div class="info ">
+Create an <code class="code">update</code> in a concise manner
+<p>
+Read an <code class="code">update</code> out of some JSON<br>
+</div>
+
+<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type">Yojson.Safe.json -> <a href="TelegramApi.Update.html#TYPEupdate">update</a></code></pre>
+<pre><span id="VALis_message"><span class="keyword">val</span> is_message</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">update</a> -> bool</code></pre><div class="info ">
+Check if an update contains a message
+<p>
+Check if an update contains an inline query<br>
+</div>
+
+<pre><span id="VALis_inline_query"><span class="keyword">val</span> is_inline_query</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">update</a> -> bool</code></pre><div class="info ">
+Check if an update contains a reply to an inline query<br>
+</div>
+
+<pre><span id="VALis_chosen_inline_result"><span class="keyword">val</span> is_chosen_inline_result</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">update</a> -> bool</code></pre><div class="info ">
+Check if an update contains a callback query<br>
+</div>
+
+<pre><span id="VALis_callback_query"><span class="keyword">val</span> is_callback_query</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">update</a> -> bool</code></pre></body></html>

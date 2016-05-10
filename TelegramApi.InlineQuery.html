@@ -1,0 +1,108 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="TelegramApi.InputMessageContent.html">
+<link rel="next" href="TelegramApi.ChatAction.html">
+<link rel="Up" href="TelegramApi.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.InlineQuery</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="TelegramApi.InputMessageContent.html" title="TelegramApi.InputMessageContent">Previous</a>
+&nbsp;<a class="up" href="TelegramApi.html" title="TelegramApi">Up</a>
+&nbsp;<a class="post" href="TelegramApi.ChatAction.html" title="TelegramApi.ChatAction">Next</a>
+</div>
+<h1>Module <a href="type_TelegramApi.InlineQuery.html">TelegramApi.InlineQuery</a></h1>
+
+<pre><span class="keyword">module</span> InlineQuery: <code class="code">sig</code> <a href="TelegramApi.InlineQuery.html">..</a> <code class="code">end</code></pre><div class="info module top">
+This module is used for InlineQuery bots<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEinline_query"><span class="keyword">type</span> <code class="type"></code>inline_query</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query.from">from</span>&nbsp;: <code class="type"><a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query.query">query</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query.offset">offset</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents incoming messages for an InlineQuery bot<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">id:string -><br>       from:<a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> -><br>       query:string -> offset:string -> unit -> <a href="TelegramApi.InlineQuery.html#TYPEinline_query">inline_query</a></code></pre><div class="info ">
+Create an <code class="code">inline_query</code> in a concise manner
+<p>
+Read an <code class="code">inline_query</code> out of some JSON<br>
+</div>
+
+<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type">Yojson.Safe.json -> <a href="TelegramApi.InlineQuery.html#TYPEinline_query">inline_query</a></code></pre>
+<pre><code><span id="TYPEchosen_inline_result"><span class="keyword">type</span> <code class="type"></code>chosen_inline_result</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchosen_inline_result.result_id">result_id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchosen_inline_result.from">from</span>&nbsp;: <code class="type"><a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTchosen_inline_result.query">query</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents the reply to an InlineQuery bot if one is requested<br>
+</div>
+
+
+<pre><span id="VALread_chosen_inline_result"><span class="keyword">val</span> read_chosen_inline_result</span> : <code class="type">Yojson.Safe.json -> <a href="TelegramApi.InlineQuery.html#TYPEchosen_inline_result">chosen_inline_result</a></code></pre><div class="info ">
+Read a <code class="code">chosen_inline_query</code> out of some JSON<br>
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.InlineQuery.Out.html">Out</a>: <code class="code">sig</code> <a href="TelegramApi.InlineQuery.Out.html">..</a> <code class="code">end</code></pre><div class="info">
+This module is used to deal with outgoing replies to inline queries for an InlineQuery bot
+</div>
+</body></html>

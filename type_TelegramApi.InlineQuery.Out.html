@@ -1,0 +1,429 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.InlineQuery.Out</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;article&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;hide_url&nbsp;:&nbsp;bool&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;description&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_width&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_height&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;photo&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;photo_url&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;photo_width&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;photo_height&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;description&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;gif&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;gif_url&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;gif_width&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;gif_height&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;mpeg4gif&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mpeg4_url&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mpeg4_width&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mpeg4_height&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;video&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;video_url&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mime_type&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;video_width&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;video_height&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;video_duration&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;description&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;audio&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;audio_url&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;performer&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;audio_duration&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;voice&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;voice_url&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;voice_duration&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;document&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document_url&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mime_type&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;description&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_width&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_height&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;location&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;latitude&nbsp;:&nbsp;float;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;longitude&nbsp;:&nbsp;float;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_width&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_height&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;venue&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;latitude&nbsp;:&nbsp;float;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;longitude&nbsp;:&nbsp;float;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;address&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;foursquare_id&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_width&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_height&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;contact&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;phone_number&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;first_name&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;last_name&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_width&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_height&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;cached_photo&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;photo_file_id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;description&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;cached_gif&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;gif_file_id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;cached_mpeg4gif&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;mpeg4_file_id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;cached_sticker&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sticker_file_id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;cached_document&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document_file_id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;description&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;cached_video&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;video_file_id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;description&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;cached_voice&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;voice_file_id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;title&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;cached_audio&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;audio_file_id&nbsp;:&nbsp;string;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_markup&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;inline_query_result&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Article</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.article<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Photo</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.photo<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Gif</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.gif<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Mpeg4Gif</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.mpeg4gif<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Video</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.video<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Audio</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.audio<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Voice</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.voice<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Document</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.document<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Location</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.location<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Venue</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.venue<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Contact</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.contact<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">CachedPhoto</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.cached_photo<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">CachedGif</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.cached_gif<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">CachedMpeg4Gif</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.cached_mpeg4gif<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">CachedSticker</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.cached_sticker<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">CachedDocument</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.cached_document<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">CachedVideo</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.cached_video<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">CachedVoice</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.cached_voice<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">CachedAudio</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.cached_audio<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_article&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?hide_url:bool&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?description:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_width:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_height:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_photo&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;photo_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?photo_width:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?photo_height:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?description:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?caption:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_gif&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;gif_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?gif_width:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?gif_height:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?caption:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_mpeg4gif&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;mpeg4_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?mpeg4_width:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?mpeg4_height:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?caption:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_video&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;video_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;mime_type:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;thumb_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?caption:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?video_width:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?video_height:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?video_duration:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?description:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_audio&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;audio_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?performer:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?audio_duration:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_voice&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;voice_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?voice_duration:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_document&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?caption:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;document_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;mime_type:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?description:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_width:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_height:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_location&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;latitude:float&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;longitude:float&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_width:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_height:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_venue&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;latitude:float&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;longitude:float&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;address:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?foursquare_id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_width:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_height:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_contact&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;phone_number:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;first_name:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?last_name:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_url:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_width:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?thumb_height:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_cached_photo&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;photo_file_id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?description:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?caption:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_cached_gif&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;gif_file_id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?caption:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_cached_mpeg4gif&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;mpeg4_file_id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?caption:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_cached_sticker&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;sticker_file_id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_cached_document&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;document_file_id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?description:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?caption:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_cached_video&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;video_file_id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?description:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?caption:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_cached_voice&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;voice_file_id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;title:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_cached_audio&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;audio_file_id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_markup:<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?input_message_content:<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span>.input_message_content&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;prepare&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.<span class="constructor">Out</span>.inline_query_result&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Yojson</span>.<span class="constructor">Safe</span>.json<br>
+<span class="keyword">end</span></code></body></html>

@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="Up" href="TelegramApi.PhotoSize.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.PhotoSize.Out</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="TelegramApi.PhotoSize.html" title="TelegramApi.PhotoSize">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_TelegramApi.PhotoSize.Out.html">TelegramApi.PhotoSize.Out</a></h1>
+
+<pre><span class="keyword">module</span> Out: <code class="code">sig</code> <a href="TelegramApi.PhotoSize.Out.html">..</a> <code class="code">end</code></pre><div class="info module top">
+This module is used to deal with outgoing photo messages<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEphoto_size"><span class="keyword">type</span> <code class="type"></code>photo_size</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto_size.chat_id">chat_id</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto_size.photo">photo</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto_size.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto_size.disable_notification">disable_notification</span>&nbsp;: <code class="type">bool</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto_size.reply_to_message_id">reply_to_message_id</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto_size.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents the outgoing photo message. Note that the <code class="code">photo</code> field can either be an existing file id or the raw bytes from a file<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">chat_id:int -><br>       photo:string -><br>       ?caption:string option -><br>       ?disable_notification:bool -><br>       ?reply_to:int option -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option -><br>       unit -> <a href="TelegramApi.PhotoSize.Out.html#TYPEphoto_size">photo_size</a></code></pre><div class="info ">
+Create a <code class="code">photo_size</code> in a concise manner
+<p>
+Prepare a <code class="code">photo_size</code> for sending -- used in the case of a file id<br>
+</div>
+
+<pre><span id="VALprepare"><span class="keyword">val</span> prepare</span> : <code class="type"><a href="TelegramApi.PhotoSize.Out.html#TYPEphoto_size">photo_size</a> -> string</code></pre><div class="info ">
+Prepare a <code class="code">photo_size</code> for sending -- used in the case of the raw bytes<br>
+</div>
+
+<pre><span id="VALprepare_multipart"><span class="keyword">val</span> prepare_multipart</span> : <code class="type"><a href="TelegramApi.PhotoSize.Out.html#TYPEphoto_size">photo_size</a> -> string -> string Lwt.t</code></pre></body></html>

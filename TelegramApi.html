@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="Up" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_TelegramApi.html">TelegramApi</a></h1>
+
+<pre><span class="keyword">module</span> TelegramApi: <code class="code">sig</code> <a href="TelegramApi.html">..</a> <code class="code">end</code></pre><div class="info module top">
+Specifies the API used for creating Telegram bots, defined <a href="https://core.telegram.org/bots/api"> here.</a><br>
+</div>
+<hr width="100%">
+<br>
+Specifies the API used for creating Telegram bots, defined <a href="https://core.telegram.org/bots/api"> here.</a><br>
+
+<pre><span id="EXCEPTIONApiException"><span class="keyword">exception</span> ApiException</span> <span class="keyword">of</span> <code class="type">string</code></pre>
+<div class="info ">
+An exception thrown if some rules specified in the API are invalidated by incorrectly formatted data of some type<br>
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.ParseMode.html">ParseMode</a>: <code class="code">sig</code> <a href="TelegramApi.ParseMode.html">..</a> <code class="code">end</code></pre><div class="info">
+This module deals with the parse mode used for formatting certain messages according to markup languages
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.User.html">User</a>: <code class="code">sig</code> <a href="TelegramApi.User.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.Chat.html">Chat</a>: <code class="code">sig</code> <a href="TelegramApi.Chat.html">..</a> <code class="code">end</code></pre><div class="info">
+Used to represent private messages, groupchats, and other types of Telegram chats
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.InputFile.html">InputFile</a>: <code class="code">sig</code> <a href="TelegramApi.InputFile.html">..</a> <code class="code">end</code></pre><div class="info">
+Used for handling, loading, and sending outgoing files in messages
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.MessageEntity.html">MessageEntity</a>: <code class="code">sig</code> <a href="TelegramApi.MessageEntity.html">..</a> <code class="code">end</code></pre><div class="info">
+Used to represent formatting options for a message's text
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.KeyboardButton.html">KeyboardButton</a>: <code class="code">sig</code> <a href="TelegramApi.KeyboardButton.html">..</a> <code class="code">end</code></pre><div class="info">
+Used to represent an individual button on a custom keyboard
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.InlineKeyboardButton.html">InlineKeyboardButton</a>: <code class="code">sig</code> <a href="TelegramApi.InlineKeyboardButton.html">..</a> <code class="code">end</code></pre><div class="info">
+Used to represent an individual button on a custom inline keyboard
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.ReplyMarkup.html">ReplyMarkup</a>: <code class="code">sig</code> <a href="TelegramApi.ReplyMarkup.html">..</a> <code class="code">end</code></pre><div class="info">
+Markup options for users to reply to sent messages
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.PhotoSize.html">PhotoSize</a>: <code class="code">sig</code> <a href="TelegramApi.PhotoSize.html">..</a> <code class="code">end</code></pre><div class="info">
+This module is used for all images sent in chats
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.Audio.html">Audio</a>: <code class="code">sig</code> <a href="TelegramApi.Audio.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.Document.html">Document</a>: <code class="code">sig</code> <a href="TelegramApi.Document.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.Sticker.html">Sticker</a>: <code class="code">sig</code> <a href="TelegramApi.Sticker.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.Video.html">Video</a>: <code class="code">sig</code> <a href="TelegramApi.Video.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.Voice.html">Voice</a>: <code class="code">sig</code> <a href="TelegramApi.Voice.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.Contact.html">Contact</a>: <code class="code">sig</code> <a href="TelegramApi.Contact.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.Location.html">Location</a>: <code class="code">sig</code> <a href="TelegramApi.Location.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.Venue.html">Venue</a>: <code class="code">sig</code> <a href="TelegramApi.Venue.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.UserProfilePhotos.html">UserProfilePhotos</a>: <code class="code">sig</code> <a href="TelegramApi.UserProfilePhotos.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.Message.html">Message</a>: <code class="code">sig</code> <a href="TelegramApi.Message.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.File.html">File</a>: <code class="code">sig</code> <a href="TelegramApi.File.html">..</a> <code class="code">end</code></pre><div class="info">
+This module is used for downloadable files uploaded to the Telegram servers
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.CallbackQuery.html">CallbackQuery</a>: <code class="code">sig</code> <a href="TelegramApi.CallbackQuery.html">..</a> <code class="code">end</code></pre><div class="info">
+This module is used for dealing with the results returned by clicking on callback buttons on inline keyboards
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.InputMessageContent.html">InputMessageContent</a>: <code class="code">sig</code> <a href="TelegramApi.InputMessageContent.html">..</a> <code class="code">end</code></pre><div class="info">
+This module is used to deal with the content being sent as the result of an inline query
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.InlineQuery.html">InlineQuery</a>: <code class="code">sig</code> <a href="TelegramApi.InlineQuery.html">..</a> <code class="code">end</code></pre><div class="info">
+This module is used for InlineQuery bots
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.ChatAction.html">ChatAction</a>: <code class="code">sig</code> <a href="TelegramApi.ChatAction.html">..</a> <code class="code">end</code></pre><div class="info">
+Actions that can be sent as user statuses
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.Update.html">Update</a>: <code class="code">sig</code> <a href="TelegramApi.Update.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.Result.html">Result</a>: <code class="code">sig</code> <a href="TelegramApi.Result.html">..</a> <code class="code">end</code></pre><div class="info">
+Used for representing results of various actions where a success or failure can occur.
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.Command.html">Command</a>: <code class="code">sig</code> <a href="TelegramApi.Command.html">..</a> <code class="code">end</code></pre>
+<pre><span class="keyword">module type</span> <a href="TelegramApi.BOT.html">BOT</a> = <code class="code">sig</code> <a href="TelegramApi.BOT.html">..</a> <code class="code">end</code></pre><div class="info">
+BOT is strictly used for customization of a TELEGRAM_BOT module.
+</div>
+
+<pre><span class="keyword">module type</span> <a href="TelegramApi.TELEGRAM_BOT.html">TELEGRAM_BOT</a> = <code class="code">sig</code> <a href="TelegramApi.TELEGRAM_BOT.html">..</a> <code class="code">end</code></pre><div class="info">
+TELEGRAM_BOT represents the interface to a running bot
+</div>
+
+<pre><span class="keyword">module</span> <a href="TelegramApi.Mk.html">Mk</a>: <div class="sig_block"><code class="code">functor (</code><code class="code">B</code><code class="code"> : </code><code class="type"><a href="TelegramApi.BOT.html">BOT</a></code><code class="code">) -&gt; </code><code class="type"><a href="TelegramApi.TELEGRAM_BOT.html">TELEGRAM_BOT</a></code><code class="type"> </code></div></pre><div class="info">
+Generate a bot's interface to allow for direct calls to functions
+</div>
+</body></html>

@@ -1,0 +1,145 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="TelegramApi.InputFile.html">
+<link rel="next" href="TelegramApi.KeyboardButton.html">
+<link rel="Up" href="TelegramApi.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.MessageEntity</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="TelegramApi.InputFile.html" title="TelegramApi.InputFile">Previous</a>
+&nbsp;<a class="up" href="TelegramApi.html" title="TelegramApi">Up</a>
+&nbsp;<a class="post" href="TelegramApi.KeyboardButton.html" title="TelegramApi.KeyboardButton">Next</a>
+</div>
+<h1>Module <a href="type_TelegramApi.MessageEntity.html">TelegramApi.MessageEntity</a></h1>
+
+<pre><span class="keyword">module</span> MessageEntity: <code class="code">sig</code> <a href="TelegramApi.MessageEntity.html">..</a> <code class="code">end</code></pre><div class="info module top">
+Used to represent formatting options for a message's text<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEentity_type"><span class="keyword">type</span> <code class="type"></code>entity_type</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTentity_type.Mention"><span class="constructor">Mention</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTentity_type.Hashtag"><span class="constructor">Hashtag</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTentity_type.BotCommand"><span class="constructor">BotCommand</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTentity_type.Url"><span class="constructor">Url</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTentity_type.Email"><span class="constructor">Email</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTentity_type.Bold"><span class="constructor">Bold</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTentity_type.Italic"><span class="constructor">Italic</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTentity_type.Code"><span class="constructor">Code</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTentity_type.Pre"><span class="constructor">Pre</span></span></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTentity_type.TextLink"><span class="constructor">TextLink</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
+
+</tr></table>
+
+<div class="info ">
+The type of formatting to apply to the text<br>
+</div>
+
+
+<pre><span id="VALentity_type_of_string"><span class="keyword">val</span> entity_type_of_string</span> : <code class="type">string option -> string -> <a href="TelegramApi.MessageEntity.html#TYPEentity_type">entity_type</a></code></pre><div class="info ">
+Takes the <code class="code">url</code> field of the record and the <code class="code">type</code> field, then creates a value of type entity_type based on that<br>
+</div>
+
+<pre><code><span id="TYPEmessage_entity"><span class="keyword">type</span> <code class="type"></code>message_entity</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage_entity.entity_type">entity_type</span>&nbsp;: <code class="type"><a href="TelegramApi.MessageEntity.html#TYPEentity_type">entity_type</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage_entity.offset">offset</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage_entity.length">length</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents the message entity inside of the message<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">entity_type:<a href="TelegramApi.MessageEntity.html#TYPEentity_type">entity_type</a> -><br>       offset:int -> length:int -> unit -> <a href="TelegramApi.MessageEntity.html#TYPEmessage_entity">message_entity</a></code></pre><div class="info ">
+Create a <code class="code">message_entity</code> in a concise manner
+<p>
+Read a <code class="code">message_entity</code> out of some JSON<br>
+</div>
+
+<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type">Yojson.Safe.json -> <a href="TelegramApi.MessageEntity.html#TYPEmessage_entity">message_entity</a></code></pre></body></html>

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="TelegramApi.Contact.html">
+<link rel="next" href="TelegramApi.Venue.html">
+<link rel="Up" href="TelegramApi.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.Location</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="TelegramApi.Contact.html" title="TelegramApi.Contact">Previous</a>
+&nbsp;<a class="up" href="TelegramApi.html" title="TelegramApi">Up</a>
+&nbsp;<a class="post" href="TelegramApi.Venue.html" title="TelegramApi.Venue">Next</a>
+</div>
+<h1>Module <a href="type_TelegramApi.Location.html">TelegramApi.Location</a></h1>
+
+<pre><span class="keyword">module</span> Location: <code class="code">sig</code> <a href="TelegramApi.Location.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><code><span id="TYPElocation"><span class="keyword">type</span> <code class="type"></code>location</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlocation.longitude">longitude</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlocation.latitude">latitude</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a location sent by a user in terms of longitude/latitude coordinates<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">longitude:float -> latitude:float -> unit -> <a href="TelegramApi.Location.html#TYPElocation">location</a></code></pre><div class="info ">
+Create a <code class="code">location</code> in a concise manner
+<p>
+Read a <code class="code">location</code> out of some JSON<br>
+</div>
+
+<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type">Yojson.Safe.json -> <a href="TelegramApi.Location.html#TYPElocation">location</a></code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.Location.Out.html">Out</a>: <code class="code">sig</code> <a href="TelegramApi.Location.Out.html">..</a> <code class="code">end</code></pre><div class="info">
+This module deals with outgoing location messages
+</div>
+</body></html>

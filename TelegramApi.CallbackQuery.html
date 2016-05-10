@@ -1,0 +1,78 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="TelegramApi.File.html">
+<link rel="next" href="TelegramApi.InputMessageContent.html">
+<link rel="Up" href="TelegramApi.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.CallbackQuery</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="TelegramApi.File.html" title="TelegramApi.File">Previous</a>
+&nbsp;<a class="up" href="TelegramApi.html" title="TelegramApi">Up</a>
+&nbsp;<a class="post" href="TelegramApi.InputMessageContent.html" title="TelegramApi.InputMessageContent">Next</a>
+</div>
+<h1>Module <a href="type_TelegramApi.CallbackQuery.html">TelegramApi.CallbackQuery</a></h1>
+
+<pre><span class="keyword">module</span> CallbackQuery: <code class="code">sig</code> <a href="TelegramApi.CallbackQuery.html">..</a> <code class="code">end</code></pre><div class="info module top">
+This module is used for dealing with the results returned by clicking on callback buttons on inline keyboards<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEcallback_query"><span class="keyword">type</span> <code class="type"></code>callback_query</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcallback_query.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcallback_query.from">from</span>&nbsp;: <code class="type"><a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcallback_query.message">message</span>&nbsp;: <code class="type"><a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcallback_query.inline_message_id">inline_message_id</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcallback_query.data">data</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents the reply from the callback query<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">id:string -><br>       from:<a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> -><br>       ?message:<a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> option -><br>       ?inline_message_id:string option -><br>       data:string -> unit -> <a href="TelegramApi.CallbackQuery.html#TYPEcallback_query">callback_query</a></code></pre><div class="info ">
+Create a <code class="code">callback_query</code> in a concise manner
+<p>
+Read a <code class="code">callback_query</code> out of some JSON<br>
+</div>
+
+<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type">Yojson.Safe.json -> <a href="TelegramApi.CallbackQuery.html#TYPEcallback_query">callback_query</a></code></pre></body></html>

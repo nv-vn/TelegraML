@@ -1,0 +1,79 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="TelegramApi.Document.html">
+<link rel="next" href="TelegramApi.Video.html">
+<link rel="Up" href="TelegramApi.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.Sticker</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="TelegramApi.Document.html" title="TelegramApi.Document">Previous</a>
+&nbsp;<a class="up" href="TelegramApi.html" title="TelegramApi">Up</a>
+&nbsp;<a class="post" href="TelegramApi.Video.html" title="TelegramApi.Video">Next</a>
+</div>
+<h1>Module <a href="type_TelegramApi.Sticker.html">TelegramApi.Sticker</a></h1>
+
+<pre><span class="keyword">module</span> Sticker: <code class="code">sig</code> <a href="TelegramApi.Sticker.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><code><span id="TYPEsticker"><span class="keyword">type</span> <code class="type"></code>sticker</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTsticker.file_id">file_id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTsticker.width">width</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTsticker.height">height</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTsticker.thumb">thumb</span>&nbsp;: <code class="type"><a href="TelegramApi.PhotoSize.html#TYPEphoto_size">TelegramApi.PhotoSize.photo_size</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTsticker.file_size">file_size</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents sticker messages<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">file_id:string -><br>       width:int -><br>       height:int -><br>       ?thumb:<a href="TelegramApi.PhotoSize.html#TYPEphoto_size">TelegramApi.PhotoSize.photo_size</a> option -><br>       ?file_size:int option -> unit -> <a href="TelegramApi.Sticker.html#TYPEsticker">sticker</a></code></pre><div class="info ">
+Create a <code class="code">sticker</code> in a concise manner
+<p>
+Read a <code class="code">sticker</code> out of some JSON<br>
+</div>
+
+<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type">Yojson.Safe.json -> <a href="TelegramApi.Sticker.html#TYPEsticker">sticker</a></code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.Sticker.Out.html">Out</a>: <code class="code">sig</code> <a href="TelegramApi.Sticker.Out.html">..</a> <code class="code">end</code></pre><div class="info">
+This module deals with outgoing sticker messages
+</div>
+</body></html>

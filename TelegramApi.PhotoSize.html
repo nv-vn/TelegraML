@@ -1,0 +1,75 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="TelegramApi.ReplyMarkup.html">
+<link rel="next" href="TelegramApi.Audio.html">
+<link rel="Up" href="TelegramApi.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.PhotoSize</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="TelegramApi.ReplyMarkup.html" title="TelegramApi.ReplyMarkup">Previous</a>
+&nbsp;<a class="up" href="TelegramApi.html" title="TelegramApi">Up</a>
+&nbsp;<a class="post" href="TelegramApi.Audio.html" title="TelegramApi.Audio">Next</a>
+</div>
+<h1>Module <a href="type_TelegramApi.PhotoSize.html">TelegramApi.PhotoSize</a></h1>
+
+<pre><span class="keyword">module</span> PhotoSize: <code class="code">sig</code> <a href="TelegramApi.PhotoSize.html">..</a> <code class="code">end</code></pre><div class="info module top">
+This module is used for all images sent in chats<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEphoto_size"><span class="keyword">type</span> <code class="type"></code>photo_size</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto_size.file_id">file_id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto_size.width">width</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto_size.height">height</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto_size.file_size">file_size</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents any kind of image sent in a message or used as a thumbnail, profile picture, etc.<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">file_id:string -><br>       width:int -><br>       height:int -><br>       ?file_size:int option -> unit -> <a href="TelegramApi.PhotoSize.html#TYPEphoto_size">photo_size</a></code></pre><div class="info ">
+Create a <code class="code">photo_size</code> in a concise manner
+<p>
+Read a <code class="code">photo_size</code> out of some JSON<br>
+</div>
+
+<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type">Yojson.Safe.json -> <a href="TelegramApi.PhotoSize.html#TYPEphoto_size">photo_size</a></code></pre>
+<pre><span class="keyword">module</span> <a href="TelegramApi.PhotoSize.Out.html">Out</a>: <code class="code">sig</code> <a href="TelegramApi.PhotoSize.Out.html">..</a> <code class="code">end</code></pre><div class="info">
+This module is used to deal with outgoing photo messages
+</div>
+</body></html>

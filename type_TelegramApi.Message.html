@@ -1,0 +1,82 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.Message</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;message&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;message_id&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;from&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">User</span>.user&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;date&nbsp;:&nbsp;int;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;chat&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Chat</span>.chat;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;forward_from&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">User</span>.user&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;forward_date&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;reply_to_message&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;text&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;entities&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">MessageEntity</span>.message_entity&nbsp;list&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;audio&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Audio</span>.audio&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;document&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Document</span>.document&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;photo&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">PhotoSize</span>.photo_size&nbsp;list&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;sticker&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Sticker</span>.sticker&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;video&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Video</span>.video&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;voice&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Voice</span>.voice&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;caption&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;contact&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Contact</span>.contact&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;location&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Location</span>.location&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;venue&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Venue</span>.venue&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;new_chat_member&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">User</span>.user&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;left_chat_member&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">User</span>.user&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;new_chat_title&nbsp;:&nbsp;string&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;new_chat_photo&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">PhotoSize</span>.photo_size&nbsp;list&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;delete_chat_photo&nbsp;:&nbsp;bool&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;group_chat_created&nbsp;:&nbsp;bool&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;supergroup_chat_created&nbsp;:&nbsp;bool&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;channel_chat_created&nbsp;:&nbsp;bool&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;migrate_to_chat_id&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;migrate_from_chat_id&nbsp;:&nbsp;int&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pinned_message&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;message_id:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?from:<span class="constructor">TelegramApi</span>.<span class="constructor">User</span>.user&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;date:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;chat:<span class="constructor">TelegramApi</span>.<span class="constructor">Chat</span>.chat&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?forward_from:<span class="constructor">TelegramApi</span>.<span class="constructor">User</span>.user&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?forward_date:int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?reply_to:<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?text:string&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?entities:<span class="constructor">TelegramApi</span>.<span class="constructor">MessageEntity</span>.message_entity&nbsp;list&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?audio:<span class="constructor">TelegramApi</span>.<span class="constructor">Audio</span>.audio&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?document:<span class="constructor">TelegramApi</span>.<span class="constructor">Document</span>.document&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?photo:<span class="constructor">TelegramApi</span>.<span class="constructor">PhotoSize</span>.photo_size&nbsp;list&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?sticker:<span class="constructor">TelegramApi</span>.<span class="constructor">Sticker</span>.sticker&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?video:<span class="constructor">TelegramApi</span>.<span class="constructor">Video</span>.video&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?voice:<span class="constructor">TelegramApi</span>.<span class="constructor">Voice</span>.voice&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?caption:string&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?contact:<span class="constructor">TelegramApi</span>.<span class="constructor">Contact</span>.contact&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?location:<span class="constructor">TelegramApi</span>.<span class="constructor">Location</span>.location&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?venue:<span class="constructor">TelegramApi</span>.<span class="constructor">Venue</span>.venue&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?new_chat_member:<span class="constructor">TelegramApi</span>.<span class="constructor">User</span>.user&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?left_chat_member:<span class="constructor">TelegramApi</span>.<span class="constructor">User</span>.user&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?new_chat_title:string&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?new_chat_photo:<span class="constructor">TelegramApi</span>.<span class="constructor">PhotoSize</span>.photo_size&nbsp;list&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?delete_chat_photo:bool&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?group_chat_created:bool&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?supergroup_chat_created:bool&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?channel_chat_created:bool&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?migrate_to_chat_id:int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?migrate_from_chat_id:int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?pinned_message:<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;read&nbsp;:&nbsp;<span class="constructor">Yojson</span>.<span class="constructor">Safe</span>.json&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_sender_first_name&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_sender_username&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_sender&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string<br>
+<span class="keyword">end</span></code></body></html>

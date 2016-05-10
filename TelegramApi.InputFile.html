@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="TelegramApi.Chat.html">
+<link rel="next" href="TelegramApi.MessageEntity.html">
+<link rel="Up" href="TelegramApi.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.InputFile</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="TelegramApi.Chat.html" title="TelegramApi.Chat">Previous</a>
+&nbsp;<a class="up" href="TelegramApi.html" title="TelegramApi">Up</a>
+&nbsp;<a class="post" href="TelegramApi.MessageEntity.html" title="TelegramApi.MessageEntity">Next</a>
+</div>
+<h1>Module <a href="type_TelegramApi.InputFile.html">TelegramApi.InputFile</a></h1>
+
+<pre><span class="keyword">module</span> InputFile: <code class="code">sig</code> <a href="TelegramApi.InputFile.html">..</a> <code class="code">end</code></pre><div class="info module top">
+Used for handling, loading, and sending outgoing files in messages<br>
+</div>
+<hr width="100%">
+
+<pre><span id="VALload"><span class="keyword">val</span> load</span> : <code class="type">string -> string Lwt.t</code></pre><div class="info ">
+Loads a file (by filename) and returns the raw bytes inside of it
+<p>
+Used to format data as HTTP <code class="code">multipart/form-data</code>
+      Takes:<ul>
+<li>A list of fields to be included in the form data as a pair of strings (name, value)</li>
+<li>A tuple of: <ul>
+<li>The name of the data field</li>
+<li>The path to the file/the file's name</li>
+<li>The mime type of the file</li>
+</ul>
+</li>
+<li>A string to be used as a boundary to split different parts of the data; ideally, this text should not be present in the raw data of the file being sent</li>
+</ul>
+<br>
+<b>Returns</b> The formatted string to use as the HTTP body (make sure to correctly format the headers for multipart/form-data)<br>
+</div>
+
+<pre><span id="VALmultipart_body"><span class="keyword">val</span> multipart_body</span> : <code class="type">(string * string) list -> string * string * string -> string -> string Lwt.t</code></pre></body></html>

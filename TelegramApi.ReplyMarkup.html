@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="TelegramApi.InlineKeyboardButton.html">
+<link rel="next" href="TelegramApi.PhotoSize.html">
+<link rel="Up" href="TelegramApi.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.ReplyMarkup</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="TelegramApi.InlineKeyboardButton.html" title="TelegramApi.InlineKeyboardButton">Previous</a>
+&nbsp;<a class="up" href="TelegramApi.html" title="TelegramApi">Up</a>
+&nbsp;<a class="post" href="TelegramApi.PhotoSize.html" title="TelegramApi.PhotoSize">Next</a>
+</div>
+<h1>Module <a href="type_TelegramApi.ReplyMarkup.html">TelegramApi.ReplyMarkup</a></h1>
+
+<pre><span class="keyword">module</span> ReplyMarkup: <code class="code">sig</code> <a href="TelegramApi.ReplyMarkup.html">..</a> <code class="code">end</code></pre><div class="info module top">
+Markup options for users to reply to sent messages<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEreply_keyboard_markup"><span class="keyword">type</span> <code class="type"></code>reply_keyboard_markup</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTreply_keyboard_markup.keyboard">keyboard</span>&nbsp;: <code class="type"><a href="TelegramApi.KeyboardButton.html#TYPEkeyboard_button">TelegramApi.KeyboardButton.keyboard_button</a> list list</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTreply_keyboard_markup.resize_keyboard">resize_keyboard</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTreply_keyboard_markup.one_time_keyboard">one_time_keyboard</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTreply_keyboard_markup.selective">selective</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents the custom keyboard type<br>
+</div>
+
+
+<pre><code><span id="TYPEinline_keyboard_markup"><span class="keyword">type</span> <code class="type"></code>inline_keyboard_markup</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_keyboard_markup.inline_keyboard">inline_keyboard</span>&nbsp;: <code class="type"><a href="TelegramApi.InlineKeyboardButton.html#TYPEinline_keyboard_button">TelegramApi.InlineKeyboardButton.inline_keyboard_button</a> list list</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a custom inline keyboard<br>
+</div>
+
+
+<pre><code><span id="TYPEreply_keyboard_hide"><span class="keyword">type</span> <code class="type"></code>reply_keyboard_hide</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTreply_keyboard_hide.selective">selective</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents the request to hide a keyboard<br>
+</div>
+
+
+<pre><code><span id="TYPEforce_reply"><span class="keyword">type</span> <code class="type"></code>force_reply</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTforce_reply.selective">selective</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents the request to force a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEreply_markup"><span class="keyword">type</span> <code class="type"></code>reply_markup</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTreply_markup.ReplyKeyboardMarkup"><span class="constructor">ReplyKeyboardMarkup</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_keyboard_markup">reply_keyboard_markup</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTreply_markup.InlineKeyboardMarkup"><span class="constructor">InlineKeyboardMarkup</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEinline_keyboard_markup">inline_keyboard_markup</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTreply_markup.ReplyKeyboardHide"><span class="constructor">ReplyKeyboardHide</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_keyboard_hide">reply_keyboard_hide</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTreply_markup.ForceReply"><span class="constructor">ForceReply</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEforce_reply">force_reply</a></code></code></td>
+
+</tr></table>
+
+<div class="info ">
+Represents all possible reply markup options<br>
+</div>
+
+
+<pre><span id="VALprepare"><span class="keyword">val</span> prepare</span> : <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">reply_markup</a> -> Yojson.Safe.json</code></pre>
+<pre><span id="VALcreate_reply_keyboard_markup"><span class="keyword">val</span> create_reply_keyboard_markup</span> : <code class="type">keyboard:<a href="TelegramApi.KeyboardButton.html#TYPEkeyboard_button">TelegramApi.KeyboardButton.keyboard_button</a> list list -><br>       ?resize_keyboard:bool option -><br>       ?one_time_keyboard:bool option -><br>       ?selective:bool option -> unit -> <a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">reply_markup</a></code></pre><div class="info ">
+Create a <code class="code">ReplyKeyboardMarkup : reply_markup</code> in a concise way<br>
+</div>
+
+<pre><span id="VALcreate_inline_keyboard_markup"><span class="keyword">val</span> create_inline_keyboard_markup</span> : <code class="type">inline_keyboard:<a href="TelegramApi.InlineKeyboardButton.html#TYPEinline_keyboard_button">TelegramApi.InlineKeyboardButton.inline_keyboard_button</a> list<br>                       list -><br>       unit -> <a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">reply_markup</a></code></pre><div class="info ">
+Create an <code class="code">InlineKeyboardMarkup : reply_markup</code> in a concise way<br>
+</div>
+
+<pre><span id="VALcreate_reply_keyboard_hide"><span class="keyword">val</span> create_reply_keyboard_hide</span> : <code class="type">?selective:bool option -> unit -> <a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">reply_markup</a></code></pre><div class="info ">
+Create a <code class="code">ReplyKeyboardHide : reply_markup</code> in a concise way<br>
+</div>
+
+<pre><span id="VALcreate_force_reply"><span class="keyword">val</span> create_force_reply</span> : <code class="type">?selective:bool option -> unit -> <a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">reply_markup</a></code></pre><div class="info ">
+Create a <code class="code">ForceReply : reply_markup</code> in a concise way<br>
+</div>
+</body></html>

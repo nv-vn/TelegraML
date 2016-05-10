@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="TelegramApi.MessageEntity.html">
+<link rel="next" href="TelegramApi.InlineKeyboardButton.html">
+<link rel="Up" href="TelegramApi.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.KeyboardButton</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="TelegramApi.MessageEntity.html" title="TelegramApi.MessageEntity">Previous</a>
+&nbsp;<a class="up" href="TelegramApi.html" title="TelegramApi">Up</a>
+&nbsp;<a class="post" href="TelegramApi.InlineKeyboardButton.html" title="TelegramApi.InlineKeyboardButton">Next</a>
+</div>
+<h1>Module <a href="type_TelegramApi.KeyboardButton.html">TelegramApi.KeyboardButton</a></h1>
+
+<pre><span class="keyword">module</span> KeyboardButton: <code class="code">sig</code> <a href="TelegramApi.KeyboardButton.html">..</a> <code class="code">end</code></pre><div class="info module top">
+Used to represent an individual button on a custom keyboard<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEkeyboard_button"><span class="keyword">type</span> <code class="type"></code>keyboard_button</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkeyboard_button.text">text</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkeyboard_button.request_contact">request_contact</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTkeyboard_button.request_location">request_location</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents the button's data<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">text:string -><br>       ?request_contact:bool option -><br>       ?request_location:bool option -><br>       unit -> <a href="TelegramApi.KeyboardButton.html#TYPEkeyboard_button">keyboard_button</a></code></pre><div class="info ">
+Create a <code class="code">keyboard_button</code> in a concise manner
+<p>
+Prepare an outgoing <code class="code">keyboard_button</code> by serializing it to JSON<br>
+</div>
+
+<pre><span id="VALprepare"><span class="keyword">val</span> prepare</span> : <code class="type"><a href="TelegramApi.KeyboardButton.html#TYPEkeyboard_button">keyboard_button</a> -> Yojson.Safe.json</code></pre></body></html>

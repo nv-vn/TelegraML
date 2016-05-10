@@ -1,0 +1,261 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="previous" href="TelegramApi.UserProfilePhotos.html">
+<link rel="next" href="TelegramApi.File.html">
+<link rel="Up" href="TelegramApi.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.Message</title>
+</head>
+<body>
+<div class="navbar"><a class="pre" href="TelegramApi.UserProfilePhotos.html" title="TelegramApi.UserProfilePhotos">Previous</a>
+&nbsp;<a class="up" href="TelegramApi.html" title="TelegramApi">Up</a>
+&nbsp;<a class="post" href="TelegramApi.File.html" title="TelegramApi.File">Next</a>
+</div>
+<h1>Module <a href="type_TelegramApi.Message.html">TelegramApi.Message</a></h1>
+
+<pre><span class="keyword">module</span> Message: <code class="code">sig</code> <a href="TelegramApi.Message.html">..</a> <code class="code">end</code></pre><hr width="100%">
+
+<pre><code><span id="TYPEmessage"><span class="keyword">type</span> <code class="type"></code>message</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.message_id">message_id</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.from">from</span>&nbsp;: <code class="type"><a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.date">date</span>&nbsp;: <code class="type">int</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.chat">chat</span>&nbsp;: <code class="type"><a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.forward_from">forward_from</span>&nbsp;: <code class="type"><a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.forward_date">forward_date</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.reply_to_message">reply_to_message</span>&nbsp;: <code class="type"><a href="TelegramApi.Message.html#TYPEmessage">message</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.text">text</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.entities">entities</span>&nbsp;: <code class="type"><a href="TelegramApi.MessageEntity.html#TYPEmessage_entity">TelegramApi.MessageEntity.message_entity</a> list option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.audio">audio</span>&nbsp;: <code class="type"><a href="TelegramApi.Audio.html#TYPEaudio">TelegramApi.Audio.audio</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.document">document</span>&nbsp;: <code class="type"><a href="TelegramApi.Document.html#TYPEdocument">TelegramApi.Document.document</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.photo">photo</span>&nbsp;: <code class="type"><a href="TelegramApi.PhotoSize.html#TYPEphoto_size">TelegramApi.PhotoSize.photo_size</a> list option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.sticker">sticker</span>&nbsp;: <code class="type"><a href="TelegramApi.Sticker.html#TYPEsticker">TelegramApi.Sticker.sticker</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.video">video</span>&nbsp;: <code class="type"><a href="TelegramApi.Video.html#TYPEvideo">TelegramApi.Video.video</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.voice">voice</span>&nbsp;: <code class="type"><a href="TelegramApi.Voice.html#TYPEvoice">TelegramApi.Voice.voice</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.contact">contact</span>&nbsp;: <code class="type"><a href="TelegramApi.Contact.html#TYPEcontact">TelegramApi.Contact.contact</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.location">location</span>&nbsp;: <code class="type"><a href="TelegramApi.Location.html#TYPElocation">TelegramApi.Location.location</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.venue">venue</span>&nbsp;: <code class="type"><a href="TelegramApi.Venue.html#TYPEvenue">TelegramApi.Venue.venue</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.new_chat_member">new_chat_member</span>&nbsp;: <code class="type"><a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.left_chat_member">left_chat_member</span>&nbsp;: <code class="type"><a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.new_chat_title">new_chat_title</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.new_chat_photo">new_chat_photo</span>&nbsp;: <code class="type"><a href="TelegramApi.PhotoSize.html#TYPEphoto_size">TelegramApi.PhotoSize.photo_size</a> list option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.delete_chat_photo">delete_chat_photo</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.group_chat_created">group_chat_created</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.supergroup_chat_created">supergroup_chat_created</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.channel_chat_created">channel_chat_created</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.migrate_to_chat_id">migrate_to_chat_id</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.migrate_from_chat_id">migrate_from_chat_id</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmessage.pinned_message">pinned_message</span>&nbsp;: <code class="type"><a href="TelegramApi.Message.html#TYPEmessage">message</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a message in a chat. Note that <code class="code">photo</code> should be a list of <code class="code">PhotoSize.photo_size</code>s if it exists<br>
+</div>
+
+
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">message_id:int -><br>       ?from:<a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> option -><br>       date:int -><br>       chat:<a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> -><br>       ?forward_from:<a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> option -><br>       ?forward_date:int option -><br>       ?reply_to:<a href="TelegramApi.Message.html#TYPEmessage">message</a> option -><br>       ?text:string option -><br>       ?entities:<a href="TelegramApi.MessageEntity.html#TYPEmessage_entity">TelegramApi.MessageEntity.message_entity</a> list option -><br>       ?audio:<a href="TelegramApi.Audio.html#TYPEaudio">TelegramApi.Audio.audio</a> option -><br>       ?document:<a href="TelegramApi.Document.html#TYPEdocument">TelegramApi.Document.document</a> option -><br>       ?photo:<a href="TelegramApi.PhotoSize.html#TYPEphoto_size">TelegramApi.PhotoSize.photo_size</a> list option -><br>       ?sticker:<a href="TelegramApi.Sticker.html#TYPEsticker">TelegramApi.Sticker.sticker</a> option -><br>       ?video:<a href="TelegramApi.Video.html#TYPEvideo">TelegramApi.Video.video</a> option -><br>       ?voice:<a href="TelegramApi.Voice.html#TYPEvoice">TelegramApi.Voice.voice</a> option -><br>       ?caption:string option -><br>       ?contact:<a href="TelegramApi.Contact.html#TYPEcontact">TelegramApi.Contact.contact</a> option -><br>       ?location:<a href="TelegramApi.Location.html#TYPElocation">TelegramApi.Location.location</a> option -><br>       ?venue:<a href="TelegramApi.Venue.html#TYPEvenue">TelegramApi.Venue.venue</a> option -><br>       ?new_chat_member:<a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> option -><br>       ?left_chat_member:<a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> option -><br>       ?new_chat_title:string option -><br>       ?new_chat_photo:<a href="TelegramApi.PhotoSize.html#TYPEphoto_size">TelegramApi.PhotoSize.photo_size</a> list option -><br>       ?delete_chat_photo:bool option -><br>       ?group_chat_created:bool option -><br>       ?supergroup_chat_created:bool option -><br>       ?channel_chat_created:bool option -><br>       ?migrate_to_chat_id:int option -><br>       ?migrate_from_chat_id:int option -><br>       ?pinned_message:<a href="TelegramApi.Message.html#TYPEmessage">message</a> option -><br>       unit -> <a href="TelegramApi.Message.html#TYPEmessage">message</a></code></pre><div class="info ">
+Create a <code class="code">message</code> in a concise manner
+<p>
+Read a <code class="code">message</code> out of some JSON<br>
+</div>
+
+<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type">Yojson.Safe.json -> <a href="TelegramApi.Message.html#TYPEmessage">message</a></code></pre>
+<pre><span id="VALget_sender_first_name"><span class="keyword">val</span> get_sender_first_name</span> : <code class="type"><a href="TelegramApi.Message.html#TYPEmessage">message</a> -> string</code></pre><div class="info ">
+Get the first name of the user who sent the message
+<p>
+Get the username of the user who sent the message<br>
+</div>
+
+<pre><span id="VALget_sender_username"><span class="keyword">val</span> get_sender_username</span> : <code class="type"><a href="TelegramApi.Message.html#TYPEmessage">message</a> -> string</code></pre><div class="info ">
+Get a formatted name for the user who sent the message: first name, with the username in parentheses if it exists<br>
+</div>
+
+<pre><span id="VALget_sender"><span class="keyword">val</span> get_sender</span> : <code class="type"><a href="TelegramApi.Message.html#TYPEmessage">message</a> -> string</code></pre></body></html>

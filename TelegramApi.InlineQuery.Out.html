@@ -1,0 +1,1437 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link rel="Up" href="TelegramApi.InlineQuery.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.InlineQuery.Out</title>
+</head>
+<body>
+<div class="navbar">&nbsp;<a class="up" href="TelegramApi.InlineQuery.html" title="TelegramApi.InlineQuery">Up</a>
+&nbsp;</div>
+<h1>Module <a href="type_TelegramApi.InlineQuery.Out.html">TelegramApi.InlineQuery.Out</a></h1>
+
+<pre><span class="keyword">module</span> Out: <code class="code">sig</code> <a href="TelegramApi.InlineQuery.Out.html">..</a> <code class="code">end</code></pre><div class="info module top">
+This module is used to deal with outgoing replies to inline queries for an InlineQuery bot<br>
+</div>
+<hr width="100%">
+
+<pre><code><span id="TYPEarticle"><span class="keyword">type</span> <code class="type"></code>article</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTarticle.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTarticle.title">title</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTarticle.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a></code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTarticle.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTarticle.url">url</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTarticle.hide_url">hide_url</span>&nbsp;: <code class="type">bool option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTarticle.description">description</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTarticle.thumb_url">thumb_url</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTarticle.thumb_width">thumb_width</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTarticle.thumb_height">thumb_height</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents an article sent as a reply
+<p>
+Represents a photo (jpeg) sent as a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEphoto"><span class="keyword">type</span> <code class="type"></code>photo</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto.photo_url">photo_url</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto.thumb_url">thumb_url</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto.photo_width">photo_width</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto.photo_height">photo_height</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto.title">title</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto.description">description</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTphoto.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a gif sent as a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEgif"><span class="keyword">type</span> <code class="type"></code>gif</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTgif.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTgif.gif_url">gif_url</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTgif.gif_width">gif_width</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTgif.gif_height">gif_height</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTgif.thumb_url">thumb_url</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTgif.title">title</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTgif.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTgif.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTgif.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a gif sent as a reply, but converted to an mp4 video file<br>
+</div>
+
+
+<pre><code><span id="TYPEmpeg4gif"><span class="keyword">type</span> <code class="type"></code>mpeg4gif</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmpeg4gif.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmpeg4gif.mpeg4_url">mpeg4_url</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmpeg4gif.mpeg4_width">mpeg4_width</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmpeg4gif.mpeg4_height">mpeg4_height</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmpeg4gif.thumb_url">thumb_url</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmpeg4gif.title">title</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmpeg4gif.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmpeg4gif.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTmpeg4gif.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a video sent as a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEvideo"><span class="keyword">type</span> <code class="type"></code>video</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvideo.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvideo.video_url">video_url</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvideo.mime_type">mime_type</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvideo.thumb_url">thumb_url</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvideo.title">title</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvideo.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvideo.video_width">video_width</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvideo.video_height">video_height</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvideo.video_duration">video_duration</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvideo.description">description</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvideo.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvideo.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents an audio file (mp3) sent as a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEaudio"><span class="keyword">type</span> <code class="type"></code>audio</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaudio.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaudio.audio_url">audio_url</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaudio.title">title</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaudio.performer">performer</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaudio.audio_duration">audio_duration</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaudio.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTaudio.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a voice recording (ogg) sent as a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEvoice"><span class="keyword">type</span> <code class="type"></code>voice</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvoice.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvoice.voice_url">voice_url</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvoice.title">title</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvoice.voice_duration">voice_duration</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvoice.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvoice.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a generic file/document (.pdf/.zip supported) sent as a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEdocument"><span class="keyword">type</span> <code class="type"></code>document</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdocument.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdocument.title">title</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdocument.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdocument.document_url">document_url</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdocument.mime_type">mime_type</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdocument.description">description</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdocument.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdocument.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdocument.thumb_url">thumb_url</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdocument.thumb_width">thumb_width</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTdocument.thumb_height">thumb_height</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a location on a map (usually the user's location)<br>
+</div>
+
+
+<pre><code><span id="TYPElocation"><span class="keyword">type</span> <code class="type"></code>location</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlocation.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlocation.latitude">latitude</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlocation.longitude">longitude</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlocation.title">title</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlocation.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlocation.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlocation.thumb_url">thumb_url</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlocation.thumb_width">thumb_width</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTlocation.thumb_height">thumb_height</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a venue for an event set by the user<br>
+</div>
+
+
+<pre><code><span id="TYPEvenue"><span class="keyword">type</span> <code class="type"></code>venue</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvenue.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvenue.latitude">latitude</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvenue.longitude">longitude</span>&nbsp;: <code class="type">float</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvenue.title">title</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvenue.address">address</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvenue.foursquare_id">foursquare_id</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvenue.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvenue.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvenue.thumb_url">thumb_url</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvenue.thumb_width">thumb_width</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTvenue.thumb_height">thumb_height</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents contact info for a user being sent<br>
+</div>
+
+
+<pre><code><span id="TYPEcontact"><span class="keyword">type</span> <code class="type"></code>contact</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcontact.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcontact.phone_number">phone_number</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcontact.first_name">first_name</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcontact.last_name">last_name</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcontact.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcontact.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcontact.thumb_url">thumb_url</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcontact.thumb_width">thumb_width</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcontact.thumb_height">thumb_height</span>&nbsp;: <code class="type">int option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a photo, which has already been uploaded to the Telegram servers, sent as a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEcached_photo"><span class="keyword">type</span> <code class="type"></code>cached_photo</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_photo.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_photo.photo_file_id">photo_file_id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_photo.title">title</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_photo.description">description</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_photo.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_photo.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_photo.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a gif, which has already been uploaded to the Telegram servers, sent as a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEcached_gif"><span class="keyword">type</span> <code class="type"></code>cached_gif</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_gif.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_gif.gif_file_id">gif_file_id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_gif.title">title</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_gif.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_gif.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_gif.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a gif, which has already been uploaded to the Telegram servers, sent as a reply, but converted to an mp4 video file<br>
+</div>
+
+
+<pre><code><span id="TYPEcached_mpeg4gif"><span class="keyword">type</span> <code class="type"></code>cached_mpeg4gif</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_mpeg4gif.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_mpeg4gif.mpeg4_file_id">mpeg4_file_id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_mpeg4gif.title">title</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_mpeg4gif.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_mpeg4gif.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_mpeg4gif.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a link to a sticker stored on the Telegram servers<br>
+</div>
+
+
+<pre><code><span id="TYPEcached_sticker"><span class="keyword">type</span> <code class="type"></code>cached_sticker</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_sticker.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_sticker.sticker_file_id">sticker_file_id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_sticker.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_sticker.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a file (PDF or ZIP), which has already been uploaded to the Telegram servers, sent as a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEcached_document"><span class="keyword">type</span> <code class="type"></code>cached_document</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_document.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_document.title">title</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_document.document_file_id">document_file_id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_document.description">description</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_document.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_document.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_document.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a video, which has already been uploaded to the Telegram servers, sent as a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEcached_video"><span class="keyword">type</span> <code class="type"></code>cached_video</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_video.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_video.video_file_id">video_file_id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_video.title">title</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_video.description">description</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_video.caption">caption</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_video.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_video.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents a voice recording (OGG), which has already been uploaded to the Telegram servers, sent as a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEcached_voice"><span class="keyword">type</span> <code class="type"></code>cached_voice</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_voice.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_voice.voice_file_id">voice_file_id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_voice.title">title</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_voice.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_voice.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+<div class="info ">
+Represents an audio clip (MP3), which has already been uploaded to the Telegram servers, sent as a reply<br>
+</div>
+
+
+<pre><code><span id="TYPEcached_audio"><span class="keyword">type</span> <code class="type"></code>cached_audio</span> = {</code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_audio.id">id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_audio.audio_file_id">audio_file_id</span>&nbsp;: <code class="type">string</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_audio.reply_markup">reply_markup</span>&nbsp;: <code class="type"><a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTcached_audio.input_message_content">input_message_content</span>&nbsp;: <code class="type"><a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> option</code>;</code></td>
+
+</tr></table>
+}
+
+
+
+<pre><code><span id="TYPEinline_query_result"><span class="keyword">type</span> <code class="type"></code>inline_query_result</span> = </code></pre><table class="typetable">
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.Article"><span class="constructor">Article</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEarticle">article</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.Photo"><span class="constructor">Photo</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEphoto">photo</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.Gif"><span class="constructor">Gif</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEgif">gif</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.Mpeg4Gif"><span class="constructor">Mpeg4Gif</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEmpeg4gif">mpeg4gif</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.Video"><span class="constructor">Video</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEvideo">video</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.Audio"><span class="constructor">Audio</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEaudio">audio</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.Voice"><span class="constructor">Voice</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEvoice">voice</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.Document"><span class="constructor">Document</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEdocument">document</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.Location"><span class="constructor">Location</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPElocation">location</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.Venue"><span class="constructor">Venue</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEvenue">venue</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.Contact"><span class="constructor">Contact</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEcontact">contact</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.CachedPhoto"><span class="constructor">CachedPhoto</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEcached_photo">cached_photo</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.CachedGif"><span class="constructor">CachedGif</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEcached_gif">cached_gif</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.CachedMpeg4Gif"><span class="constructor">CachedMpeg4Gif</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEcached_mpeg4gif">cached_mpeg4gif</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.CachedSticker"><span class="constructor">CachedSticker</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEcached_sticker">cached_sticker</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.CachedDocument"><span class="constructor">CachedDocument</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEcached_document">cached_document</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.CachedVideo"><span class="constructor">CachedVideo</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEcached_video">cached_video</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.CachedVoice"><span class="constructor">CachedVoice</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEcached_voice">cached_voice</a></code></code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTinline_query_result.CachedAudio"><span class="constructor">CachedAudio</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEcached_audio">cached_audio</a></code></code></td>
+
+</tr></table>
+
+<div class="info ">
+Represents all the replies that can be given to an inline query<br>
+</div>
+
+
+<pre><span id="VALcreate_article"><span class="keyword">val</span> create_article</span> : <code class="type">id:string -><br>       title:string -><br>       input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?url:string -><br>       ?hide_url:bool -><br>       ?description:string -><br>       ?thumb_url:string -><br>       ?thumb_width:int -><br>       ?thumb_height:int -> unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create an <code class="code">Article : inline_query_result</code> in a concise manner
+<p>
+Create a <code class="code">Photo : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_photo"><span class="keyword">val</span> create_photo</span> : <code class="type">id:string -><br>       photo_url:string -><br>       thumb_url:string -><br>       ?photo_width:int -><br>       ?photo_height:int -><br>       ?title:string -><br>       ?description:string -><br>       ?caption:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">Gif : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_gif"><span class="keyword">val</span> create_gif</span> : <code class="type">id:string -><br>       gif_url:string -><br>       ?gif_width:int -><br>       ?gif_height:int -><br>       thumb_url:string -><br>       ?title:string -><br>       ?caption:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create an <code class="code">Mpeg4Gif : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_mpeg4gif"><span class="keyword">val</span> create_mpeg4gif</span> : <code class="type">id:string -><br>       mpeg4_url:string -><br>       ?mpeg4_width:int -><br>       ?mpeg4_height:int -><br>       thumb_url:string -><br>       ?title:string -><br>       ?caption:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">Video : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_video"><span class="keyword">val</span> create_video</span> : <code class="type">id:string -><br>       video_url:string -><br>       mime_type:string -><br>       thumb_url:string -><br>       title:string -><br>       ?caption:string -><br>       ?video_width:int -><br>       ?video_height:int -><br>       ?video_duration:int -><br>       ?description:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create an <code class="code">Audio : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_audio"><span class="keyword">val</span> create_audio</span> : <code class="type">id:string -><br>       audio_url:string -><br>       title:string -><br>       ?performer:string -><br>       ?audio_duration:int -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">Voice : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_voice"><span class="keyword">val</span> create_voice</span> : <code class="type">id:string -><br>       voice_url:string -><br>       title:string -><br>       ?voice_duration:int -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">Document : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_document"><span class="keyword">val</span> create_document</span> : <code class="type">id:string -><br>       title:string -><br>       ?caption:string -><br>       document_url:string -><br>       mime_type:string -><br>       ?description:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       ?thumb_url:string -><br>       ?thumb_width:int -><br>       ?thumb_height:int -> unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">Location : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_location"><span class="keyword">val</span> create_location</span> : <code class="type">id:string -><br>       latitude:float -><br>       longitude:float -><br>       title:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       ?thumb_url:string -><br>       ?thumb_width:int -><br>       ?thumb_height:int -> unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">Venue : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_venue"><span class="keyword">val</span> create_venue</span> : <code class="type">id:string -><br>       latitude:float -><br>       longitude:float -><br>       title:string -><br>       address:string -><br>       ?foursquare_id:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       ?thumb_url:string -><br>       ?thumb_width:int -><br>       ?thumb_height:int -> unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">Contact : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_contact"><span class="keyword">val</span> create_contact</span> : <code class="type">id:string -><br>       phone_number:string -><br>       first_name:string -><br>       ?last_name:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       ?thumb_url:string -><br>       ?thumb_width:int -><br>       ?thumb_height:int -> unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">CachedPhoto : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_cached_photo"><span class="keyword">val</span> create_cached_photo</span> : <code class="type">id:string -><br>       photo_file_id:string -><br>       ?title:string -><br>       ?description:string -><br>       ?caption:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">CachedGif : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_cached_gif"><span class="keyword">val</span> create_cached_gif</span> : <code class="type">id:string -><br>       gif_file_id:string -><br>       ?title:string -><br>       ?caption:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">CachedMpeg4Gif : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_cached_mpeg4gif"><span class="keyword">val</span> create_cached_mpeg4gif</span> : <code class="type">id:string -><br>       mpeg4_file_id:string -><br>       ?title:string -><br>       ?caption:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">CachedSticker : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_cached_sticker"><span class="keyword">val</span> create_cached_sticker</span> : <code class="type">id:string -><br>       sticker_file_id:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">CachedDocument : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_cached_document"><span class="keyword">val</span> create_cached_document</span> : <code class="type">id:string -><br>       title:string -><br>       document_file_id:string -><br>       ?description:string -><br>       ?caption:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">CachedVideo : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_cached_video"><span class="keyword">val</span> create_cached_video</span> : <code class="type">id:string -><br>       video_file_id:string -><br>       title:string -><br>       ?description:string -><br>       ?caption:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">CachedVoice : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_cached_voice"><span class="keyword">val</span> create_cached_voice</span> : <code class="type">id:string -><br>       voice_file_id:string -><br>       title:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Create a <code class="code">CachedAudio : inline_query_result</code> in a concise manner<br>
+</div>
+
+<pre><span id="VALcreate_cached_audio"><span class="keyword">val</span> create_cached_audio</span> : <code class="type">id:string -><br>       audio_file_id:string -><br>       ?reply_markup:<a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> -><br>       ?input_message_content:<a href="TelegramApi.InputMessageContent.html#TYPEinput_message_content">TelegramApi.InputMessageContent.input_message_content</a> -><br>       unit -> <a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a></code></pre><div class="info ">
+Prepare an <code class="code">inline_query_result</code> for sending<br>
+</div>
+
+<pre><span id="VALprepare"><span class="keyword">val</span> prepare</span> : <code class="type"><a href="TelegramApi.InlineQuery.Out.html#TYPEinline_query_result">inline_query_result</a> -> Yojson.Safe.json</code></pre></body></html>

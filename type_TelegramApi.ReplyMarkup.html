@@ -1,0 +1,45 @@
+<html><head>
+<link rel="stylesheet" href="style.css" type="text/css">
+<meta content="text/html; charset=iso-8859-1" http-equiv="Content-Type">
+<link rel="Start" href="index.html">
+<link title="Index of types" rel=Appendix href="index_types.html">
+<link title="Index of exceptions" rel=Appendix href="index_exceptions.html">
+<link title="Index of values" rel=Appendix href="index_values.html">
+<link title="Index of modules" rel=Appendix href="index_modules.html">
+<link title="Index of module types" rel=Appendix href="index_module_types.html">
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.ReplyMarkup</title>
+</head>
+<body>
+<code class="code"><span class="keyword">sig</span><br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;reply_keyboard_markup&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;keyboard&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">KeyboardButton</span>.keyboard_button&nbsp;list&nbsp;list;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;resize_keyboard&nbsp;:&nbsp;bool&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;one_time_keyboard&nbsp;:&nbsp;bool&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;selective&nbsp;:&nbsp;bool&nbsp;option;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;inline_keyboard_markup&nbsp;=&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;inline_keyboard&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineKeyboardButton</span>.inline_keyboard_button&nbsp;list&nbsp;list;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;reply_keyboard_hide&nbsp;=&nbsp;{&nbsp;selective&nbsp;:&nbsp;bool&nbsp;option;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;force_reply&nbsp;=&nbsp;{&nbsp;selective&nbsp;:&nbsp;bool&nbsp;option;&nbsp;}<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;reply_markup&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">ReplyKeyboardMarkup</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_keyboard_markup<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">InlineKeyboardMarkup</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.inline_keyboard_markup<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">ReplyKeyboardHide</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_keyboard_hide<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">ForceReply</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.force_reply<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;prepare&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Yojson</span>.<span class="constructor">Safe</span>.json<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_reply_keyboard_markup&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;keyboard:<span class="constructor">TelegramApi</span>.<span class="constructor">KeyboardButton</span>.keyboard_button&nbsp;list&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?resize_keyboard:bool&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?one_time_keyboard:bool&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?selective:bool&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_inline_keyboard_markup&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;inline_keyboard:<span class="constructor">TelegramApi</span>.<span class="constructor">InlineKeyboardButton</span>.inline_keyboard_button<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;list&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_reply_keyboard_hide&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?selective:bool&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create_force_reply&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;?selective:bool&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ReplyMarkup</span>.reply_markup<br>
+<span class="keyword">end</span></code></body></html>
