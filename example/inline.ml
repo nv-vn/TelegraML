@@ -10,7 +10,8 @@ module MyBot = Mk (struct
   let token = [%blob "../bot.token"]
   let inline {id; query} =
     print_endline ("Someone said: '" ^ query ^ "'");
-    let response = InlineQuery.Out.create_article ~id:"QueryTest" ~title:"Test" ~message_text:query () in
+    let input_message_content = InputMessageContent.Text { message_text=query; parse_mode=None; disable_web_page_preview=false } in
+    let response = InlineQuery.Out.create_article ~id:"QueryTest" ~title:"Test" ~input_message_content () in
     AnswerInlineQuery (id, [response], None, None, None)
 end)
 
