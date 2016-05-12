@@ -1527,6 +1527,18 @@ module type BOT = sig
   val token : string
   val commands : Command.command list
   val inline : InlineQuery.inline_query -> Command.action
+
+  val new_chat_member : Chat.chat -> User.user -> Command.action
+  val left_chat_member : Chat.chat -> User.user -> Command.action
+  val new_chat_title : Chat.chat -> string -> Command.action
+  val new_chat_photo : Chat.chat -> PhotoSize.photo_size list -> Command.action
+  val delete_chat_photo : Chat.chat -> Command.action
+  val group_chat_created : Chat.chat -> Command.action
+  val supergroup_chat_created : Chat.chat -> Command.action
+  val channel_chat_created : Chat.chat -> Command.action
+  val migrate_to_chat_id : Chat.chat -> int -> Command.action
+  val migrate_from_chat_id : Chat.chat -> int -> Command.action
+  val pinned_message : Chat.chat -> Message.message -> Command.action
 end
 
 module type TELEGRAM_BOT = sig
@@ -1972,7 +1984,7 @@ module Mk (B : BOT) = struct
           ignore ((function {inline_query = Some inline_query} -> evaluator @@ inline inline_query | _ -> return ()) <$> update);
           (* And then return just the ID of the last update if it succeeded *)
           return @@ ((fun update -> Update.create update.update_id ()) <$> update)
-        (* If command execution is enabled: if there's an update and it's a command... *)
+          (* If command execution is enabled: if there's an update and it's a command... *)
            end else if run_cmds && default false (Command.is_command <$> update) then begin
           (* Run the evaluator on the result of the command, if the update exists *)
           ignore ((fun update -> evaluator @@ Command.read_update update commands) <$> update);

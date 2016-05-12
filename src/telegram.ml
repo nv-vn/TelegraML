@@ -8,4 +8,16 @@ module BotDefaults : Api.BOT = struct
   let token = ""
   let commands = []
   let inline query = Api.Command.Nothing
+
+  let new_chat_member _ _ = Api.Command.Nothing
+  let left_chat_member _ _ = Api.Command.Nothing
+  let new_chat_title _ _ = Api.Command.Nothing
+  let new_chat_photo _ _ = Api.Command.Nothing
+  let delete_chat_photo _ = Api.Command.Nothing
+  let group_chat_created _ = Api.Command.Nothing
+  let supergroup_chat_created _ = Api.Command.Nothing
+  let channel_chat_created _ = Api.Command.Nothing
+  let migrate_to_chat_id _ _ = Api.Command.Nothing
+  let migrate_from_chat_id _ _ = Api.Command.Nothing
+  let pinned_message _ _ = Api.Command.Nothing
 end

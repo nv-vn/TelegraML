@@ -1072,6 +1072,39 @@ module type BOT = sig
 
   (** The function to call on inline queries *)
   val inline : InlineQuery.inline_query -> Command.action
+
+  (** Called whenever a new user is added to or joins a chat *)
+  val new_chat_member : Chat.chat -> User.user -> Command.action
+
+  (** Called whenever a user leaves a chat *)
+  val left_chat_member : Chat.chat -> User.user -> Command.action
+
+  (** Called when the title for a chat is changed *)
+  val new_chat_title : Chat.chat -> string -> Command.action
+
+  (** Called whenever a new chat photo is set or the current one is changed *)
+  val new_chat_photo : Chat.chat -> PhotoSize.photo_size list -> Command.action
+
+  (** Called whenever a chat's photo gets deleted *)
+  val delete_chat_photo : Chat.chat -> Command.action
+
+  (** Called whenever a chat turns into a group chat *)
+  val group_chat_created : Chat.chat -> Command.action
+
+  (** Called whenever a chat turns into a supergroup chat *)
+  val supergroup_chat_created : Chat.chat -> Command.action
+
+  (** Called whenever a chat turns into a channel *)
+  val channel_chat_created : Chat.chat -> Command.action
+
+  (** Called whenever a chat migrates to a new chat id *)
+  val migrate_to_chat_id : Chat.chat -> int -> Command.action
+
+  (** Called whenever a chat has been migrated from another chat id *)
+  val migrate_from_chat_id : Chat.chat -> int -> Command.action
+
+  (** Called whenever a certain message is pinned for a chat *)
+  val pinned_message : Chat.chat -> Message.message -> Command.action
 end
 
 (** TELEGRAM_BOT represents the interface to a running bot *)
