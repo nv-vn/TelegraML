@@ -387,19 +387,21 @@ module Sticker = struct
     width     : int;
     height    : int;
     thumb     : PhotoSize.photo_size option;
+    emoji     : string option;
     file_size : int option
   }
 
-  let create ~file_id ~width ~height ?(thumb = None) ?(file_size = None) () =
-    {file_id; width; height; thumb; file_size}
+  let create ~file_id ~width ~height ?(thumb = None) ?(emoji = None) ?(file_size = None) () =
+    {file_id; width; height; thumb; emoji; file_size}
 
   let read obj =
     let file_id = the_string @@ get_field "file_id" obj in
     let width = the_int @@ get_field "width" obj in
     let height = the_int @@ get_field "height" obj in
     let thumb = PhotoSize.read <$> get_opt_field "thumb" obj in
+    let emoji = the_string <$> get_opt_field "emoji" obj in
     let file_size = the_int <$> get_opt_field "file_size" obj in
-    create ~file_id ~width ~height ~thumb ~file_size ()
+    create ~file_id ~width ~height ~thumb ~emoji ~file_size ()
 
   module Out = struct
     type sticker = {
@@ -700,6 +702,7 @@ module Message = struct
     date                    : int;
     chat                    : Chat.chat;
     forward_from            : User.user option;
+    forward_from_chat       : Chat.chat option;
     forward_date            : int option;
     reply_to_message        : message option;
     text                    : string option;
@@ -727,8 +730,8 @@ module Message = struct
     pinned_message          : message option
   }
 
-  let create ~message_id ?(from = None) ~date ~chat ?(forward_from = None) ?(forward_date = None) ?(reply_to = None) ?(text = None) ?(entities = None) ?(audio = None) ?(document = None) ?(photo = None) ?(sticker = None) ?(video = None) ?(voice = None) ?(caption = None) ?(contact = None) ?(location = None) ?(venue = None) ?(new_chat_member = None) ?(left_chat_member = None) ?(new_chat_title = None) ?(new_chat_photo = None) ?(delete_chat_photo = None) ?(group_chat_created = None) ?(supergroup_chat_created = None) ?(channel_chat_created = None) ?(migrate_to_chat_id = None) ?(migrate_from_chat_id = None) ?(pinned_message = None) () =
-    {message_id; from; date; chat; forward_from; forward_date; reply_to_message = reply_to; text; entities; audio; document; photo; sticker; video; voice; caption; contact; location; venue; new_chat_member; left_chat_member; new_chat_title; new_chat_photo; delete_chat_photo; group_chat_created; supergroup_chat_created; channel_chat_created; migrate_to_chat_id; migrate_from_chat_id; pinned_message}
+  let create ~message_id ?(from = None) ~date ~chat ?(forward_from = None) ?(forward_from_chat = None) ?(forward_date = None) ?(reply_to = None) ?(text = None) ?(entities = None) ?(audio = None) ?(document = None) ?(photo = None) ?(sticker = None) ?(video = None) ?(voice = None) ?(caption = None) ?(contact = None) ?(location = None) ?(venue = None) ?(new_chat_member = None) ?(left_chat_member = None) ?(new_chat_title = None) ?(new_chat_photo = None) ?(delete_chat_photo = None) ?(group_chat_created = None) ?(supergroup_chat_created = None) ?(channel_chat_created = None) ?(migrate_to_chat_id = None) ?(migrate_from_chat_id = None) ?(pinned_message = None) () =
+    {message_id; from; date; chat; forward_from; forward_from_chat; forward_date; reply_to_message = reply_to; text; entities; audio; document; photo; sticker; video; voice; caption; contact; location; venue; new_chat_member; left_chat_member; new_chat_title; new_chat_photo; delete_chat_photo; group_chat_created; supergroup_chat_created; channel_chat_created; migrate_to_chat_id; migrate_from_chat_id; pinned_message}
 
   let rec read obj =
     let message_id = the_int @@ get_field "message_id" obj in
@@ -736,6 +739,7 @@ module Message = struct
     let date = the_int @@ get_field "date" obj in
     let chat = Chat.read @@ get_field "chat" obj in
     let forward_from = User.read <$> get_opt_field "forward_from" obj in
+    let forward_from_chat = Chat.read <$> get_opt_field "forward_from_chat" obj in
     let forward_date = the_int <$> get_opt_field "forward_date" obj in
     let reply_to = read <$> get_opt_field "reply_to_message" obj in
     let text = the_string <$> get_opt_field "text" obj in
@@ -761,7 +765,7 @@ module Message = struct
     let migrate_to_chat_id = the_int <$> get_opt_field "migrate_to_chat_id" obj in
     let migrate_from_chat_id = the_int <$> get_opt_field "migrate_from_chat_id" obj in
     let pinned_message = read <$> get_opt_field "message" obj in
-    create ~message_id ~from ~date ~chat ~forward_from ~forward_date ~reply_to ~text ~entities ~audio ~document ~photo ~sticker ~video ~voice ~caption ~contact ~location ~venue ~new_chat_member ~left_chat_member ~new_chat_title ~new_chat_photo ~delete_chat_photo ~group_chat_created ~supergroup_chat_created ~channel_chat_created ~migrate_to_chat_id ~migrate_from_chat_id ~pinned_message ()
+    create ~message_id ~from ~date ~chat ~forward_from ~forward_from_chat ~forward_date ~reply_to ~text ~entities ~audio ~document ~photo ~sticker ~video ~voice ~caption ~contact ~location ~venue ~new_chat_member ~left_chat_member ~new_chat_title ~new_chat_photo ~delete_chat_photo ~group_chat_created ~supergroup_chat_created ~channel_chat_created ~migrate_to_chat_id ~migrate_from_chat_id ~pinned_message ()
 
   let get_sender_first_name = function
     | {from = Some user} -> user.first_name

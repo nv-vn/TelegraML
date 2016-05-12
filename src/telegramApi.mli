@@ -295,11 +295,12 @@ module Sticker : sig
     width     : int;
     height    : int;
     thumb     : PhotoSize.photo_size option;
+    emoji     : string option;
     file_size : int option
   }
 
   (** Create a [sticker] in a concise manner *)
-  val create : file_id:string -> width:int -> height:int -> ?thumb:PhotoSize.photo_size option -> ?file_size:int option -> unit -> sticker
+  val create : file_id:string -> width:int -> height:int -> ?thumb:PhotoSize.photo_size option -> ?emoji:string option -> ?file_size:int option -> unit -> sticker
   (** Read a [sticker] out of some JSON *)
   val read : json -> sticker
 
@@ -517,6 +518,7 @@ module Message : sig
     date                    : int;
     chat                    : Chat.chat;
     forward_from            : User.user option;
+    forward_from_chat       : Chat.chat option;
     forward_date            : int option;
     reply_to_message        : message option;
     text                    : string option;
@@ -545,7 +547,7 @@ module Message : sig
   }
 
   (** Create a [message] in a concise manner *)
-  val create : message_id:int -> ?from:User.user option -> date:int -> chat:Chat.chat -> ?forward_from:User.user option -> ?forward_date:int option -> ?reply_to:message option -> ?text:string option -> ?entities:MessageEntity.message_entity list option -> ?audio:Audio.audio option -> ?document:Document.document option -> ?photo:PhotoSize.photo_size list option -> ?sticker:Sticker.sticker option -> ?video:Video.video option -> ?voice:Voice.voice option -> ?caption:string option -> ?contact:Contact.contact option -> ?location:Location.location option -> ?venue:Venue.venue option -> ?new_chat_member:User.user option -> ?left_chat_member:User.user option -> ?new_chat_title:string option -> ?new_chat_photo:PhotoSize.photo_size list option -> ?delete_chat_photo:bool option -> ?group_chat_created:bool option -> ?supergroup_chat_created:bool option -> ?channel_chat_created:bool option -> ?migrate_to_chat_id:int option -> ?migrate_from_chat_id:int option -> ?pinned_message:message option -> unit -> message
+  val create : message_id:int -> ?from:User.user option -> date:int -> chat:Chat.chat -> ?forward_from:User.user option -> ?forward_from_chat:Chat.chat option -> ?forward_date:int option -> ?reply_to:message option -> ?text:string option -> ?entities:MessageEntity.message_entity list option -> ?audio:Audio.audio option -> ?document:Document.document option -> ?photo:PhotoSize.photo_size list option -> ?sticker:Sticker.sticker option -> ?video:Video.video option -> ?voice:Voice.voice option -> ?caption:string option -> ?contact:Contact.contact option -> ?location:Location.location option -> ?venue:Venue.venue option -> ?new_chat_member:User.user option -> ?left_chat_member:User.user option -> ?new_chat_title:string option -> ?new_chat_photo:PhotoSize.photo_size list option -> ?delete_chat_photo:bool option -> ?group_chat_created:bool option -> ?supergroup_chat_created:bool option -> ?channel_chat_created:bool option -> ?migrate_to_chat_id:int option -> ?migrate_from_chat_id:int option -> ?pinned_message:message option -> unit -> message
   (** Read a [message] out of some JSON *)
   val read : json -> message
 
