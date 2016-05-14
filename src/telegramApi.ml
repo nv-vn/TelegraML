@@ -1977,20 +1977,48 @@ module Mk (B : BOT) = struct
         offset := default !offset ((fun update -> update.update_id + 1) <$> update);
         let open Lwt in
         (* Clear the last update and then *)
-        clear_update () >>= fun () ->
-        (* If command execution is enabled: if there's an update and it has an inline_query field *)
-        if run_cmds && default false (Update.is_inline_query <$> update) then begin
-          (* Run the evaluator on the inline_query of the update and throw away the result *)
-          ignore ((function {inline_query = Some inline_query} -> evaluator @@ inline inline_query | _ -> return ()) <$> update);
-          (* And then return just the ID of the last update if it succeeded *)
-          return @@ ((fun update -> Update.create update.update_id ()) <$> update)
+        clear_update () >>= fun () -> begin
+          let open Message in
+          (* Let's assume that only one of these events can ever be present in a message at once... *)
+          begin match (run_cmds, update) with
+            | (true, Result.Success {message = Some {chat; new_chat_member = Some user}}) ->
+              evaluator @@ B.new_chat_member chat user
+            | (true, Result.Success {message = Some {chat; left_chat_member = Some user}}) ->
+              evaluator @@ B.left_chat_member chat user
+            | (true, Result.Success {message = Some {chat; new_chat_title = Some title}}) ->
+              evaluator @@ B.new_chat_title chat title
+            | (true, Result.Success {message = Some {chat; new_chat_photo = Some photo}}) ->
+              evaluator @@ B.new_chat_photo chat photo
+            | (true, Result.Success {message = Some {chat; delete_chat_photo = Some true}}) ->
+              evaluator @@ B.delete_chat_photo chat
+            | (true, Result.Success {message = Some {chat; group_chat_created = Some true}}) ->
+              evaluator @@ B.group_chat_created chat
+            | (true, Result.Success {message = Some {chat; supergroup_chat_created = Some true}}) ->
+              evaluator @@ B.supergroup_chat_created chat
+            | (true, Result.Success {message = Some {chat; channel_chat_created = Some true}}) ->
+              evaluator @@ B.channel_chat_created chat
+            | (true, Result.Success {message = Some {chat; migrate_to_chat_id = Some chat_id}}) ->
+              evaluator @@ B.migrate_to_chat_id chat chat_id
+            | (true, Result.Success {message = Some {chat; migrate_from_chat_id = Some chat_id}}) ->
+              evaluator @@ B.migrate_from_chat_id chat chat_id
+            | (true, Result.Success {message = Some {chat; pinned_message = Some message}}) ->
+              evaluator @@ B.pinned_message chat message
+            | _ -> return ()
+          end |> ignore;
+          (* If command execution is enabled: if there's an update and it has an inline_query field *)
+          if run_cmds && default false (Update.is_inline_query <$> update) then begin
+            (* Run the evaluator on the inline_query of the update and throw away the result *)
+            ignore ((function {inline_query = Some inline_query} -> evaluator @@ inline inline_query | _ -> return ()) <$> update);
+            (* And then return just the ID of the last update if it succeeded *)
+            return @@ ((fun update -> Update.create update.update_id ()) <$> update)
           (* If command execution is enabled: if there's an update and it's a command... *)
-           end else if run_cmds && default false (Command.is_command <$> update) then begin
-          (* Run the evaluator on the result of the command, if the update exists *)
-          ignore ((fun update -> evaluator @@ Command.read_update update commands) <$> update);
-          (* And then return just the ID of the last update if it succeeded *)
-          return @@ ((fun update -> Update.create update.update_id ()) <$> update)
-        end else return update (* Otherwise, return the last update *)
+          end else if run_cmds && default false (Command.is_command <$> update) then begin
+            (* Run the evaluator on the result of the command, if the update exists *)
+            ignore ((fun update -> evaluator @@ Command.read_update update commands) <$> update);
+            (* And then return just the ID of the last update if it succeeded *)
+            return @@ ((fun update -> Update.create update.update_id ()) <$> update)
+          end else return update (* Otherwise, return the last update *)
+        end
       end
     | _ -> return @@ Result.Failure (the_string @@ get_field "description" obj)
 
