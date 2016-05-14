@@ -23,6 +23,13 @@ Executable "inline"
   Install: false
   BuildDepends: lwt, cohttp, cohttp.lwt, ppx_blob, telegraml
 
+Executable "greet"
+  Path: .
+  MainIs: greet.ml
+  CompiledObject: best
+  Install: false
+  BuildDepends: lwt, cohttp, cohttp.lwt, ppx_blob, telegraml
+
 Executable "helloworld"
   Path: .
   MainIs: helloworld.ml

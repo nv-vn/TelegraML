@@ -1,16 +1,16 @@
 # TelegraML
 
 An OCaml library for creating bots for [Telegram Messenger](https://telegram.org/).
-Bots are built using the official API provided by Telegram. The documentation can be viewed [here](https://core.telegram.org/bots/api#inline-mode-methods).
+Bots are built using the official API provided by Telegram. The documentation can be viewed [here](https://core.telegram.org/bots/api).
 
 ## Introduction:
 
 Before creating a bot, it's recommended that you read through [this page](https://core.telegram.org/bots), which outlines some of the basic usage of bots and the process of registering and managing your bots.
 
-The API is designed to make heavy use of OCaml's module system to provide a configurable template for creating new bots, with optional higher-level representations of features such as commands or inline responses.
+The API is designed to make heavy use of OCaml's module system to provide a configurable template for creating new bots, with optional higher-level representations of features such as commands, chat events, or inline responses.
 All bots are created as modules, by instantiating the `Telegram.Api.Mk` functor, which will generate a module for using your bot directly.
 The direct commands can be accessed as members of the module, with the API's methods in `snake_case` with `~named` arguments.
-However, when using the higher-level APIs (for the inline responses or commands), it may be useful to reuse the same command generically across different bots. As a result, the commands/inline response functions are expected to return values of the `Telegram.Api.Command.action`.
+However, when using the higher-level APIs (for the inline responses, chat events, or commands), it may be useful to reuse the same command generically across different bots. As a result, the commands/inline response functions are expected to return values of the `Telegram.Api.Command.action`.
 Using this type, the command is represented as an abstract data type. These commands are named in `CamelCase`, but they are equivalent to those directly accessible through the module. Note that the arguments are not named, so read the official documentation or the type signatures of the equivalent functions in order to understand what each argument represents.
 
 If you need to get around the restrictions of using the `action` type to encode the responses, you can use the peek_update function to view the update before it's removed from the queue and process it manually.
@@ -50,6 +50,8 @@ the surrounding directory to use as the `chat_id` and `token`.
 
 [inline](https://github.com/nv-vn/TelegraML/tree/master/example/inline.ml) - Inline bot test
 
+[greet](https://github.com/nv-vn/TelegraML/tree/master/example/greet.ml) - Chat event test
+
 [glgbot](https://github.com/nv-vn/glgbot) - Some groupchat utilities: saved quotes, correcting messages, music jukebox, cute cat pics, and more
 
 If you're using TelegraML and you'd like your bot listed here, feel free to open a PR to list it
@@ -68,8 +70,6 @@ here with a link and a short description.
 ### What doesn't?
 
 * No webhooks
-* Haven't implemented May 6, 2016 updates (`emoji` field in stickers, `forward_from_chat` field in messages)
-* No high-level API for events send through messages
 
 ### Implemented Types:
 
