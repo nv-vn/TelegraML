@@ -1051,11 +1051,11 @@ module Command : sig
   (** Tests to see whether an update from the update queue invoked a command *)
   val is_command : Update.update -> bool
 
-  (** Takes a message, known to represent a command, and a list of possible commands. These values are used to find the matching command and return the actions that it should perform *)
-  val read_command : Message.message -> command list -> action
+  (** Takes an optional postfix for commands (/cmd@bot), a message, known to represent a command, and a list of possible commands. These values are used to find the matching command and return the actions that it should perform *)
+  val read_command : string option -> Message.message -> command list -> action
 
-  (** Reads a single update and, given a list of commands, matches it to a correct command that can be invoked *)
-  val read_update : Update.update -> command list -> action
+  (** Reads a single update and, given a list of commands, matches it to a correct command that can be invoked.  Takes an optional postfix for commands (/cmd@bot) as the first parameter *)
+  val read_update : string option -> Update.update -> command list -> action
 
   (** Turns a string into the args list that a command may choose to work with *)
   val tokenize : string -> string list
@@ -1064,8 +1064,11 @@ end
 (** BOT is strictly used for customization of a TELEGRAM_BOT module. Once your customizations have been applied, pass it into Api.Mk to create
     the usable TELEGRAM_BOT interface. *)
 module type BOT = sig
-  (** The API token to use for the bot. Warning: please use ppx_blob to load this in at compile-time and add the blob to your .gitignore *)
+  (** The API token to use for the bot. Warning: please load this in when the bot starts or use ppx_blob to load this in at compile-time and add the blob to your .gitignore *)
   val token : string
+
+  (** An optional postfix to require after commands, usually the bots username (so /hello@mybot will be ignored by @yourbot) *)
+  val command_postfix : string option
 
   (** The list of commands that the bot will be able to use *)
   val commands : Command.command list

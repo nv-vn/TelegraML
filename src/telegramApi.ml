@@ -1492,25 +1492,26 @@ module Command = struct
     | {message = Some {text = Some txt}} when starts_with txt "/" -> true
     | _ -> false
 
-  let rec read_command msg cmds = match msg with
+  let rec read_command username msg cmds = match msg with
     | {text = Some txt; _} -> begin
         let cmp str cmd =
           match nsplit str ~by:" " with
           | [] -> false
-          | a::_ -> begin
-              match nsplit a ~by:"@" with
-              | [] -> false
-              | a::_ -> a = cmd
+          | command::_ -> begin
+              match username, nsplit command ~by:"@" with
+              | _, [] -> false
+              | Some username, base::bot::_ -> base = cmd && bot = username
+              | _, base::_ -> base = cmd
             end in
         match cmds with
         | [] -> Nothing
         | cmd::_ when cmp txt ("/" ^ cmd.name) && cmd.enabled -> cmd.run msg
-        | _::cmds -> read_command msg cmds
+        | _::cmds -> read_command username msg cmds
       end
     | {text = None} -> Nothing
 
-  let read_update = function
-    | {message = Some msg} -> read_command msg
+  let read_update username = function
+    | {message = Some msg} -> read_command username msg
     | _ -> fun _ -> Nothing
 
   let tokenize msg = List.tl @@ nsplit msg ~by:" "
@@ -1525,6 +1526,8 @@ end
 
 module type BOT = sig
   val token : string
+  val command_postfix : string option
+
   val commands : Command.command list
   val inline : InlineQuery.inline_query -> Command.action
 
@@ -2014,7 +2017,7 @@ module Mk (B : BOT) = struct
           (* If command execution is enabled: if there's an update and it's a command... *)
           end else if run_cmds && default false (Command.is_command <$> update) then begin
             (* Run the evaluator on the result of the command, if the update exists *)
-            ignore ((fun update -> evaluator @@ Command.read_update update commands) <$> update);
+            ignore ((fun update -> evaluator @@ Command.read_update B.command_postfix update commands) <$> update);
             (* And then return just the ID of the last update if it succeeded *)
             return @@ ((fun update -> Update.create update.update_id ()) <$> update)
           end else return update (* Otherwise, return the last update *)

@@ -1,5 +1,5 @@
 Name: telegraml
-Version: 2.0.0
+Version: 2.1.0
 OCamlVersion: >= 4.02
 Synopsis: Telegram Bot API for OCaml 
 Authors: nv-vn <nv@cock.li>
