@@ -39,6 +39,13 @@ Answers between 1 to 50 inline queries
 </div>
 </td></tr>
 <tr><td align="left"><br>C</td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALchannel_chat_created">channel_chat_created</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+Called whenever a chat turns into a channel
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALchannel_chat_created">channel_chat_created</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.BOT.html#VALcommands">commands</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
 <td><div class="info">
 The list of commands that the bot will be able to use
@@ -334,6 +341,13 @@ Create a <code class="code">Document : inline_query_result</code> in a concise m
 Take the value of the result, if it succeeded, or the other argument by default and return that
 </div>
 </td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALdelete_chat_photo">delete_chat_photo</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+Called whenever a chat's photo gets deleted
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALdelete_chat_photo">delete_chat_photo</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.File.html#VALdownload">download</a> [<a href="TelegramApi.File.html">TelegramApi.File</a>]</td>
 <td><div class="info">
 Download the file from Telegram's servers if it exists
@@ -409,6 +423,13 @@ Get a list of all available updates that the bot has received
 Get a given user's profile pictures
 </div>
 </td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALgroup_chat_created">group_chat_created</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+Called whenever a chat turns into a group chat
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALgroup_chat_created">group_chat_created</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
 <tr><td align="left"><br>I</td></tr>
 <tr><td><a href="TelegramApi.BOT.html#VALinline">inline</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
 <td><div class="info">
@@ -451,13 +472,56 @@ Kick/ban a given user from the given chat
 </div>
 </td></tr>
 <tr><td align="left"><br>L</td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALleft_chat_member">left_chat_member</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+Called whenever a user leaves a chat
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALleft_chat_member">left_chat_member</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.InputFile.html#VALload">load</a> [<a href="TelegramApi.InputFile.html">TelegramApi.InputFile</a>]</td>
 <td><div class="info">
 Loads a file (by filename) and returns the raw bytes inside of it
 </div>
 </td></tr>
 <tr><td align="left"><br>M</td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALmigrate_from_chat_id">migrate_from_chat_id</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+Called whenever a chat has been migrated from another chat id
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALmigrate_from_chat_id">migrate_from_chat_id</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALmigrate_to_chat_id">migrate_to_chat_id</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+Called whenever a chat migrates to a new chat id
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALmigrate_to_chat_id">migrate_to_chat_id</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.InputFile.html#VALmultipart_body">multipart_body</a> [<a href="TelegramApi.InputFile.html">TelegramApi.InputFile</a>]</td>
+<td></td></tr>
+<tr><td align="left"><br>N</td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALnew_chat_member">new_chat_member</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+Called whenever a new user is added to or joins a chat
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALnew_chat_member">new_chat_member</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALnew_chat_photo">new_chat_photo</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+Called whenever a new chat photo is set or the current one is changed
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALnew_chat_photo">new_chat_photo</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALnew_chat_title">new_chat_title</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+Called when the title for a chat is changed
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALnew_chat_title">new_chat_title</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
 <td></td></tr>
 <tr><td align="left"><br>P</td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALpeek_update">peek_update</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
@@ -465,6 +529,13 @@ Loads a file (by filename) and returns the raw bytes inside of it
 Get the first available update from the update queue
 </div>
 </td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALpinned_message">pinned_message</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+Called whenever a certain message is pinned for a chat
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALpinned_message">pinned_message</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALpop_update">pop_update</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Get the first available update from the update queue and mark it as read (deletes the update)
@@ -684,6 +755,13 @@ Send a new voice message (ogg) to a specified chat.
 Get the string representation of a <code class="code">parse_mode</code>
 </div>
 </td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALsupergroup_chat_created">supergroup_chat_created</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+Called whenever a chat turns into a supergroup chat
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALsupergroup_chat_created">supergroup_chat_created</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
 <tr><td align="left"><br>T</td></tr>
 <tr><td><a href="TelegramApi.ChatAction.html#VALto_string">to_string</a> [<a href="TelegramApi.ChatAction.html">TelegramApi.ChatAction</a>]</td>
 <td><div class="info">

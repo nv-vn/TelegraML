@@ -37,4 +37,48 @@ The list of commands that the bot will be able to use<br>
 <pre><span id="VALinline"><span class="keyword">val</span> inline</span> : <code class="type"><a href="TelegramApi.InlineQuery.html#TYPEinline_query">TelegramApi.InlineQuery.inline_query</a> -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
 The function to call on inline queries<br>
 </div>
+
+<pre><span id="VALnew_chat_member"><span class="keyword">val</span> new_chat_member</span> : <code class="type"><a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> -> <a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
+Called whenever a new user is added to or joins a chat<br>
+</div>
+
+<pre><span id="VALleft_chat_member"><span class="keyword">val</span> left_chat_member</span> : <code class="type"><a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> -> <a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
+Called whenever a user leaves a chat<br>
+</div>
+
+<pre><span id="VALnew_chat_title"><span class="keyword">val</span> new_chat_title</span> : <code class="type"><a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> -> string -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
+Called when the title for a chat is changed<br>
+</div>
+
+<pre><span id="VALnew_chat_photo"><span class="keyword">val</span> new_chat_photo</span> : <code class="type"><a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> -><br>       <a href="TelegramApi.PhotoSize.html#TYPEphoto_size">TelegramApi.PhotoSize.photo_size</a> list -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
+Called whenever a new chat photo is set or the current one is changed<br>
+</div>
+
+<pre><span id="VALdelete_chat_photo"><span class="keyword">val</span> delete_chat_photo</span> : <code class="type"><a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
+Called whenever a chat's photo gets deleted<br>
+</div>
+
+<pre><span id="VALgroup_chat_created"><span class="keyword">val</span> group_chat_created</span> : <code class="type"><a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
+Called whenever a chat turns into a group chat<br>
+</div>
+
+<pre><span id="VALsupergroup_chat_created"><span class="keyword">val</span> supergroup_chat_created</span> : <code class="type"><a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
+Called whenever a chat turns into a supergroup chat<br>
+</div>
+
+<pre><span id="VALchannel_chat_created"><span class="keyword">val</span> channel_chat_created</span> : <code class="type"><a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
+Called whenever a chat turns into a channel<br>
+</div>
+
+<pre><span id="VALmigrate_to_chat_id"><span class="keyword">val</span> migrate_to_chat_id</span> : <code class="type"><a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> -> int -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
+Called whenever a chat migrates to a new chat id<br>
+</div>
+
+<pre><span id="VALmigrate_from_chat_id"><span class="keyword">val</span> migrate_from_chat_id</span> : <code class="type"><a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> -> int -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
+Called whenever a chat has been migrated from another chat id<br>
+</div>
+
+<pre><span id="VALpinned_message"><span class="keyword">val</span> pinned_message</span> : <code class="type"><a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> -><br>       <a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
+Called whenever a certain message is pinned for a chat<br>
+</div>
 </body></html>

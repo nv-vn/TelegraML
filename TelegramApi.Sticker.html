@@ -57,6 +57,13 @@
 <td align="left" valign="top" >
 <code>&nbsp;&nbsp;</code></td>
 <td align="left" valign="top" >
+<code><span id="TYPEELTsticker.emoji">emoji</span>&nbsp;: <code class="type">string option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
 <code><span id="TYPEELTsticker.file_size">file_size</span>&nbsp;: <code class="type">int option</code>;</code></td>
 
 </tr></table>
@@ -67,7 +74,7 @@ Represents sticker messages<br>
 </div>
 
 
-<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">file_id:string -><br>       width:int -><br>       height:int -><br>       ?thumb:<a href="TelegramApi.PhotoSize.html#TYPEphoto_size">TelegramApi.PhotoSize.photo_size</a> option -><br>       ?file_size:int option -> unit -> <a href="TelegramApi.Sticker.html#TYPEsticker">sticker</a></code></pre><div class="info ">
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">file_id:string -><br>       width:int -><br>       height:int -><br>       ?thumb:<a href="TelegramApi.PhotoSize.html#TYPEphoto_size">TelegramApi.PhotoSize.photo_size</a> option -><br>       ?emoji:string option -><br>       ?file_size:int option -> unit -> <a href="TelegramApi.Sticker.html#TYPEsticker">sticker</a></code></pre><div class="info ">
 Create a <code class="code">sticker</code> in a concise manner
 <p>
 Read a <code class="code">sticker</code> out of some JSON<br>

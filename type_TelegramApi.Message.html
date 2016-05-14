@@ -18,6 +18,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;date&nbsp;:&nbsp;int;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;chat&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Chat</span>.chat;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;forward_from&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">User</span>.user&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;forward_from_chat&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Chat</span>.chat&nbsp;option;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;forward_date&nbsp;:&nbsp;int&nbsp;option;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;reply_to_message&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;option;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;text&nbsp;:&nbsp;string&nbsp;option;<br>
@@ -50,6 +51,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;date:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;chat:<span class="constructor">TelegramApi</span>.<span class="constructor">Chat</span>.chat&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;?forward_from:<span class="constructor">TelegramApi</span>.<span class="constructor">User</span>.user&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?forward_from_chat:<span class="constructor">TelegramApi</span>.<span class="constructor">Chat</span>.chat&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;?forward_date:int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;?reply_to:<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;?text:string&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>

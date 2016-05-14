@@ -27,4 +27,15 @@ Default options for a bot, if no configuration is needed. Warning: You still nee
 
 <pre><span id="VALtoken"><span class="keyword">val</span> token</span> : <code class="type">string</code></pre>
 <pre><span id="VALcommands"><span class="keyword">val</span> commands</span> : <code class="type">'a list</code></pre>
-<pre><span id="VALinline"><span class="keyword">val</span> inline</span> : <code class="type">'a -> Api.Command.action</code></pre></body></html>
+<pre><span id="VALinline"><span class="keyword">val</span> inline</span> : <code class="type">'a -> Api.Command.action</code></pre>
+<pre><span id="VALnew_chat_member"><span class="keyword">val</span> new_chat_member</span> : <code class="type">'a -> 'b -> Api.Command.action</code></pre>
+<pre><span id="VALleft_chat_member"><span class="keyword">val</span> left_chat_member</span> : <code class="type">'a -> 'b -> Api.Command.action</code></pre>
+<pre><span id="VALnew_chat_title"><span class="keyword">val</span> new_chat_title</span> : <code class="type">'a -> 'b -> Api.Command.action</code></pre>
+<pre><span id="VALnew_chat_photo"><span class="keyword">val</span> new_chat_photo</span> : <code class="type">'a -> 'b -> Api.Command.action</code></pre>
+<pre><span id="VALdelete_chat_photo"><span class="keyword">val</span> delete_chat_photo</span> : <code class="type">'a -> Api.Command.action</code></pre>
+<pre><span id="VALgroup_chat_created"><span class="keyword">val</span> group_chat_created</span> : <code class="type">'a -> Api.Command.action</code></pre>
+<pre><span id="VALsupergroup_chat_created"><span class="keyword">val</span> supergroup_chat_created</span> : <code class="type">'a -> Api.Command.action</code></pre>
+<pre><span id="VALchannel_chat_created"><span class="keyword">val</span> channel_chat_created</span> : <code class="type">'a -> Api.Command.action</code></pre>
+<pre><span id="VALmigrate_to_chat_id"><span class="keyword">val</span> migrate_to_chat_id</span> : <code class="type">'a -> 'b -> Api.Command.action</code></pre>
+<pre><span id="VALmigrate_from_chat_id"><span class="keyword">val</span> migrate_from_chat_id</span> : <code class="type">'a -> 'b -> Api.Command.action</code></pre>
+<pre><span id="VALpinned_message"><span class="keyword">val</span> pinned_message</span> : <code class="type">'a -> 'b -> Api.Command.action</code></pre></body></html>

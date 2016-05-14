@@ -17,6 +17,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;width&nbsp;:&nbsp;int;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;height&nbsp;:&nbsp;int;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;thumb&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">PhotoSize</span>.photo_size&nbsp;option;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;emoji&nbsp;:&nbsp;string&nbsp;option;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;file_size&nbsp;:&nbsp;int&nbsp;option;<br>
 &nbsp;&nbsp;}<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create&nbsp;:<br>
@@ -24,6 +25,7 @@
 &nbsp;&nbsp;&nbsp;&nbsp;width:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;height:int&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;?thumb:<span class="constructor">TelegramApi</span>.<span class="constructor">PhotoSize</span>.photo_size&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;?emoji:string&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;?file_size:int&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Sticker</span>.sticker<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;read&nbsp;:&nbsp;<span class="constructor">Yojson</span>.<span class="constructor">Safe</span>.json&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Sticker</span>.sticker<br>
 &nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">Out</span>&nbsp;:<br>
