@@ -23,3 +23,5 @@ Document "telegram_api"
   Authors: nv-vn
   XOCamlbuildPath: src/
   XOCamlbuildModules: Telegram, TelegramApi
+
+  Install: false
