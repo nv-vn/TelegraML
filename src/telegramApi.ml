@@ -1501,7 +1501,7 @@ module Command = struct
               match username, nsplit command ~by:"@" with
               | _, [] -> false
               | Some username, base::bot::_ -> base = cmd && bot = username
-              | _, base::_ -> base = cmd
+              | _, base::_ -> base = cmd (* If no set prefix OR if no @postfix on the command itself *)
             end in
         match cmds with
         | [] -> Nothing

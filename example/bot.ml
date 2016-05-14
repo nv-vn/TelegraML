@@ -9,6 +9,7 @@ module MyBot = Mk (struct
   include Telegram.BotDefaults
 
   let token = [%blob "../bot.token"]
+  let command_postfix = Some "mlbot" (* Can be replaced with whatever the bot's name is, makes the bot only respond to /say_hi@mlbot *)
 
   let commands =
     let say_hi = function
