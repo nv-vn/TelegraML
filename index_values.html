@@ -46,6 +46,13 @@ Called whenever a chat turns into a channel
 </td></tr>
 <tr><td><a href="Telegram.BotDefaults.html#VALchannel_chat_created">channel_chat_created</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
 <td></td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALcommand_postfix">command_postfix</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+An optional postfix to require after commands, usually the bots username (so /hello
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALcommand_postfix">command_postfix</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.BOT.html#VALcommands">commands</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
 <td><div class="info">
 The list of commands that the bot will be able to use
@@ -646,7 +653,7 @@ Read a <code class="code">chosen_inline_query</code> out of some JSON
 </td></tr>
 <tr><td><a href="TelegramApi.Command.html#VALread_command">read_command</a> [<a href="TelegramApi.Command.html">TelegramApi.Command</a>]</td>
 <td><div class="info">
-Takes a message, known to represent a command, and a list of possible commands.
+Takes an optional postfix for commands (/cmd
 </div>
 </td></tr>
 <tr><td><a href="TelegramApi.Chat.html#VALread_type">read_type</a> [<a href="TelegramApi.Chat.html">TelegramApi.Chat</a>]</td>
@@ -656,7 +663,7 @@ Turn a string into a <code class="code">chat_type</code>
 </td></tr>
 <tr><td><a href="TelegramApi.Command.html#VALread_update">read_update</a> [<a href="TelegramApi.Command.html">TelegramApi.Command</a>]</td>
 <td><div class="info">
-Reads a single update and, given a list of commands, matches it to a correct command that can be invoked
+Reads a single update and, given a list of commands, matches it to a correct command that can be invoked.
 </div>
 </td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALresend_audio">resend_audio</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>

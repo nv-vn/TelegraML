@@ -13,6 +13,7 @@
 <body>
 <code class="code"><span class="keyword">sig</span><br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;token&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;command_postfix&nbsp;:&nbsp;string&nbsp;option<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;commands&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Command</span>.command&nbsp;list<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;inline&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.inline_query&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Command</span>.action<br>

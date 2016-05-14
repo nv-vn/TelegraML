@@ -43,6 +43,7 @@
 &nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="keyword">type</span>&nbsp;<span class="constructor">BOT</span>&nbsp;=<br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">sig</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;token&nbsp;:&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;command_postfix&nbsp;:&nbsp;string&nbsp;option<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;commands&nbsp;:&nbsp;<span class="constructor">Command</span>.command&nbsp;list<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;inline&nbsp;:&nbsp;<span class="constructor">InlineQuery</span>.inline_query&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Command</span>.action<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;new_chat_member&nbsp;:&nbsp;<span class="constructor">Chat</span>.chat&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">User</span>.user&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Command</span>.action<br>

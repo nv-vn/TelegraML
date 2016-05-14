@@ -316,12 +316,12 @@ This type is used to represent available commands. The <code class="code">name</
 Tests to see whether an update from the update queue invoked a command<br>
 </div>
 
-<pre><span id="VALread_command"><span class="keyword">val</span> read_command</span> : <code class="type"><a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> -><br>       <a href="TelegramApi.Command.html#TYPEcommand">command</a> list -> <a href="TelegramApi.Command.html#TYPEaction">action</a></code></pre><div class="info ">
-Takes a message, known to represent a command, and a list of possible commands. These values are used to find the matching command and return the actions that it should perform<br>
+<pre><span id="VALread_command"><span class="keyword">val</span> read_command</span> : <code class="type">string option -><br>       <a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> -><br>       <a href="TelegramApi.Command.html#TYPEcommand">command</a> list -> <a href="TelegramApi.Command.html#TYPEaction">action</a></code></pre><div class="info ">
+Takes an optional postfix for commands (/cmd<br>
 </div>
 
-<pre><span id="VALread_update"><span class="keyword">val</span> read_update</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">TelegramApi.Update.update</a> -><br>       <a href="TelegramApi.Command.html#TYPEcommand">command</a> list -> <a href="TelegramApi.Command.html#TYPEaction">action</a></code></pre><div class="info ">
-Reads a single update and, given a list of commands, matches it to a correct command that can be invoked<br>
+<pre><span id="VALread_update"><span class="keyword">val</span> read_update</span> : <code class="type">string option -><br>       <a href="TelegramApi.Update.html#TYPEupdate">TelegramApi.Update.update</a> -><br>       <a href="TelegramApi.Command.html#TYPEcommand">command</a> list -> <a href="TelegramApi.Command.html#TYPEaction">action</a></code></pre><div class="info ">
+Reads a single update and, given a list of commands, matches it to a correct command that can be invoked.  Takes an optional postfix for commands (/cmd<br>
 </div>
 
 <pre><span id="VALtokenize"><span class="keyword">val</span> tokenize</span> : <code class="type">string -> string list</code></pre><div class="info ">

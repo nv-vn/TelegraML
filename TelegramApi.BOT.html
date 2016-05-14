@@ -27,7 +27,11 @@ BOT is strictly used for customization of a TELEGRAM_BOT module. Once your custo
 <hr width="100%">
 
 <pre><span id="VALtoken"><span class="keyword">val</span> token</span> : <code class="type">string</code></pre><div class="info ">
-The API token to use for the bot. Warning: please use ppx_blob to load this in at compile-time and add the blob to your .gitignore<br>
+The API token to use for the bot. Warning: please load this in when the bot starts or use ppx_blob to load this in at compile-time and add the blob to your .gitignore<br>
+</div>
+
+<pre><span id="VALcommand_postfix"><span class="keyword">val</span> command_postfix</span> : <code class="type">string option</code></pre><div class="info ">
+An optional postfix to require after commands, usually the bots username (so /hello<br>
 </div>
 
 <pre><span id="VALcommands"><span class="keyword">val</span> commands</span> : <code class="type"><a href="TelegramApi.Command.html#TYPEcommand">TelegramApi.Command.command</a> list</code></pre><div class="info ">

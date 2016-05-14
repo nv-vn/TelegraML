@@ -100,9 +100,11 @@
 &nbsp;&nbsp;}<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;is_command&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Update</span>.update&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;read_command&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Command</span>.command&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Command</span>.action<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;read_update&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Update</span>.update&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Command</span>.command&nbsp;list&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Command</span>.action<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;tokenize&nbsp;:&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;list<br>
