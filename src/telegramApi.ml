@@ -74,8 +74,9 @@ module MessageEntity = struct
     | Code
     | Pre
     | TextLink of string
+    | TextMention of User.user
 
-  let entity_type_of_string url = function
+  let entity_type_of_string url user = function
     | "mention" -> Mention
     | "hashtag" -> Hashtag
     | "bot_command" -> BotCommand
@@ -89,6 +90,10 @@ module MessageEntity = struct
         | Some url -> TextLink url
         | None -> raise @@ ApiException "MessageEntity of type 'text_link' missing url"
       end
+    | "text_mention" -> begin match user with
+        | Some user -> TextMention user
+        | None -> raise @@ ApiException "MessageEntity of type 'text_mention' missing user"
+      end
     | _ -> raise @@ ApiException "Unrecognized type of MessageEntity encountered"
 
   type message_entity = {
@@ -101,8 +106,9 @@ module MessageEntity = struct
     {entity_type; offset; length}
 
   let read obj =
-    let url = the_string <$> get_opt_field "url" obj in
-    let entity_type = entity_type_of_string url @@ the_string @@ get_field "type" obj in
+    let url = the_string <$> get_opt_field "url" obj
+    and user = User.read <$> get_opt_field "user" obj in
+    let entity_type = entity_type_of_string url user @@ the_string @@ get_field "type" obj in
     let offset = the_int @@ get_field "offset" obj in
     let length = the_int @@ get_field "length" obj in
     create ~entity_type ~offset ~length ()
@@ -705,6 +711,7 @@ module Message = struct
     forward_from_chat       : Chat.chat option;
     forward_date            : int option;
     reply_to_message        : message option;
+    edit_date               : int option;
     text                    : string option;
     entities                : MessageEntity.message_entity list option;
     audio                   : Audio.audio option;
@@ -730,8 +737,8 @@ module Message = struct
     pinned_message          : message option
   }
 
-  let create ~message_id ?(from=None) ~date ~chat ?(forward_from=None) ?(forward_from_chat=None) ?(forward_date=None) ?(reply_to=None) ?(text=None) ?(entities=None) ?(audio=None) ?(document=None) ?(photo=None) ?(sticker=None) ?(video=None) ?(voice=None) ?(caption=None) ?(contact=None) ?(location=None) ?(venue=None) ?(new_chat_member=None) ?(left_chat_member=None) ?(new_chat_title=None) ?(new_chat_photo=None) ?(delete_chat_photo=None) ?(group_chat_created=None) ?(supergroup_chat_created=None) ?(channel_chat_created=None) ?(migrate_to_chat_id=None) ?(migrate_from_chat_id=None) ?(pinned_message=None) () =
-    {message_id; from; date; chat; forward_from; forward_from_chat; forward_date; reply_to_message = reply_to; text; entities; audio; document; photo; sticker; video; voice; caption; contact; location; venue; new_chat_member; left_chat_member; new_chat_title; new_chat_photo; delete_chat_photo; group_chat_created; supergroup_chat_created; channel_chat_created; migrate_to_chat_id; migrate_from_chat_id; pinned_message}
+  let create ~message_id ?(from=None) ~date ~chat ?(forward_from=None) ?(forward_from_chat=None) ?(forward_date=None) ?(reply_to=None) ?(edit_date = None) ?(text=None) ?(entities=None) ?(audio=None) ?(document=None) ?(photo=None) ?(sticker=None) ?(video=None) ?(voice=None) ?(caption=None) ?(contact=None) ?(location=None) ?(venue=None) ?(new_chat_member=None) ?(left_chat_member=None) ?(new_chat_title=None) ?(new_chat_photo=None) ?(delete_chat_photo=None) ?(group_chat_created=None) ?(supergroup_chat_created=None) ?(channel_chat_created=None) ?(migrate_to_chat_id=None) ?(migrate_from_chat_id=None) ?(pinned_message=None) () =
+    {message_id; from; date; chat; forward_from; forward_from_chat; forward_date; reply_to_message = reply_to; edit_date; text; entities; audio; document; photo; sticker; video; voice; caption; contact; location; venue; new_chat_member; left_chat_member; new_chat_title; new_chat_photo; delete_chat_photo; group_chat_created; supergroup_chat_created; channel_chat_created; migrate_to_chat_id; migrate_from_chat_id; pinned_message}
 
   let rec read obj =
     let message_id = the_int @@ get_field "message_id" obj in
@@ -742,6 +749,7 @@ module Message = struct
     let forward_from_chat = Chat.read <$> get_opt_field "forward_from_chat" obj in
     let forward_date = the_int <$> get_opt_field "forward_date" obj in
     let reply_to = read <$> get_opt_field "reply_to_message" obj in
+    let edit_date = the_int <$> get_opt_field "edit_date" obj in
     let text = the_string <$> get_opt_field "text" obj in
     let entities = List.map MessageEntity.read <$> (the_list <$> get_opt_field "entities" obj) in
     let audio = Audio.read <$> get_opt_field "audio" obj in
@@ -765,7 +773,7 @@ module Message = struct
     let migrate_to_chat_id = the_int <$> get_opt_field "migrate_to_chat_id" obj in
     let migrate_from_chat_id = the_int <$> get_opt_field "migrate_from_chat_id" obj in
     let pinned_message = read <$> get_opt_field "message" obj in
-    create ~message_id ~from ~date ~chat ~forward_from ~forward_from_chat ~forward_date ~reply_to ~text ~entities ~audio ~document ~photo ~sticker ~video ~voice ~caption ~contact ~location ~venue ~new_chat_member ~left_chat_member ~new_chat_title ~new_chat_photo ~delete_chat_photo ~group_chat_created ~supergroup_chat_created ~channel_chat_created ~migrate_to_chat_id ~migrate_from_chat_id ~pinned_message ()
+    create ~message_id ~from ~date ~chat ~forward_from ~forward_from_chat ~forward_date ~reply_to ~edit_date ~text ~entities ~audio ~document ~photo ~sticker ~video ~voice ~caption ~contact ~location ~venue ~new_chat_member ~left_chat_member ~new_chat_title ~new_chat_photo ~delete_chat_photo ~group_chat_created ~supergroup_chat_created ~channel_chat_created ~migrate_to_chat_id ~migrate_from_chat_id ~pinned_message ()
 
   let get_sender_first_name = function
     | {from = Some user} -> user.first_name
@@ -1427,24 +1435,30 @@ module Update = struct
   type update = {
     update_id            : int;
     message              : Message.message option;
+    edited_message       : Message.message option;
     inline_query         : InlineQuery.inline_query option;
     chosen_inline_result : InlineQuery.chosen_inline_result option;
     callback_query       : CallbackQuery.callback_query option
   }
 
-  let create ~update_id ?(message=None) ?(inline_query=None) ?(chosen_inline_result=None) ?(callback_query=None) () =
-    {update_id; message; inline_query; chosen_inline_result; callback_query}
+  let create ~update_id ?(message=None) ?(edited_message=None) ?(inline_query=None) ?(chosen_inline_result=None) ?(callback_query=None) () =
+    {update_id; message; edited_message; inline_query; chosen_inline_result; callback_query}
 
   let read obj =
     let update_id = the_int @@ get_field "update_id" obj in
     let message = Message.read <$> get_opt_field "message" obj in
+    let edited_message = Message.read <$> get_opt_field "edited_message" obj in
     let inline_query = InlineQuery.read <$> get_opt_field "inline_query" obj in
     let chosen_inline_result = InlineQuery.read_chosen_inline_result <$> get_opt_field "chosen_inline_result" obj in
     let callback_query = CallbackQuery.read <$> get_opt_field "callback_query" obj in
-    create ~update_id ~message ~inline_query ~chosen_inline_result ~callback_query ()
+    create ~update_id ~message ~edited_message ~inline_query ~chosen_inline_result ~callback_query ()
 
   let is_message = function
     | {message = Some _} -> true
+    | _ -> false
+
+  let is_edited_message = function
+    | {edited_message = Some _} -> true
     | _ -> false
 
   let is_inline_query = function

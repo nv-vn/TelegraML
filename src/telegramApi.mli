@@ -83,9 +83,10 @@ module MessageEntity : sig
     | Code
     | Pre
     | TextLink of string
+    | TextMention of User.user
 
-  (** Takes the [url] field of the record and the [type] field, then creates a value of type entity_type based on that *)
-  val entity_type_of_string : string option -> string -> entity_type
+  (** Takes the [url] and [user] fields of the record and the [type] field, then creates a value of type entity_type based on that *)
+  val entity_type_of_string : string option -> User.user option -> string -> entity_type
 
   (** Represents the message entity inside of the message *)
   type message_entity = {
@@ -521,6 +522,7 @@ module Message : sig
     forward_from_chat       : Chat.chat option;
     forward_date            : int option;
     reply_to_message        : message option;
+    edit_date               : int option;
     text                    : string option;
     entities                : MessageEntity.message_entity list option;
     audio                   : Audio.audio option;
@@ -547,7 +549,7 @@ module Message : sig
   }
 
   (** Create a [message] in a concise manner *)
-  val create : message_id:int -> ?from:User.user option -> date:int -> chat:Chat.chat -> ?forward_from:User.user option -> ?forward_from_chat:Chat.chat option -> ?forward_date:int option -> ?reply_to:message option -> ?text:string option -> ?entities:MessageEntity.message_entity list option -> ?audio:Audio.audio option -> ?document:Document.document option -> ?photo:PhotoSize.photo_size list option -> ?sticker:Sticker.sticker option -> ?video:Video.video option -> ?voice:Voice.voice option -> ?caption:string option -> ?contact:Contact.contact option -> ?location:Location.location option -> ?venue:Venue.venue option -> ?new_chat_member:User.user option -> ?left_chat_member:User.user option -> ?new_chat_title:string option -> ?new_chat_photo:PhotoSize.photo_size list option -> ?delete_chat_photo:bool option -> ?group_chat_created:bool option -> ?supergroup_chat_created:bool option -> ?channel_chat_created:bool option -> ?migrate_to_chat_id:int option -> ?migrate_from_chat_id:int option -> ?pinned_message:message option -> unit -> message
+  val create : message_id:int -> ?from:User.user option -> date:int -> chat:Chat.chat -> ?forward_from:User.user option -> ?forward_from_chat:Chat.chat option -> ?forward_date:int option -> ?reply_to:message option -> ?edit_date:int option -> ?text:string option -> ?entities:MessageEntity.message_entity list option -> ?audio:Audio.audio option -> ?document:Document.document option -> ?photo:PhotoSize.photo_size list option -> ?sticker:Sticker.sticker option -> ?video:Video.video option -> ?voice:Voice.voice option -> ?caption:string option -> ?contact:Contact.contact option -> ?location:Location.location option -> ?venue:Venue.venue option -> ?new_chat_member:User.user option -> ?left_chat_member:User.user option -> ?new_chat_title:string option -> ?new_chat_photo:PhotoSize.photo_size list option -> ?delete_chat_photo:bool option -> ?group_chat_created:bool option -> ?supergroup_chat_created:bool option -> ?channel_chat_created:bool option -> ?migrate_to_chat_id:int option -> ?migrate_from_chat_id:int option -> ?pinned_message:message option -> unit -> message
   (** Read a [message] out of some JSON *)
   val read : json -> message
 
@@ -983,18 +985,21 @@ module Update : sig
   type update = {
     update_id            : int;
     message              : Message.message option;
+    edited_message       : Message.message option;
     inline_query         : InlineQuery.inline_query option;
     chosen_inline_result : InlineQuery.chosen_inline_result option;
     callback_query       : CallbackQuery.callback_query option
   }
 
   (** Create an [update] in a concise manner *)
-  val create : update_id:int -> ?message:Message.message option -> ?inline_query:InlineQuery.inline_query option -> ?chosen_inline_result:InlineQuery.chosen_inline_result option -> ?callback_query:CallbackQuery.callback_query option -> unit -> update
+  val create : update_id:int -> ?message:Message.message option -> ?edited_message:Message.message option -> ?inline_query:InlineQuery.inline_query option -> ?chosen_inline_result:InlineQuery.chosen_inline_result option -> ?callback_query:CallbackQuery.callback_query option -> unit -> update
   (** Read an [update] out of some JSON *)
   val read : json -> update
 
   (** Check if an update contains a message *)
   val is_message : update -> bool
+  (** Check if an update contains an edited message *)
+  val is_edited_message : update -> bool
   (** Check if an update contains an inline query *)
   val is_inline_query : update -> bool
   (** Check if an update contains a reply to an inline query *)
