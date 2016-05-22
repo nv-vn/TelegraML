@@ -34,6 +34,7 @@
 &nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">Message</span>&nbsp;=&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span><br>
 &nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">File</span>&nbsp;=&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">File</span><br>
 &nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">CallbackQuery</span>&nbsp;=&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">CallbackQuery</span><br>
+&nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">ChatMember</span>&nbsp;=&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ChatMember</span><br>
 &nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">InputMessageContent</span>&nbsp;=&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InputMessageContent</span><br>
 &nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">InlineQuery</span>&nbsp;=&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span><br>
 &nbsp;&nbsp;<span class="keyword">module</span>&nbsp;<span class="constructor">ChatAction</span>&nbsp;=&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">ChatAction</span><br>
@@ -211,8 +212,16 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;download_file&nbsp;:&nbsp;file:<span class="constructor">File</span>.file&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;option&nbsp;<span class="constructor">Lwt</span>.t<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;kick_chat_member&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chat_id:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;user_id:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="constructor">Result</span>.result&nbsp;<span class="constructor">Lwt</span>.t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;leave_chat&nbsp;:&nbsp;chat_id:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="constructor">Result</span>.result&nbsp;<span class="constructor">Lwt</span>.t<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;unban_chat_member&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chat_id:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;user_id:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;unit&nbsp;<span class="constructor">Result</span>.result&nbsp;<span class="constructor">Lwt</span>.t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_chat&nbsp;:&nbsp;chat_id:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">Chat</span>.chat&nbsp;<span class="constructor">Result</span>.result&nbsp;<span class="constructor">Lwt</span>.t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_chat_administrators&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chat_id:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">ChatMember</span>.chat_member&nbsp;list&nbsp;<span class="constructor">Result</span>.result&nbsp;<span class="constructor">Lwt</span>.t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_chat_members_count&nbsp;:&nbsp;chat_id:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int&nbsp;<span class="constructor">Result</span>.result&nbsp;<span class="constructor">Lwt</span>.t<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_chat_member&nbsp;:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;chat_id:int&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;user_id:int&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">ChatMember</span>.chat_member&nbsp;<span class="constructor">Result</span>.result&nbsp;<span class="constructor">Lwt</span>.t<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;answer_callback_query&nbsp;:<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;callback_query_id:string&nbsp;<span class="keywordsign">-&gt;</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;?text:string&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>

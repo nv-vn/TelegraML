@@ -133,8 +133,28 @@ Download a file that's been uploaded to Telegram's servers by the <code class="c
 Kick/ban a given user from the given chat<br>
 </div>
 
+<pre><span id="VALleave_chat"><span class="keyword">val</span> leave_chat</span> : <code class="type">chat_id:int -> unit <a href="TelegramApi.Result.html#TYPEresult">TelegramApi.Result.result</a> Lwt.t</code></pre><div class="info ">
+Leave a chat manually to stop receiving messages from it<br>
+</div>
+
 <pre><span id="VALunban_chat_member"><span class="keyword">val</span> unban_chat_member</span> : <code class="type">chat_id:int -> user_id:int -> unit <a href="TelegramApi.Result.html#TYPEresult">TelegramApi.Result.result</a> Lwt.t</code></pre><div class="info ">
 Unban a given user from the given chat<br>
+</div>
+
+<pre><span id="VALget_chat"><span class="keyword">val</span> get_chat</span> : <code class="type">chat_id:int -> <a href="TelegramApi.Chat.html#TYPEchat">TelegramApi.Chat.chat</a> <a href="TelegramApi.Result.html#TYPEresult">TelegramApi.Result.result</a> Lwt.t</code></pre><div class="info ">
+Get the info for a given chat<br>
+</div>
+
+<pre><span id="VALget_chat_administrators"><span class="keyword">val</span> get_chat_administrators</span> : <code class="type">chat_id:int -><br>       <a href="TelegramApi.ChatMember.html#TYPEchat_member">TelegramApi.ChatMember.chat_member</a> list <a href="TelegramApi.Result.html#TYPEresult">TelegramApi.Result.result</a> Lwt.t</code></pre><div class="info ">
+Get the list of admins for a given chat<br>
+</div>
+
+<pre><span id="VALget_chat_members_count"><span class="keyword">val</span> get_chat_members_count</span> : <code class="type">chat_id:int -> int <a href="TelegramApi.Result.html#TYPEresult">TelegramApi.Result.result</a> Lwt.t</code></pre><div class="info ">
+Get the number of members in a given chat<br>
+</div>
+
+<pre><span id="VALget_chat_member"><span class="keyword">val</span> get_chat_member</span> : <code class="type">chat_id:int -><br>       user_id:int -><br>       <a href="TelegramApi.ChatMember.html#TYPEchat_member">TelegramApi.ChatMember.chat_member</a> <a href="TelegramApi.Result.html#TYPEresult">TelegramApi.Result.result</a> Lwt.t</code></pre><div class="info ">
+Get information about a certain member in the given chat<br>
 </div>
 
 <pre><span id="VALanswer_callback_query"><span class="keyword">val</span> answer_callback_query</span> : <code class="type">callback_query_id:string -><br>       ?text:string option -><br>       ?show_alert:bool -> unit -> unit <a href="TelegramApi.Result.html#TYPEresult">TelegramApi.Result.result</a> Lwt.t</code></pre><div class="info ">

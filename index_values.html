@@ -75,6 +75,11 @@ Create an <code class="code">update</code> in a concise manner
 Create an <code class="code">inline_query</code> in a concise manner
 </div>
 </td></tr>
+<tr><td><a href="TelegramApi.ChatMember.html#VALcreate">create</a> [<a href="TelegramApi.ChatMember.html">TelegramApi.ChatMember</a>]</td>
+<td><div class="info">
+Create a <code class="code">chat_member</code> in a concise manner
+</div>
+</td></tr>
 <tr><td><a href="TelegramApi.CallbackQuery.html#VALcreate">create</a> [<a href="TelegramApi.CallbackQuery.html">TelegramApi.CallbackQuery</a>]</td>
 <td><div class="info">
 Create a <code class="code">callback_query</code> in a concise manner
@@ -383,7 +388,7 @@ Edit an existing message, selected by either the chat id, the message id, or the
 </td></tr>
 <tr><td><a href="TelegramApi.MessageEntity.html#VALentity_type_of_string">entity_type_of_string</a> [<a href="TelegramApi.MessageEntity.html">TelegramApi.MessageEntity</a>]</td>
 <td><div class="info">
-Takes the <code class="code">url</code> field of the record and the <code class="code">type</code> field, then creates a value of type entity_type based on that
+Takes the <code class="code">url</code> and <code class="code">user</code> fields of the record and the <code class="code">type</code> field, then creates a value of type entity_type based on that
 </div>
 </td></tr>
 <tr><td align="left"><br>F</td></tr>
@@ -393,6 +398,26 @@ Forwards any message from one chat to another (can be same chat)
 </div>
 </td></tr>
 <tr><td align="left"><br>G</td></tr>
+<tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_chat">get_chat</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
+<td><div class="info">
+Get the info for a given chat
+</div>
+</td></tr>
+<tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_chat_administrators">get_chat_administrators</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
+<td><div class="info">
+Get the list of admins for a given chat
+</div>
+</td></tr>
+<tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_chat_member">get_chat_member</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
+<td><div class="info">
+Get information about a certain member in the given chat
+</div>
+</td></tr>
+<tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_chat_members_count">get_chat_members_count</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
+<td><div class="info">
+Get the number of members in a given chat
+</div>
+</td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_file">get_file</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Get the information for a file that's been uploaded to Telegram's servers by the <code class="code">file_id</code>
@@ -462,6 +487,11 @@ Check if an update contains a callback query
 Tests to see whether an update from the update queue invoked a command
 </div>
 </td></tr>
+<tr><td><a href="TelegramApi.Update.html#VALis_edited_message">is_edited_message</a> [<a href="TelegramApi.Update.html">TelegramApi.Update</a>]</td>
+<td><div class="info">
+Check if an update contains an inline query
+</div>
+</td></tr>
 <tr><td><a href="TelegramApi.Update.html#VALis_inline_query">is_inline_query</a> [<a href="TelegramApi.Update.html">TelegramApi.Update</a>]</td>
 <td><div class="info">
 Check if an update contains a reply to an inline query
@@ -479,6 +509,11 @@ Kick/ban a given user from the given chat
 </div>
 </td></tr>
 <tr><td align="left"><br>L</td></tr>
+<tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALleave_chat">leave_chat</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
+<td><div class="info">
+Leave a chat manually to stop receiving messages from it
+</div>
+</td></tr>
 <tr><td><a href="TelegramApi.BOT.html#VALleft_chat_member">left_chat_member</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
 <td><div class="info">
 Called whenever a user leaves a chat
@@ -613,6 +648,8 @@ Prepare a <code class="code">photo_size</code> for sending -- used in the case o
 <tr><td><a href="TelegramApi.Update.html#VALread">read</a> [<a href="TelegramApi.Update.html">TelegramApi.Update</a>]</td>
 <td></td></tr>
 <tr><td><a href="TelegramApi.InlineQuery.html#VALread">read</a> [<a href="TelegramApi.InlineQuery.html">TelegramApi.InlineQuery</a>]</td>
+<td></td></tr>
+<tr><td><a href="TelegramApi.ChatMember.html#VALread">read</a> [<a href="TelegramApi.ChatMember.html">TelegramApi.ChatMember</a>]</td>
 <td></td></tr>
 <tr><td><a href="TelegramApi.CallbackQuery.html#VALread">read</a> [<a href="TelegramApi.CallbackQuery.html">TelegramApi.CallbackQuery</a>]</td>
 <td></td></tr>
@@ -755,6 +792,11 @@ Send a new video file (mp4/mov/webm) to a specified chat.
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALsend_voice">send_voice</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send a new voice message (ogg) to a specified chat.
+</div>
+</td></tr>
+<tr><td><a href="TelegramApi.ChatMember.html#VALstatus_of_string">status_of_string</a> [<a href="TelegramApi.ChatMember.html">TelegramApi.ChatMember</a>]</td>
+<td><div class="info">
+Extract the status out of a string
 </div>
 </td></tr>
 <tr><td><a href="TelegramApi.ParseMode.html#VALstring_of_parse_mode">string_of_parse_mode</a> [<a href="TelegramApi.ParseMode.html">TelegramApi.ParseMode</a>]</td>

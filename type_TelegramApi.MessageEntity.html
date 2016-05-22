@@ -23,8 +23,11 @@
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Code</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">Pre</span><br>
 &nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">TextLink</span>&nbsp;<span class="keyword">of</span>&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">TextMention</span>&nbsp;<span class="keyword">of</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">User</span>.user<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;entity_type_of_string&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">MessageEntity</span>.entity_type<br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">User</span>.user&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;string&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">MessageEntity</span>.entity_type<br>
 &nbsp;&nbsp;<span class="keyword">type</span>&nbsp;message_entity&nbsp;=&nbsp;{<br>
 &nbsp;&nbsp;&nbsp;&nbsp;entity_type&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">MessageEntity</span>.entity_type;<br>
 &nbsp;&nbsp;&nbsp;&nbsp;offset&nbsp;:&nbsp;int;<br>

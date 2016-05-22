@@ -97,6 +97,13 @@ Used to represent formatting options for a message's text<br>
 <td align="left" valign="top" >
 <code><span id="TYPEELTentity_type.TextLink"><span class="constructor">TextLink</span></span> <span class="keyword">of</span> <code class="type">string</code></code></td>
 
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code><span class="keyword">|</span></code></td>
+<td align="left" valign="top" >
+<code><span id="TYPEELTentity_type.TextMention"><span class="constructor">TextMention</span></span> <span class="keyword">of</span> <code class="type"><a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a></code></code></td>
+
 </tr></table>
 
 <div class="info ">
@@ -104,8 +111,8 @@ The type of formatting to apply to the text<br>
 </div>
 
 
-<pre><span id="VALentity_type_of_string"><span class="keyword">val</span> entity_type_of_string</span> : <code class="type">string option -> string -> <a href="TelegramApi.MessageEntity.html#TYPEentity_type">entity_type</a></code></pre><div class="info ">
-Takes the <code class="code">url</code> field of the record and the <code class="code">type</code> field, then creates a value of type entity_type based on that<br>
+<pre><span id="VALentity_type_of_string"><span class="keyword">val</span> entity_type_of_string</span> : <code class="type">string option -><br>       <a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> option -><br>       string -> <a href="TelegramApi.MessageEntity.html#TYPEentity_type">entity_type</a></code></pre><div class="info ">
+Takes the <code class="code">url</code> and <code class="code">user</code> fields of the record and the <code class="code">type</code> field, then creates a value of type entity_type based on that<br>
 </div>
 
 <pre><code><span id="TYPEmessage_entity"><span class="keyword">type</span> <code class="type"></code>message_entity</span> = {</code></pre><table class="typetable">

@@ -43,6 +43,13 @@
 <td align="left" valign="top" >
 <code>&nbsp;&nbsp;</code></td>
 <td align="left" valign="top" >
+<code><span id="TYPEELTupdate.edited_message">edited_message</span>&nbsp;: <code class="type"><a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> option</code>;</code></td>
+
+</tr>
+<tr>
+<td align="left" valign="top" >
+<code>&nbsp;&nbsp;</code></td>
+<td align="left" valign="top" >
 <code><span id="TYPEELTupdate.inline_query">inline_query</span>&nbsp;: <code class="type"><a href="TelegramApi.InlineQuery.html#TYPEinline_query">TelegramApi.InlineQuery.inline_query</a> option</code>;</code></td>
 
 </tr>
@@ -67,7 +74,7 @@ Stores the info for updates to a chat/group<br>
 </div>
 
 
-<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">update_id:int -><br>       ?message:<a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> option -><br>       ?inline_query:<a href="TelegramApi.InlineQuery.html#TYPEinline_query">TelegramApi.InlineQuery.inline_query</a> option -><br>       ?chosen_inline_result:<a href="TelegramApi.InlineQuery.html#TYPEchosen_inline_result">TelegramApi.InlineQuery.chosen_inline_result</a> option -><br>       ?callback_query:<a href="TelegramApi.CallbackQuery.html#TYPEcallback_query">TelegramApi.CallbackQuery.callback_query</a> option -><br>       unit -> <a href="TelegramApi.Update.html#TYPEupdate">update</a></code></pre><div class="info ">
+<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">update_id:int -><br>       ?message:<a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> option -><br>       ?edited_message:<a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> option -><br>       ?inline_query:<a href="TelegramApi.InlineQuery.html#TYPEinline_query">TelegramApi.InlineQuery.inline_query</a> option -><br>       ?chosen_inline_result:<a href="TelegramApi.InlineQuery.html#TYPEchosen_inline_result">TelegramApi.InlineQuery.chosen_inline_result</a> option -><br>       ?callback_query:<a href="TelegramApi.CallbackQuery.html#TYPEcallback_query">TelegramApi.CallbackQuery.callback_query</a> option -><br>       unit -> <a href="TelegramApi.Update.html#TYPEupdate">update</a></code></pre><div class="info ">
 Create an <code class="code">update</code> in a concise manner
 <p>
 Read an <code class="code">update</code> out of some JSON<br>
@@ -77,6 +84,10 @@ Read an <code class="code">update</code> out of some JSON<br>
 <pre><span id="VALis_message"><span class="keyword">val</span> is_message</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">update</a> -> bool</code></pre><div class="info ">
 Check if an update contains a message
 <p>
+Check if an update contains an edited message<br>
+</div>
+
+<pre><span id="VALis_edited_message"><span class="keyword">val</span> is_edited_message</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">update</a> -> bool</code></pre><div class="info ">
 Check if an update contains an inline query<br>
 </div>
 
