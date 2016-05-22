@@ -828,6 +828,31 @@ module CallbackQuery = struct
     create ~id ~from ~message ~inline_message_id ~data ()
 end
 
+module ChatMember = struct
+  type status = Creator | Administrator | Member | Left | Kicked
+
+  let status_of_string = function
+    | "creator" -> Creator
+    | "administrator" -> Administrator
+    | "member" -> Member
+    | "left" -> Left
+    | "kicked" -> Kicked
+    | _ -> raise @@ ApiException "Unknown chat member status"
+
+  type chat_member = {
+    user : User.user;
+    status : status
+  }
+
+  let create ~user ~status () =
+    {user; status}
+
+  let read obj =
+    let user = get_field "user" obj |> User.read
+    and status = the_string @@ get_field "status" obj |> status_of_string in
+    create ~user ~status ()
+end
+
 module InputMessageContent = struct
   type text = {
     message_text             : string;
@@ -1470,7 +1495,12 @@ module Command = struct
     | GetFile' of string * (string option -> action)
     | DownloadFile of File.file * (string option -> action)
     | KickChatMember of int * int
+    | LeaveChat of int
     | UnbanChatMember of int * int
+    | GetChat of int * (Chat.chat Result.result -> action)
+    | GetChatAdministrators of int * (ChatMember.chat_member list Result.result -> action)
+    | GetChatMembersCount of int * (int Result.result -> action)
+    | GetChatMember of int * int * (ChatMember.chat_member Result.result -> action)
     | AnswerCallbackQuery of string * string option * bool
     | AnswerInlineQuery of string * InlineQuery.Out.inline_query_result list * int option * bool option * string option
     | EditMessageText of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * string * ParseMode.parse_mode option * bool * ReplyMarkup.reply_markup option
@@ -1573,7 +1603,12 @@ module type TELEGRAM_BOT = sig
   val get_file' : file_id:string -> string option Lwt.t
   val download_file : file:File.file -> string option Lwt.t
   val kick_chat_member : chat_id:int -> user_id:int -> unit Result.result Lwt.t
+  val leave_chat : chat_id:int -> unit Result.result Lwt.t
   val unban_chat_member : chat_id:int -> user_id:int -> unit Result.result Lwt.t
+  val get_chat : chat_id:int -> Chat.chat Result.result Lwt.t
+  val get_chat_administrators : chat_id:int -> ChatMember.chat_member list Result.result Lwt.t
+  val get_chat_members_count : chat_id:int -> int Result.result Lwt.t
+  val get_chat_member : chat_id:int -> user_id:int -> ChatMember.chat_member Result.result Lwt.t
   val answer_callback_query : callback_query_id:string -> ?text:string option -> ?show_alert:bool -> unit -> unit Result.result Lwt.t
   val answer_inline_query : inline_query_id:string -> results:InlineQuery.Out.inline_query_result list -> ?cache_time:int option -> ?is_personal:bool option -> ?next_offset:string option -> unit -> unit Result.result Lwt.t
   val edit_message_text : ?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> text:string -> parse_mode:ParseMode.parse_mode option -> disable_web_page_preview:bool -> reply_markup:ReplyMarkup.reply_markup option -> unit -> unit Result.result Lwt.t
@@ -1846,7 +1881,17 @@ module Mk (B : BOT) = struct
     | `Bool true -> Result.Success ()
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
-   let unban_chat_member ~chat_id ~user_id =
+  let leave_chat ~chat_id =
+    let body = `Assoc ["chat_id", `Int chat_id] |> Yojson.Safe.to_string in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "leaveChat")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success ()
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
+  let unban_chat_member ~chat_id ~user_id =
     let body = `Assoc ["chat_id", `Int chat_id;
                        "user_id", `Int user_id] |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
@@ -1855,6 +1900,47 @@ module Mk (B : BOT) = struct
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
+  let get_chat ~chat_id =
+    let body = `Assoc ["chat_id", `Int chat_id] |> Yojson.Safe.to_string in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getChat")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success (get_field "result" obj |> Chat.read)
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
+  let get_chat_administrators ~chat_id =
+    let body = `Assoc ["chat_id", `Int chat_id] |> Yojson.Safe.to_string in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getChatAdministrators")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success (the_list @@ get_field "result" obj |> List.map ChatMember.read)
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
+  let get_chat_members_count ~chat_id =
+    let body = `Assoc ["chat_id", `Int chat_id] |> Yojson.Safe.to_string in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getChatMembersCount")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success (the_int @@ get_field "result" obj)
+    | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
+
+  let get_chat_member ~chat_id ~user_id =
+    let body = `Assoc ["chat_id", `Int chat_id;
+                       "user_id", `Int user_id] |> Yojson.Safe.to_string in
+    let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
+    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getChatMember")) >>= fun (resp, body) ->
+    Cohttp_lwt_body.to_string body >>= fun json ->
+    let obj = Yojson.Safe.from_string json in
+    return @@ match get_field "ok" obj with
+    | `Bool true -> Result.Success (get_field "result" obj |> ChatMember.read)
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
   let answer_callback_query ~callback_query_id ?(text=None) ?(show_alert=false) () =
@@ -2053,14 +2139,19 @@ module Mk (B : BOT) = struct
     | SendVoice (chat_id, voice, disable_notification, reply_to, reply_markup, f) -> send_voice ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup |> eval f
     | ResendVoice (chat_id, voice, disable_notification, reply_to, reply_markup) -> resend_voice ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup |> dispose
     | SendLocation (chat_id, latitude, longitude, disable_notification, reply_to, reply_markup) -> send_location ~chat_id ~latitude ~longitude ~disable_notification ~reply_to ~reply_markup |> dispose
-    | SendVenue (chat_id, latitude, longitude, title, address, foursquare_id, disable_notification, reply_to, reply_markup) -> send_venue ~chat_id ~latitude ~longitude ~title ~address ~foursquare_id ~disable_notification ~reply_to ~reply_markup >>= fun _ -> return ()
+    | SendVenue (chat_id, latitude, longitude, title, address, foursquare_id, disable_notification, reply_to, reply_markup) -> send_venue ~chat_id ~latitude ~longitude ~title ~address ~foursquare_id ~disable_notification ~reply_to ~reply_markup |> dispose
     | SendContact (chat_id, phone_number, first_name, last_name, disable_notification, reply_to, reply_markup) -> send_contact ~chat_id ~phone_number ~first_name ~last_name ~disable_notification ~reply_to ~reply_markup |> dispose
     | GetUserProfilePhotos (user_id, offset, limit, f) -> get_user_profile_photos ~user_id ~offset ~limit |> eval f
     | GetFile (file_id, f) -> get_file ~file_id |> eval f
     | GetFile' (file_id, f) -> get_file' ~file_id |> eval f
     | DownloadFile (file, f) -> download_file ~file |> eval f
     | KickChatMember (chat_id, user_id) -> kick_chat_member ~chat_id ~user_id |> dispose
+    | LeaveChat chat_id -> leave_chat ~chat_id |> dispose
     | UnbanChatMember (chat_id, user_id) -> unban_chat_member ~chat_id ~user_id |> dispose
+    | GetChat (chat_id, f) -> get_chat ~chat_id |> eval f
+    | GetChatAdministrators (chat_id, f) -> get_chat_administrators ~chat_id |> eval f
+    | GetChatMembersCount (chat_id, f) -> get_chat_members_count ~chat_id |> eval f
+    | GetChatMember (chat_id, user_id, f) -> get_chat_member ~chat_id ~user_id |> eval f
     | AnswerCallbackQuery (callback_query_id, text, show_alert) -> answer_callback_query ~callback_query_id ~text ~show_alert () |> dispose
     | AnswerInlineQuery (inline_query_id, results, cache_time, is_personal, next_offset) -> answer_inline_query ~inline_query_id ~results ~cache_time ~is_personal ~next_offset () |> dispose
     | EditMessageText (id, text, parse_mode, disable_web_page_preview, reply_markup) ->

@@ -594,6 +594,26 @@ module CallbackQuery : sig
   val read : Yojson.Safe.json -> callback_query
 end
 
+(** This module is used to deal with information about an individual member of a chat *)
+module ChatMember : sig
+  (** Represents the user's role in the chat *)
+  type status = Creator | Administrator | Member | Left | Kicked
+
+  (** Extract the status out of a string *)
+  val status_of_string : string -> status
+
+  (** Represents the chat member object (the user itself and their status) *)
+  type chat_member = {
+    user : User.user;
+    status : status
+  }
+
+  (** Create a [chat_member] in a concise manner *)
+  val create : user:User.user -> status:status -> unit -> chat_member
+  (** Read a [chat_member] out of some JSON *)
+  val read : Yojson.Safe.json -> chat_member
+end
+
 (** This module is used to deal with the content being sent as the result of an inline query *)
 module InputMessageContent : sig
   (** Represents the content of a text message to be sent as the result of an inline query *)
@@ -1029,7 +1049,12 @@ module Command : sig
     | GetFile' of string * (string option -> action)
     | DownloadFile of File.file * (string option -> action)
     | KickChatMember of int * int
+    | LeaveChat of int
     | UnbanChatMember of int * int
+    | GetChat of int * (Chat.chat Result.result -> action)
+    | GetChatAdministrators of int * (ChatMember.chat_member list Result.result -> action)
+    | GetChatMembersCount of int * (int Result.result -> action)
+    | GetChatMember of int * int * (ChatMember.chat_member Result.result -> action)
     | AnswerCallbackQuery of string * string option * bool
     | AnswerInlineQuery of string * InlineQuery.Out.inline_query_result list * int option * bool option * string option
     | EditMessageText of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * string * ParseMode.parse_mode option * bool * ReplyMarkup.reply_markup option
@@ -1193,8 +1218,23 @@ module type TELEGRAM_BOT = sig
   (** Kick/ban a given user from the given chat *)
   val kick_chat_member : chat_id:int -> user_id:int -> unit Result.result Lwt.t
 
+  (** Leave a chat manually to stop receiving messages from it *)
+  val leave_chat : chat_id:int -> unit Result.result Lwt.t
+
   (** Unban a given user from the given chat *)
   val unban_chat_member : chat_id:int -> user_id:int -> unit Result.result Lwt.t
+
+  (** Get the info for a given chat *)
+  val get_chat : chat_id:int -> Chat.chat Result.result Lwt.t
+
+  (** Get the list of admins for a given chat *)
+  val get_chat_administrators : chat_id:int -> ChatMember.chat_member list Result.result Lwt.t
+
+  (** Get the number of members in a given chat *)
+  val get_chat_members_count : chat_id:int -> int Result.result Lwt.t
+
+  (** Get information about a certain member in the given chat *)
+  val get_chat_member : chat_id:int -> user_id:int -> ChatMember.chat_member Result.result Lwt.t
 
   (** Answer a callback query sent from an inline keyboard *)
   val answer_callback_query : callback_query_id:string -> ?text:string option -> ?show_alert:bool -> unit -> unit Result.result Lwt.t

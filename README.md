@@ -96,6 +96,7 @@ here with a link and a short description.
 * `InlineKeyboardButton`
 * `CallbackQuery`
 * `ForceReply`
+* `ChatMember`
 * `InputFile`
 * `InlineQuery`
 * `InlineQueryResult`
@@ -142,7 +143,12 @@ here with a link and a short description.
 * `getUserProfilePhotos`
 * `getFile`
 * `kickChatMember`
+* `leaveChat`
 * `unbanChatMember`
+* `getChat`
+* `getChatAdministrators`
+* `getChatMembersCount`
+* `getChatMember`
 * `sendChatAction`
 * `getUpdates`
 * `answerCallbackQuery`
