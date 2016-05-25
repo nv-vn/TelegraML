@@ -1089,6 +1089,9 @@ module Command : sig
 
   (** Turns a string into the args list that a command may choose to work with *)
   val tokenize : string -> string list
+
+  (** [with_auth ~command] makes a [command] only run when the caller is an admin in the chat *)
+  val with_auth : command:(Message.message -> action) -> Message.message -> action
 end
 
 (** BOT is strictly used for customization of a TELEGRAM_BOT module. Once your customizations have been applied, pass it into Api.Mk to create

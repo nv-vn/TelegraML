@@ -1566,6 +1566,17 @@ module Command = struct
   let rec make_help = function
     | [] -> ""
     | cmd::cmds -> "\n" ^ make_helper cmd ^ make_help cmds
+
+  let with_auth ~command = function
+    | {chat; from = Some user} as message ->
+      let open Chat in
+      let open ChatMember in
+      let is_member user = List.exists (fun {user = member} -> user = member) in
+      GetChatAdministrators (chat.id,
+                             function Result.Success members
+                               when is_member user members -> command message
+                                    | _ -> Nothing)
+    | _ -> Nothing
 end
 
 module type BOT = sig
