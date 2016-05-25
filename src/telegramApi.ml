@@ -1642,6 +1642,8 @@ module type TELEGRAM_BOT = sig
   val get_updates : Update.update list Result.result Lwt.t
   val peek_update : Update.update Result.result Lwt.t
   val pop_update : ?run_cmds:bool -> unit -> Update.update Result.result Lwt.t
+
+  val run : ?log:bool -> unit -> unit
 end
 
 module Mk (B : BOT) = struct
@@ -2189,4 +2191,18 @@ module Mk (B : BOT) = struct
     | PeekUpdate f -> peek_update |> eval f
     | PopUpdate f -> pop_update () |> eval f
     | Chain (first, second) -> evaluator first >> evaluator second
+
+  let run ?(log=true) () =
+    let process = function
+      | Result.Success _ -> return ()
+      | Result.Failure e ->
+        if log && e <> "Could not get head" then (* Ignore spam *)
+          Lwt_io.printl e
+        else return () in
+    let rec loop () =
+      pop_update ~run_cmds:true () >>= process >>= loop in
+    while true do (* Recover from errors if an exception is thrown *)
+      try Lwt_main.run @@ loop ()
+      with _ -> ()
+    done
 end

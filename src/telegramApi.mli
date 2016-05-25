@@ -1267,6 +1267,9 @@ module type TELEGRAM_BOT = sig
 
   (** Get the first available update from the update queue and mark it as read (deletes the update) *)
   val pop_update : ?run_cmds:bool -> unit -> Update.update Result.result Lwt.t
+
+  (** Run the bot with a default main loop, optionally logging the output to stdout *)
+  val run : ?log:bool -> unit -> unit
 end
 
 (** Generate a bot's interface to allow for direct calls to functions *)
