@@ -54,7 +54,9 @@ the surrounding directory to use as the `chat_id` and `token`.
 
 [glgbot](https://github.com/nv-vn/glgbot) - Some groupchat utilities: saved quotes, correcting messages, music jukebox, cute cat pics, and more
 
-If you're using TelegraML and you'd like your bot listed here, feel free to open a PR to list it
+[telegraml-dashboard](https://github.com/nv-vn/telegraml-dashboard) - Tool for auto-generating web dashboards for your bots
+
+If you're using TelegraML and you'd like your bot/extension/tutorial listed here, feel free to open a PR to list it
 here with a link and a short description.
 
 ## API Status:
@@ -70,6 +72,19 @@ here with a link and a short description.
 ### What doesn't?
 
 * No webhooks
+
+### Extra features:
+
+* Modular interface makes writing extensions simple (see [telegraml-dashboard](https://github.com/nv-vn/telegraml-dashboard))
+* High-level interface for commands (`Telegram.Api.BOT.commands : Telegram.Api.Command.command list`)
+  + Tons of convenience functions for parsing commands, etc.
+  + Can exclude commands meant for other bots (`Telegram.Api.BOT.command_postfix : string option`)
+  + Admin-only command authorization (`Telegram.Api.Command.with_auth : command:Telegram.Api.Command.command -> Telegram.Api.Command.action`)
+  + Global command enabling/disabling
+* High-level chat event handling (`Telegram.Api.BOT.new_chat_member : Telegram.Api.Chat.chat -> Telegram.Api.User.user -> Telegram.Api.Command.action`, etc.)
+* High-level inline mode bindings (`Telegram.Api.BOT.inline : Telegram.Api.InlineQuery.inline_query -> Telegram.Api.Command.action`)
+* Default `Telegram.Api.TELEGRAM_BOT.run : ?log:bool -> unit -> unit` function for easy event loop setup
+* Lwt-based I/O
 
 ### Implemented Types:
 
