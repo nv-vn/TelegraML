@@ -188,4 +188,8 @@ Get the first available update from the update queue<br>
 <pre><span id="VALpop_update"><span class="keyword">val</span> pop_update</span> : <code class="type">?run_cmds:bool -><br>       unit -> <a href="TelegramApi.Update.html#TYPEupdate">TelegramApi.Update.update</a> <a href="TelegramApi.Result.html#TYPEresult">TelegramApi.Result.result</a> Lwt.t</code></pre><div class="info ">
 Get the first available update from the update queue and mark it as read (deletes the update)<br>
 </div>
+
+<pre><span id="VALrun"><span class="keyword">val</span> run</span> : <code class="type">?log:bool -> unit -> unit</code></pre><div class="info ">
+Run the bot with a default main loop, optionally logging the output to stdout<br>
+</div>
 </body></html>

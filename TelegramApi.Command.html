@@ -362,4 +362,8 @@ Reads a single update and, given a list of commands, matches it to a correct com
 <pre><span id="VALtokenize"><span class="keyword">val</span> tokenize</span> : <code class="type">string -> string list</code></pre><div class="info ">
 Turns a string into the args list that a command may choose to work with<br>
 </div>
+
+<pre><span id="VALwith_auth"><span class="keyword">val</span> with_auth</span> : <code class="type">command:(<a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> -> <a href="TelegramApi.Command.html#TYPEaction">action</a>) -><br>       <a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> -> <a href="TelegramApi.Command.html#TYPEaction">action</a></code></pre><div class="info ">
+<code class="code">with_auth ~command</code> makes a <code class="code">command</code> only run when the caller is an admin in the chat<br>
+</div>
 </body></html>
