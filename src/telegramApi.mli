@@ -982,30 +982,18 @@ end
 
 module Update : sig
   (** Stores the info for updates to a chat/group *)
-  type update = {
-    update_id            : int;
-    message              : Message.message option;
-    edited_message       : Message.message option;
-    inline_query         : InlineQuery.inline_query option;
-    chosen_inline_result : InlineQuery.chosen_inline_result option;
-    callback_query       : CallbackQuery.callback_query option
-  }
+  type update =
+    | Message of int * Message.message
+    | EditedMessage of int * Message.message
+    | InlineQuery of int * InlineQuery.inline_query
+    | ChosenInlineResult of int * InlineQuery.chosen_inline_result
+    | CallbackQuery of int * CallbackQuery.callback_query
 
-  (** Create an [update] in a concise manner *)
-  val create : update_id:int -> ?message:Message.message option -> ?edited_message:Message.message option -> ?inline_query:InlineQuery.inline_query option -> ?chosen_inline_result:InlineQuery.chosen_inline_result option -> ?callback_query:CallbackQuery.callback_query option -> unit -> update
   (** Read an [update] out of some JSON *)
   val read : json -> update
 
-  (** Check if an update contains a message *)
-  val is_message : update -> bool
-  (** Check if an update contains an edited message *)
-  val is_edited_message : update -> bool
-  (** Check if an update contains an inline query *)
-  val is_inline_query : update -> bool
-  (** Check if an update contains a reply to an inline query *)
-  val is_chosen_inline_result : update -> bool
-  (** Check if an update contains a callback query *)
-  val is_callback_query : update -> bool
+  (** Get the [update_id] out of an arbitrary [update] object *)
+  val get_id : update -> int
 end
 
 (** Used for representing results of various actions where a success or failure can occur. Contains helper functions to implement a monadic and functorial interface. *)

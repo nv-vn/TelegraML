@@ -1432,17 +1432,12 @@ module ChatAction = struct
 end
 
 module Update = struct
-  type update = {
-    update_id            : int;
-    message              : Message.message option;
-    edited_message       : Message.message option;
-    inline_query         : InlineQuery.inline_query option;
-    chosen_inline_result : InlineQuery.chosen_inline_result option;
-    callback_query       : CallbackQuery.callback_query option
-  }
-
-  let create ~update_id ?(message=None) ?(edited_message=None) ?(inline_query=None) ?(chosen_inline_result=None) ?(callback_query=None) () =
-    {update_id; message; edited_message; inline_query; chosen_inline_result; callback_query}
+  type update =
+    | Message of int * Message.message
+    | EditedMessage of int * Message.message
+    | InlineQuery of int * InlineQuery.inline_query
+    | ChosenInlineResult of int * InlineQuery.chosen_inline_result
+    | CallbackQuery of int * CallbackQuery.callback_query
 
   let read obj =
     let update_id = the_int @@ get_field "update_id" obj in
@@ -1451,27 +1446,20 @@ module Update = struct
     let inline_query = InlineQuery.read <$> get_opt_field "inline_query" obj in
     let chosen_inline_result = InlineQuery.read_chosen_inline_result <$> get_opt_field "chosen_inline_result" obj in
     let callback_query = CallbackQuery.read <$> get_opt_field "callback_query" obj in
-    create ~update_id ~message ~edited_message ~inline_query ~chosen_inline_result ~callback_query ()
+    match message, edited_message, inline_query, chosen_inline_result, callback_query with
+    | (Some message, _, _, _, _) -> Message (update_id, message)
+    | (_, Some edited_message, _, _, _) -> EditedMessage (update_id, edited_message)
+    | (_, _, Some inline_query, _, _) -> InlineQuery (update_id, inline_query)
+    | (_, _, _, Some chosen_inline_result, _) -> ChosenInlineResult (update_id, chosen_inline_result)
+    | (_, _, _, _, Some callback_query) -> CallbackQuery (update_id, callback_query)
+    | _ -> raise @@ ApiException "Unknown update type encountered"
 
-  let is_message = function
-    | {message = Some _} -> true
-    | _ -> false
-
-  let is_edited_message = function
-    | {edited_message = Some _} -> true
-    | _ -> false
-
-  let is_inline_query = function
-    | {inline_query = Some _} -> true
-    | _ -> false
-
-  let is_chosen_inline_result = function
-    | {chosen_inline_result = Some _} -> true
-    | _ -> false
-
-  let is_callback_query = function
-    | {callback_query = Some _} -> true
-    | _ -> false
+  let get_id = function
+    | Message (id, _) -> id
+    | EditedMessage (id, _) -> id
+    | InlineQuery (id, _) -> id
+    | ChosenInlineResult (id, _) -> id
+    | CallbackQuery (id, _) -> id
 end
 
 module Result = struct
@@ -1533,7 +1521,7 @@ module Command = struct
   }
 
   let is_command = function
-    | {message = Some {text = Some txt}} when starts_with txt "/" -> true
+    | Message (_, {text = Some txt}) when starts_with txt "/" -> true
     | _ -> false
 
   let rec read_command username msg cmds = match msg with
@@ -1555,7 +1543,7 @@ module Command = struct
     | {text = None} -> Nothing
 
   let read_update username = function
-    | {message = Some msg} -> read_command username msg
+    | Message (_, msg) -> read_command username msg
     | _ -> fun _ -> Nothing
 
   let tokenize msg = List.tl @@ nsplit msg ~by:" "
@@ -2090,50 +2078,53 @@ module Mk (B : BOT) = struct
         (* Get the update number for the latest message (the head of the list), if it exists *)
         let update = Update.read <$> (hd_ @@ the_list @@ get_field "result" obj) in
         (* Set the offset to either: the current offset OR the latest update + 1, if one exists *)
-        offset := default !offset ((fun update -> update.update_id + 1) <$> update);
+        offset := default !offset ((fun update -> get_id update + 1) <$> update);
         let open Lwt in
         (* Clear the last update and then *)
         clear_update () >>= fun () -> begin
           let open Message in
           (* Let's assume that only one of these events can ever be present in a message at once... *)
           begin match (run_cmds, update) with
-            | (true, Result.Success {message = Some {chat; new_chat_member = Some user}}) ->
+            | (true, Result.Success (Message (_, {chat; new_chat_member = Some user}))) ->
               evaluator @@ B.new_chat_member chat user
-            | (true, Result.Success {message = Some {chat; left_chat_member = Some user}}) ->
+            | (true, Result.Success (Message (_, {chat; left_chat_member = Some user}))) ->
               evaluator @@ B.left_chat_member chat user
-            | (true, Result.Success {message = Some {chat; new_chat_title = Some title}}) ->
+            | (true, Result.Success (Message (_, {chat; new_chat_title = Some title}))) ->
               evaluator @@ B.new_chat_title chat title
-            | (true, Result.Success {message = Some {chat; new_chat_photo = Some photo}}) ->
+            | (true, Result.Success (Message (_, {chat; new_chat_photo = Some photo}))) ->
               evaluator @@ B.new_chat_photo chat photo
-            | (true, Result.Success {message = Some {chat; delete_chat_photo = Some true}}) ->
+            | (true, Result.Success (Message (_, {chat; delete_chat_photo = Some true}))) ->
               evaluator @@ B.delete_chat_photo chat
-            | (true, Result.Success {message = Some {chat; group_chat_created = Some true}}) ->
+            | (true, Result.Success (Message (_, {chat; group_chat_created = Some true}))) ->
               evaluator @@ B.group_chat_created chat
-            | (true, Result.Success {message = Some {chat; supergroup_chat_created = Some true}}) ->
+            | (true, Result.Success (Message (_, {chat; supergroup_chat_created = Some true}))) ->
               evaluator @@ B.supergroup_chat_created chat
-            | (true, Result.Success {message = Some {chat; channel_chat_created = Some true}}) ->
+            | (true, Result.Success (Message (_, {chat; channel_chat_created = Some true}))) ->
               evaluator @@ B.channel_chat_created chat
-            | (true, Result.Success {message = Some {chat; migrate_to_chat_id = Some chat_id}}) ->
+            | (true, Result.Success (Message (_, {chat; migrate_to_chat_id = Some chat_id}))) ->
               evaluator @@ B.migrate_to_chat_id chat chat_id
-            | (true, Result.Success {message = Some {chat; migrate_from_chat_id = Some chat_id}}) ->
+            | (true, Result.Success (Message (_, {chat; migrate_from_chat_id = Some chat_id}))) ->
               evaluator @@ B.migrate_from_chat_id chat chat_id
-            | (true, Result.Success {message = Some {chat; pinned_message = Some message}}) ->
+            | (true, Result.Success (Message (_, {chat; pinned_message = Some message}))) ->
               evaluator @@ B.pinned_message chat message
             | _ -> return ()
           end |> ignore;
           (* If command execution is enabled: if there's an update and it has an inline_query field *)
-          if run_cmds && default false (Update.is_inline_query <$> update) then begin
-            (* Run the evaluator on the inline_query of the update and throw away the result *)
-            ignore ((function {inline_query = Some inline_query} -> evaluator @@ inline inline_query | _ -> return ()) <$> update);
-            (* And then return just the ID of the last update if it succeeded *)
-            return @@ ((fun update -> Update.create update.update_id ()) <$> update)
+          match run_cmds, update with
+          | (true, Result.Success (InlineQuery (id, inline_query) as update)) -> begin
+              (* Run the evaluator on the inline_query of the update and throw away the result *)
+              ignore @@ evaluator @@ inline inline_query;
+              (* And then return just the ID of the last update if it succeeded *)
+              return @@ Result.Success update
+            end
           (* If command execution is enabled: if there's an update and it's a command... *)
-          end else if run_cmds && default false (Command.is_command <$> update) then begin
-            (* Run the evaluator on the result of the command, if the update exists *)
-            ignore ((fun update -> evaluator @@ Command.read_update B.command_postfix update commands) <$> update);
-            (* And then return just the ID of the last update if it succeeded *)
-            return @@ ((fun update -> Update.create update.update_id ()) <$> update)
-          end else return update (* Otherwise, return the last update *)
+          | (true, Result.Success update) when Command.is_command update -> begin
+              (* Run the evaluator on the result of the command, if the update exists *)
+              ignore @@ evaluator @@ Command.read_update B.command_postfix update commands;
+              (* And then return just the ID of the last update if it succeeded *)
+              return @@ Result.Success update
+            end
+          | _ -> return update (* Otherwise, return the last update *)
         end
       end
     | _ -> return @@ Result.Failure (the_string @@ get_field "description" obj)
