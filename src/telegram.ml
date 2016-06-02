@@ -10,6 +10,7 @@ module BotDefaults : Api.BOT = struct
 
   let commands = []
   let inline query = Api.Command.Nothing
+  let callback query = Api.Command.Nothing
 
   let new_chat_member _ _ = Api.Command.Nothing
   let left_chat_member _ _ = Api.Command.Nothing

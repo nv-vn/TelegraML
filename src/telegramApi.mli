@@ -1097,6 +1097,9 @@ module type BOT = sig
   (** The function to call on inline queries *)
   val inline : InlineQuery.inline_query -> Command.action
 
+  (** The function to call on callback queries *)
+  val callback : CallbackQuery.callback_query -> Command.action
+
   (** Called whenever a new user is added to or joins a chat *)
   val new_chat_member : Chat.chat -> User.user -> Command.action
 
@@ -1141,6 +1144,9 @@ module type TELEGRAM_BOT = sig
 
   (** The inline query handler for the bot *)
   val inline : InlineQuery.inline_query -> Command.action
+
+  (** The callback query handler for the bot *)
+  val callback : CallbackQuery.callback_query -> Command.action
 
   (** Get the user information for the bot; use to test connection to the Telegram server *)
   val get_me : User.user Result.result Lwt.t

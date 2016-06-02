@@ -1573,6 +1573,7 @@ module type BOT = sig
 
   val commands : Command.command list
   val inline : InlineQuery.inline_query -> Command.action
+  val callback : CallbackQuery.callback_query -> Command.action
 
   val new_chat_member : Chat.chat -> User.user -> Command.action
   val left_chat_member : Chat.chat -> User.user -> Command.action
@@ -1591,6 +1592,7 @@ module type TELEGRAM_BOT = sig
   val url : string
   val commands : Command.command list
   val inline : InlineQuery.inline_query -> Command.action
+  val callback : CallbackQuery.callback_query -> Command.action
 
   val get_me : User.user Result.result Lwt.t
   val send_message : chat_id:int -> text:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
@@ -1649,6 +1651,7 @@ module Mk (B : BOT) = struct
          (* Don't wake up users just to show a help message *)
          | {chat} -> SendMessage (chat.id, "Commands:" ^ Command.make_help commands, true, None, None)} :: B.commands
   let inline = B.inline
+  let callback = B.callback
 
   let get_me =
     Client.get (Uri.of_string (url ^ "getMe")) >>= fun (resp, body) ->
@@ -2114,6 +2117,12 @@ module Mk (B : BOT) = struct
           | (true, Result.Success (InlineQuery (id, inline_query) as update)) -> begin
               (* Run the evaluator on the inline_query of the update and throw away the result *)
               ignore @@ evaluator @@ inline inline_query;
+              (* And then return just the ID of the last update if it succeeded *)
+              return @@ Result.Success update
+            end
+          | (true, Result.Success (CallbackQuery (id, callback_query) as update)) -> begin
+              (* Run the evaluator on the inline_query of the update and throw away the result *)
+              ignore @@ evaluator @@ callback callback_query;
               (* And then return just the ID of the last update if it succeeded *)
               return @@ Result.Success update
             end
