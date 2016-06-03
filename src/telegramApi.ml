@@ -1987,15 +1987,14 @@ module Mk (B : BOT) = struct
     | _ -> Result.Failure ((fun x -> print_endline x; x) @@ the_string @@ get_field "description" obj)
 
   let edit_message_text ?(chat_id=None) ?(message_id=None) ?(inline_message_id=None) ~text ~parse_mode ~disable_web_page_preview ~reply_markup () =
-    let id = match chat_id, message_id, inline_message_id with
-      | (None, None, None) -> raise (ApiException "editMessageText requires either a chat_id, message_id, or inline_message_id")
-      | (Some c, _, _) -> ("chat_id", `String c)
-      | (_, Some m, _) -> ("message_id", `Int m)
-      | (_, _, Some i) -> ("inline_message_id", `String i) in
+    let ids = match chat_id, message_id, inline_message_id with
+      | (Some c, Some m, _) -> ["chat_id", `String c; "message_id", `Int m]
+      | (_, _, Some i) -> ["inline_message_id", `String i]
+      | (_, _, _) -> raise (ApiException "editMessageText requires either a chat_id and message_id or inline_message_id") in
     let body = `Assoc ([("text", `String text);
-                        ("disable_web_page_preview", `Bool disable_web_page_preview);
-                        id] +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
-                            +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) |> Yojson.Safe.to_string in
+                        ("disable_web_page_preview", `Bool disable_web_page_preview)] @ ids
+                       +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
+                       +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "editMessageText")) >>= fun (resp, body) ->
     Cohttp_lwt_body.to_string body >>= fun json ->
