@@ -1505,9 +1505,9 @@ module Command = struct
     | GetChatMember of int * int * (ChatMember.chat_member Result.result -> action)
     | AnswerCallbackQuery of string * string option * bool
     | AnswerInlineQuery of string * InlineQuery.Out.inline_query_result list * int option * bool option * string option
-    | EditMessageText of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * string * ParseMode.parse_mode option * bool * ReplyMarkup.reply_markup option
-    | EditMessageCaption of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * string * ReplyMarkup.reply_markup option
-    | EditMessageReplyMarkup of [`ChatId of string | `MessageId of int | `InlineMessageId of string] * ReplyMarkup.reply_markup option
+    | EditMessageText of [`ChatMessageId of string * int | `InlineMessageId of string] * string * ParseMode.parse_mode option * bool * ReplyMarkup.reply_markup option
+    | EditMessageCaption of [`ChatMessageId of string * int | `InlineMessageId of string] * string * ReplyMarkup.reply_markup option
+    | EditMessageReplyMarkup of [`ChatMessageId of string * int | `InlineMessageId of string] * ReplyMarkup.reply_markup option
     | GetUpdates of (Update.update list Result.result -> action)
     | PeekUpdate of (Update.update Result.result -> action)
     | PopUpdate of (Update.update Result.result -> action)
@@ -2142,10 +2142,9 @@ module Mk (B : BOT) = struct
     let (>>) x y = x >>= fun _ -> y in
     let dispose x = x >> return ()
     and eval f x = x >>= fun y -> evaluator (f y)
-    and identify : 'a. (?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> 'a) -> [`ChatId of string | `MessageId of int | `InlineMessageId of string] -> 'a =
+    and identify : 'a. (?chat_id:string option -> ?message_id:int option -> ?inline_message_id:string option -> 'a) -> [`ChatMessageId of string * int | `InlineMessageId of string] -> 'a =
       fun f id -> match id with
-        | `ChatId c -> f ~chat_id:(Some c) ~message_id:None ~inline_message_id:None
-        | `MessageId m -> f ~chat_id:None ~message_id:(Some m) ~inline_message_id:None
+        | `ChatMessageId (c, m) -> f ~chat_id:(Some c) ~message_id:(Some m) ~inline_message_id:None
         | `InlineMessageId i -> f ~chat_id:None ~message_id:None ~inline_message_id:(Some i) in
     function
     | Nothing -> return ()
