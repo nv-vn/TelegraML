@@ -1,4 +1,3 @@
-open Lwt
 open Telegram.Api
 
 module MyBot = Mk (struct

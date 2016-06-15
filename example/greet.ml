@@ -1,4 +1,3 @@
-open Lwt
 open Telegram.Api
 
 module MyBot = Mk (struct
@@ -9,8 +8,8 @@ module MyBot = Mk (struct
 
   let token = [%blob "../bot.token"]
 
-  (* This code is really ugly, but because of the way record namespacing works we need to use the right modules *)
-  let new_chat_member chat user = SendMessage (Chat.(chat.id), "Hello, " ^ User.(user.first_name), false, None, None)
+  let new_chat_member {Chat.id} {User.first_name} =
+    SendMessage (id, "Hello, " ^ first_name, false, None, None)
 end)
 
 let () = MyBot.run ()
