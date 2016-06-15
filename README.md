@@ -56,6 +56,8 @@ the surrounding directory to use as the `chat_id` and `token`.
 
 [telegraml-dashboard](https://github.com/nv-vn/telegraml-dashboard) - Tool for auto-generating web dashboards for your bots
 
+[telegram-rpg](https://github.com/nv-vn/telegram-rpg)
+
 If you're using TelegraML and you'd like your bot/extension/tutorial listed here, feel free to open a PR to list it
 here with a link and a short description.
 
