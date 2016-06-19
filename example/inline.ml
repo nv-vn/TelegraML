@@ -1,5 +1,5 @@
-open Lwt
 open Telegram.Api
+open Telegram.Actions
 
 module MyBot = Mk (struct
   open Command
@@ -12,7 +12,7 @@ module MyBot = Mk (struct
     print_endline ("Someone said: '" ^ query ^ "'");
     let input_message_content = InputMessageContent.create_text ~message_text:query () in
     let response = InlineQuery.Out.create_article ~id:"QueryTest" ~title:"Test" ~input_message_content () in
-    AnswerInlineQuery (id, [response], None, None, None)
+    answer_inline_query id [response]
 end)
 
 let () = MyBot.run ()

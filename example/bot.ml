@@ -2,8 +2,10 @@ open Telegram.Api
 
 module MyBot = Mk (struct
   open Chat
+  open User
   open Command
   open Message
+  open UserProfilePhotos
 
   include Telegram.BotDefaults
 
@@ -11,18 +13,20 @@ module MyBot = Mk (struct
   let command_postfix = Some "mlbot" (* Can be replaced with whatever the bot's name is, makes the bot only respond to /say_hi@mlbot *)
 
   let commands =
-    let say_hi = function
-      | {chat} -> SendMessage (chat.id, "Hi", false, None, None)
+    let open Telegram.Actions in
+    let say_hi {chat = {id}} = send_message ~chat_id:id "Hi"
     and my_pics = function
       | {chat; from = Some {id}} ->
-        GetUserProfilePhotos (id, None, None,
-                              function
-                              | Result.Success photos ->
-                                SendMessage (chat.id, "Your photos: " ^ string_of_int photos.total_count, false, None, None)
-                              | _ -> SendMessage (chat.id, "Couldn't get your profile pictures!", false, None, None))
-      | {chat} -> SendMessage (chat.id, "Couldn't get your profile pictures!", false, None, None)
-    and check_admin = function
-      | {chat} -> SendMessage (chat.id, "Congrats, you're an admin!", false, None, None) in
+        get_user_profile_photos id
+        /> begin function
+          | Result.Success photos ->
+            send_message ~chat_id:chat.id "Your photos: %d" photos.total_count
+          | Result.Failure _ ->
+            send_message ~chat_id:chat.id "Couldn't get your profile pictures!"
+        end
+      | {chat = {id}} -> send_message ~chat_id:id "Couldn't get your profile pictures!"
+    and check_admin {chat = {id}} =
+      send_message ~chat_id:id "Congrats, you're an admin!" in
     [{name = "say_hi"; description = "Say hi!"; enabled = true; run = say_hi};
      {name = "my_pics"; description = "Count profile pictures"; enabled = true; run = my_pics};
      {name = "admin"; description = "Check whether you're an admin"; enabled = true; run = with_auth ~command:check_admin}]

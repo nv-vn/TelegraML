@@ -1,4 +1,5 @@
 open Telegram.Api
+open Telegram.Actions
 
 module MyBot = Mk (struct
   open Command
@@ -9,7 +10,7 @@ module MyBot = Mk (struct
   let token = [%blob "../bot.token"]
 
   let new_chat_member {Chat.id} {User.first_name} =
-    SendMessage (id, "Hello, " ^ first_name, false, None, None)
+    send_message ~chat_id:id "Hello, %s" first_name
 end)
 
 let () = MyBot.run ()
