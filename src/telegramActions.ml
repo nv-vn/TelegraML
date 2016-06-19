@@ -5,7 +5,7 @@ open TelegramApi.Command
 
 let (@/>) c1 c2 = Chain (c1, c2)
 
-let (@/<) c1 c2 = c1 ~and_then:c2
+let (/>) c1 f = c1 ~and_then:f
 
 (* Normal actions *)
 
@@ -68,3 +68,63 @@ let send_venue ~chat_id ?(disable_notification=false) ?reply_to ?reply_markup ~l
 
 let send_contact ~chat_id ?(disable_notification=false) ?reply_to ?reply_markup ~phone_number ~first_name ~last_name =
   SendContact (chat_id, phone_number, first_name, last_name, disable_notification, reply_to, reply_markup)
+
+let get_user_profile_photos ?offset ?limit user_id ~and_then =
+  GetUserProfilePhotos (user_id, offset, limit, and_then)
+
+let get_file file_id ~and_then =
+  GetFile (file_id, and_then)
+
+let get_file' file_id ~and_then =
+  GetFile' (file_id, and_then)
+
+let download_file file ~and_then =
+  DownloadFile (file, and_then)
+
+let kick_chat_member ~chat_id ~user_id =
+  KickChatMember (chat_id, user_id)
+
+let leave_chat ~chat_id =
+  LeaveChat chat_id
+
+let unban_chat_member ~chat_id ~user_id =
+  UnbanChatMember (chat_id, user_id)
+
+let get_chat ~chat_id ~and_then =
+  GetChat (chat_id, and_then)
+
+let get_chat_administrators ~chat_id ~and_then =
+  GetChatAdministrators (chat_id, and_then)
+
+let get_chat_members_count ~chat_id ~and_then =
+  GetChatMembersCount (chat_id, and_then)
+
+let get_chat_member ~chat_id ~user_id ~and_then =
+  GetChatMember (chat_id, user_id, and_then)
+
+let answer_callback_query ?text ?(show_alert=false) id =
+  AnswerCallbackQuery (id, text, show_alert)
+
+let answer_inline_query ?cache_time ?is_personal ?next_offset id results =
+  AnswerInlineQuery (id, results, cache_time, is_personal, next_offset)
+
+let edit_message_text ~id ?parse_mode ?(disable_web_page_preview=false) ?reply_markup =
+  Printf.ksprintf (fun s ->
+      EditMessageText (id, s, parse_mode, disable_web_page_preview, reply_markup))
+
+let edit_message_caption ~id ?reply_markup =
+  Printf.ksprintf (fun s ->
+      EditMessageCaption (id, s, reply_markup))
+
+let edit_message_reply_markup ~id ~reply_markup =
+  EditMessageReplyMarkup (id, Some reply_markup)
+
+let get_updates ~and_then =
+  GetUpdates and_then
+
+let peek_update ~and_then =
+  PeekUpdate and_then
+
+(* TODO: Add run_commands option *)
+let pop_update ~and_then =
+  PopUpdate and_then

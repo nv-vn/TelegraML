@@ -3,6 +3,11 @@ module Api = struct
   include TelegramApi
 end
 
+(** A module that exposes convenience functions for bot actions, equivalent to [TelegramActions] *)
+module Actions = struct
+  include TelegramActions
+end
+
 (** Default options for a bot, if no configuration is needed. Warning: You still need to provide an API key *)
 module BotDefaults : Api.BOT = struct
   let token = ""
