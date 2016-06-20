@@ -83,10 +83,11 @@ here with a link and a short description.
   + Can exclude commands meant for other bots (`Telegram.Api.BOT.command_postfix : string option`)
   + Admin-only command authorization (`Telegram.Api.Command.with_auth : command:Telegram.Api.Command.command -> Telegram.Api.Command.action`)
   + Global command enabling/disabling
+  + Combinators for composing complex actions sequences (`/>`, etc.)
 * High-level chat event handling (`Telegram.Api.BOT.new_chat_member : Telegram.Api.Chat.chat -> Telegram.Api.User.user -> Telegram.Api.Command.action`, etc.)
 * High-level inline mode bindings (`Telegram.Api.BOT.inline : Telegram.Api.InlineQuery.inline_query -> Telegram.Api.Command.action`)
 * Default `Telegram.Api.TELEGRAM_BOT.run : ?log:bool -> unit -> unit` function for easy event loop setup
-* Lwt-based I/O
+* Asynchronous, Lwt-based I/O
 
 ### Implemented Types:
 

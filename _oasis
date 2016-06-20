@@ -1,5 +1,5 @@
 Name: telegraml
-Version: 2.1.3
+Version: 2.1.4
 OCamlVersion: >= 4.02
 Synopsis: Telegram Bot API for OCaml 
 Authors: nv-vn <nv@cock.li>
@@ -22,6 +22,6 @@ Document "telegram_api"
   Title: Telegram API reference
   Authors: nv-vn
   XOCamlbuildPath: src/
-  XOCamlbuildModules: Telegram, TelegramApi
+  XOCamlbuildModules: Telegram, TelegramApi, TelegramActions
 
   Install: false

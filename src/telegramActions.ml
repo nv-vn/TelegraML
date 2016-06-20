@@ -1,11 +1,26 @@
 open TelegramApi.Command
 
 (* Action combinators *)
-(* TODO: These names suck, we need something more descriptive *)
 
-let (@/>) c1 c2 = Chain (c1, c2)
+(** Chains two commands together (do one, then the other) *)
+let (/+) c1 c2 = Chain (c1, c2)
 
+(** Pipes one command into the next (do one, and use its result) *)
 let (/>) c1 f = c1 ~and_then:f
+
+(** Finish a sequence of commands using [(/>)] *)
+let finish = fun _ -> Nothing
+
+(** Sequence a list of commands in the provided order *)
+let sequence cmds =
+  List.fold_right (/+) cmds Nothing
+(** Examples:
+    - [command /> fun _ -> command2 /> finish]
+    - [command /+ command2]
+    - [sequence [
+        command;
+        command2
+      ]] *)
 
 (* Normal actions *)
 
