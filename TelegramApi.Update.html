@@ -13,7 +13,8 @@
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Telegram" rel="Chapter" href="Telegram.html">
-<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.Update</title>
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html">
+<link title="TelegramActions" rel="Chapter" href="TelegramActions.html"><title>TelegramApi.Update</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="TelegramApi.ChatAction.html" title="TelegramApi.ChatAction">Previous</a>
@@ -24,79 +25,53 @@
 
 <pre><span class="keyword">module</span> Update: <code class="code">sig</code> <a href="TelegramApi.Update.html">..</a> <code class="code">end</code></pre><hr width="100%">
 
-<pre><code><span id="TYPEupdate"><span class="keyword">type</span> <code class="type"></code>update</span> = {</code></pre><table class="typetable">
+<pre><code><span id="TYPEupdate"><span class="keyword">type</span> <code class="type"></code>update</span> = </code></pre><table class="typetable">
 <tr>
 <td align="left" valign="top" >
-<code>&nbsp;&nbsp;</code></td>
+<code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTupdate.update_id">update_id</span>&nbsp;: <code class="type">int</code>;</code></td>
+<code><span id="TYPEELTupdate.Message"><span class="constructor">Message</span></span> <span class="keyword">of</span> <code class="type">int * <a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
-<code>&nbsp;&nbsp;</code></td>
+<code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTupdate.message">message</span>&nbsp;: <code class="type"><a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> option</code>;</code></td>
+<code><span id="TYPEELTupdate.EditedMessage"><span class="constructor">EditedMessage</span></span> <span class="keyword">of</span> <code class="type">int * <a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
-<code>&nbsp;&nbsp;</code></td>
+<code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTupdate.edited_message">edited_message</span>&nbsp;: <code class="type"><a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> option</code>;</code></td>
+<code><span id="TYPEELTupdate.InlineQuery"><span class="constructor">InlineQuery</span></span> <span class="keyword">of</span> <code class="type">int * <a href="TelegramApi.InlineQuery.html#TYPEinline_query">TelegramApi.InlineQuery.inline_query</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
-<code>&nbsp;&nbsp;</code></td>
+<code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTupdate.inline_query">inline_query</span>&nbsp;: <code class="type"><a href="TelegramApi.InlineQuery.html#TYPEinline_query">TelegramApi.InlineQuery.inline_query</a> option</code>;</code></td>
+<code><span id="TYPEELTupdate.ChosenInlineResult"><span class="constructor">ChosenInlineResult</span></span> <span class="keyword">of</span> <code class="type">int * <a href="TelegramApi.InlineQuery.html#TYPEchosen_inline_result">TelegramApi.InlineQuery.chosen_inline_result</a></code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
-<code>&nbsp;&nbsp;</code></td>
+<code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTupdate.chosen_inline_result">chosen_inline_result</span>&nbsp;: <code class="type"><a href="TelegramApi.InlineQuery.html#TYPEchosen_inline_result">TelegramApi.InlineQuery.chosen_inline_result</a> option</code>;</code></td>
-
-</tr>
-<tr>
-<td align="left" valign="top" >
-<code>&nbsp;&nbsp;</code></td>
-<td align="left" valign="top" >
-<code><span id="TYPEELTupdate.callback_query">callback_query</span>&nbsp;: <code class="type"><a href="TelegramApi.CallbackQuery.html#TYPEcallback_query">TelegramApi.CallbackQuery.callback_query</a> option</code>;</code></td>
+<code><span id="TYPEELTupdate.CallbackQuery"><span class="constructor">CallbackQuery</span></span> <span class="keyword">of</span> <code class="type">int * <a href="TelegramApi.CallbackQuery.html#TYPEcallback_query">TelegramApi.CallbackQuery.callback_query</a></code></code></td>
 
 </tr></table>
-}
 
 <div class="info ">
 Stores the info for updates to a chat/group<br>
 </div>
 
 
-<pre><span id="VALcreate"><span class="keyword">val</span> create</span> : <code class="type">update_id:int -><br>       ?message:<a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> option -><br>       ?edited_message:<a href="TelegramApi.Message.html#TYPEmessage">TelegramApi.Message.message</a> option -><br>       ?inline_query:<a href="TelegramApi.InlineQuery.html#TYPEinline_query">TelegramApi.InlineQuery.inline_query</a> option -><br>       ?chosen_inline_result:<a href="TelegramApi.InlineQuery.html#TYPEchosen_inline_result">TelegramApi.InlineQuery.chosen_inline_result</a> option -><br>       ?callback_query:<a href="TelegramApi.CallbackQuery.html#TYPEcallback_query">TelegramApi.CallbackQuery.callback_query</a> option -><br>       unit -> <a href="TelegramApi.Update.html#TYPEupdate">update</a></code></pre><div class="info ">
-Create an <code class="code">update</code> in a concise manner
-<p>
+<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type">Yojson.Safe.json -> <a href="TelegramApi.Update.html#TYPEupdate">update</a></code></pre><div class="info ">
 Read an <code class="code">update</code> out of some JSON<br>
 </div>
 
-<pre><span id="VALread"><span class="keyword">val</span> read</span> : <code class="type">Yojson.Safe.json -> <a href="TelegramApi.Update.html#TYPEupdate">update</a></code></pre>
-<pre><span id="VALis_message"><span class="keyword">val</span> is_message</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">update</a> -> bool</code></pre><div class="info ">
-Check if an update contains a message
-<p>
-Check if an update contains an edited message<br>
+<pre><span id="VALget_id"><span class="keyword">val</span> get_id</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">update</a> -> int</code></pre><div class="info ">
+Get the <code class="code">update_id</code> out of an arbitrary <code class="code">update</code> object<br>
 </div>
-
-<pre><span id="VALis_edited_message"><span class="keyword">val</span> is_edited_message</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">update</a> -> bool</code></pre><div class="info ">
-Check if an update contains an inline query<br>
-</div>
-
-<pre><span id="VALis_inline_query"><span class="keyword">val</span> is_inline_query</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">update</a> -> bool</code></pre><div class="info ">
-Check if an update contains a reply to an inline query<br>
-</div>
-
-<pre><span id="VALis_chosen_inline_result"><span class="keyword">val</span> is_chosen_inline_result</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">update</a> -> bool</code></pre><div class="info ">
-Check if an update contains a callback query<br>
-</div>
-
-<pre><span id="VALis_callback_query"><span class="keyword">val</span> is_callback_query</span> : <code class="type"><a href="TelegramApi.Update.html#TYPEupdate">update</a> -> bool</code></pre></body></html>
+</body></html>

@@ -13,7 +13,8 @@
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Telegram" rel="Chapter" href="Telegram.html">
-<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.Command</title>
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html">
+<link title="TelegramActions" rel="Chapter" href="TelegramActions.html"><title>TelegramApi.Command</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="TelegramApi.Result.html" title="TelegramApi.Result">Previous</a>
@@ -260,21 +261,21 @@
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTaction.EditMessageText"><span class="constructor">EditMessageText</span></span> <span class="keyword">of</span> <code class="type">[ `ChatId of string | `InlineMessageId of string | `MessageId of int ]<br>        * string * <a href="TelegramApi.ParseMode.html#TYPEparse_mode">TelegramApi.ParseMode.parse_mode</a> option * bool<br>        * <a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code></code></td>
+<code><span id="TYPEELTaction.EditMessageText"><span class="constructor">EditMessageText</span></span> <span class="keyword">of</span> <code class="type">[ `ChatMessageId of string * int | `InlineMessageId of string ] * string<br>        * <a href="TelegramApi.ParseMode.html#TYPEparse_mode">TelegramApi.ParseMode.parse_mode</a> option * bool<br>        * <a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTaction.EditMessageCaption"><span class="constructor">EditMessageCaption</span></span> <span class="keyword">of</span> <code class="type">[ `ChatId of string | `InlineMessageId of string | `MessageId of int ]<br>        * string * <a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code></code></td>
+<code><span id="TYPEELTaction.EditMessageCaption"><span class="constructor">EditMessageCaption</span></span> <span class="keyword">of</span> <code class="type">[ `ChatMessageId of string * int | `InlineMessageId of string ] * string<br>        * <a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code></code></td>
 
 </tr>
 <tr>
 <td align="left" valign="top" >
 <code><span class="keyword">|</span></code></td>
 <td align="left" valign="top" >
-<code><span id="TYPEELTaction.EditMessageReplyMarkup"><span class="constructor">EditMessageReplyMarkup</span></span> <span class="keyword">of</span> <code class="type">[ `ChatId of string | `InlineMessageId of string | `MessageId of int ]<br>        * <a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code></code></td>
+<code><span id="TYPEELTaction.EditMessageReplyMarkup"><span class="constructor">EditMessageReplyMarkup</span></span> <span class="keyword">of</span> <code class="type">[ `ChatMessageId of string * int | `InlineMessageId of string ]<br>        * <a href="TelegramApi.ReplyMarkup.html#TYPEreply_markup">TelegramApi.ReplyMarkup.reply_markup</a> option</code></code></td>
 
 </tr>
 <tr>

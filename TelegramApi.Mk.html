@@ -12,7 +12,8 @@
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Telegram" rel="Chapter" href="Telegram.html">
-<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.Mk</title>
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html">
+<link title="TelegramActions" rel="Chapter" href="TelegramActions.html"><title>TelegramApi.Mk</title>
 </head>
 <body>
 <div class="navbar"><a class="pre" href="TelegramApi.Command.html" title="TelegramApi.Command">Previous</a>
@@ -49,6 +50,10 @@ A list of all commands supported by the bot<br>
 
 <pre><span id="VALinline"><span class="keyword">val</span> inline</span> : <code class="type"><a href="TelegramApi.InlineQuery.html#TYPEinline_query">TelegramApi.InlineQuery.inline_query</a> -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
 The inline query handler for the bot<br>
+</div>
+
+<pre><span id="VALcallback"><span class="keyword">val</span> callback</span> : <code class="type"><a href="TelegramApi.CallbackQuery.html#TYPEcallback_query">TelegramApi.CallbackQuery.callback_query</a> -> <a href="TelegramApi.Command.html#TYPEaction">TelegramApi.Command.action</a></code></pre><div class="info ">
+The callback query handler for the bot<br>
 </div>
 
 <pre><span id="VALget_me"><span class="keyword">val</span> get_me</span> : <code class="type"><a href="TelegramApi.User.html#TYPEuser">TelegramApi.User.user</a> <a href="TelegramApi.Result.html#TYPEresult">TelegramApi.Result.result</a> Lwt.t</code></pre><div class="info ">

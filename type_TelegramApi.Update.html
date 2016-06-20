@@ -8,31 +8,18 @@
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Telegram" rel="Chapter" href="Telegram.html">
-<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>TelegramApi.Update</title>
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html">
+<link title="TelegramActions" rel="Chapter" href="TelegramActions.html"><title>TelegramApi.Update</title>
 </head>
 <body>
 <code class="code"><span class="keyword">sig</span><br>
-&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;update&nbsp;=&nbsp;{<br>
-&nbsp;&nbsp;&nbsp;&nbsp;update_id&nbsp;:&nbsp;int;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;message&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;option;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;edited_message&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;option;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;inline_query&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.inline_query&nbsp;option;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;chosen_inline_result&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.chosen_inline_result&nbsp;option;<br>
-&nbsp;&nbsp;&nbsp;&nbsp;callback_query&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">CallbackQuery</span>.callback_query&nbsp;option;<br>
-&nbsp;&nbsp;}<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;create&nbsp;:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;update_id:int&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?message:<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?edited_message:<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?inline_query:<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.inline_query&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?chosen_inline_result:<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.chosen_inline_result&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;?callback_query:<span class="constructor">TelegramApi</span>.<span class="constructor">CallbackQuery</span>.callback_query&nbsp;option&nbsp;<span class="keywordsign">-&gt;</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;unit&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Update</span>.update<br>
+&nbsp;&nbsp;<span class="keyword">type</span>&nbsp;update&nbsp;=<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">Message</span>&nbsp;<span class="keyword">of</span>&nbsp;int&nbsp;*&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">EditedMessage</span>&nbsp;<span class="keyword">of</span>&nbsp;int&nbsp;*&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Message</span>.message<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">InlineQuery</span>&nbsp;<span class="keyword">of</span>&nbsp;int&nbsp;*&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.inline_query<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">ChosenInlineResult</span>&nbsp;<span class="keyword">of</span>&nbsp;int&nbsp;*<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">InlineQuery</span>.chosen_inline_result<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="keywordsign">|</span>&nbsp;<span class="constructor">CallbackQuery</span>&nbsp;<span class="keyword">of</span>&nbsp;int&nbsp;*&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">CallbackQuery</span>.callback_query<br>
 &nbsp;&nbsp;<span class="keyword">val</span>&nbsp;read&nbsp;:&nbsp;<span class="constructor">Yojson</span>.<span class="constructor">Safe</span>.json&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Update</span>.update<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;is_message&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Update</span>.update&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;is_edited_message&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Update</span>.update&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;is_inline_query&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Update</span>.update&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;is_chosen_inline_result&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Update</span>.update&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
-&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;is_callback_query&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Update</span>.update&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;bool<br>
+&nbsp;&nbsp;<span class="keyword">val</span>&nbsp;get_id&nbsp;:&nbsp;<span class="constructor">TelegramApi</span>.<span class="constructor">Update</span>.update&nbsp;<span class="keywordsign">-&gt;</span>&nbsp;int<br>
 <span class="keyword">end</span></code></body></html>

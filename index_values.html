@@ -9,7 +9,8 @@
 <link title="Index of modules" rel=Appendix href="index_modules.html">
 <link title="Index of module types" rel=Appendix href="index_module_types.html">
 <link title="Telegram" rel="Chapter" href="Telegram.html">
-<link title="TelegramApi" rel="Chapter" href="TelegramApi.html"><title>Index of values</title>
+<link title="TelegramApi" rel="Chapter" href="TelegramApi.html">
+<link title="TelegramActions" rel="Chapter" href="TelegramActions.html"><title>Index of values</title>
 </head>
 <body>
 <div class="navbar">&nbsp;<a class="up" href="index.html" title="Index">Up</a>
@@ -17,6 +18,16 @@
 <h1>Index of values</h1>
 <table>
 <tr><td align="left"><br></td></tr>
+<tr><td><a href="TelegramActions.html#VAL(/+)">(/+)</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td><div class="info">
+Chains two commands together (do one, then the other)
+</div>
+</td></tr>
+<tr><td><a href="TelegramActions.html#VAL(/>)">(/&gt;)</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td><div class="info">
+Pipes one command into the next (do one, and use its result)
+</div>
+</td></tr>
 <tr><td><a href="TelegramApi.Result.html#VAL(<$>)">(&lt;$&gt;)</a> [<a href="TelegramApi.Result.html">TelegramApi.Result</a>]</td>
 <td><div class="info">
 Map <code class="code">Success</code>es through the given function
@@ -28,17 +39,33 @@ Bind <code class="code">Success</code>es through the given function
 </div>
 </td></tr>
 <tr><td align="left"><br>A</td></tr>
+<tr><td><a href="TelegramActions.html#VALanswer_callback_query">answer_callback_query</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALanswer_callback_query">answer_callback_query</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Answer a callback query sent from an inline keyboard
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALanswer_inline_query">answer_inline_query</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALanswer_inline_query">answer_inline_query</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Answers between 1 to 50 inline queries
 </div>
 </td></tr>
 <tr><td align="left"><br>C</td></tr>
+<tr><td><a href="TelegramApi.BOT.html#VALcallback">callback</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
+<td><div class="info">
+The function to call on callback queries
+</div>
+</td></tr>
+<tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALcallback">callback</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
+<td><div class="info">
+The callback query handler for the bot
+</div>
+</td></tr>
+<tr><td><a href="Telegram.BotDefaults.html#VALcallback">callback</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.BOT.html#VALchannel_chat_created">channel_chat_created</a> [<a href="TelegramApi.BOT.html">TelegramApi.BOT</a>]</td>
 <td><div class="info">
 Called whenever a chat turns into a channel
@@ -65,11 +92,6 @@ A list of all commands supported by the bot
 </td></tr>
 <tr><td><a href="Telegram.BotDefaults.html#VALcommands">commands</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
 <td></td></tr>
-<tr><td><a href="TelegramApi.Update.html#VALcreate">create</a> [<a href="TelegramApi.Update.html">TelegramApi.Update</a>]</td>
-<td><div class="info">
-Create an <code class="code">update</code> in a concise manner
-</div>
-</td></tr>
 <tr><td><a href="TelegramApi.InlineQuery.html#VALcreate">create</a> [<a href="TelegramApi.InlineQuery.html">TelegramApi.InlineQuery</a>]</td>
 <td><div class="info">
 Create an <code class="code">inline_query</code> in a concise manner
@@ -365,22 +387,30 @@ Called whenever a chat's photo gets deleted
 Download the file from Telegram's servers if it exists
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALdownload_file">download_file</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALdownload_file">download_file</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Download a file that's been uploaded to Telegram's servers by the <code class="code">file</code>
 </div>
 </td></tr>
 <tr><td align="left"><br>E</td></tr>
+<tr><td><a href="TelegramActions.html#VALedit_message_caption">edit_message_caption</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALedit_message_caption">edit_message_caption</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Edit the caption of an existing message, selected by either the chat id, the message id, or the inline message id
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALedit_message_reply_markup">edit_message_reply_markup</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALedit_message_reply_markup">edit_message_reply_markup</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Edit the reply markup of an existing message, selected by either the chat id, the message id, or the inline message id.
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALedit_message_text">edit_message_text</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALedit_message_text">edit_message_text</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Edit an existing message, selected by either the chat id, the message id, or the inline message id
@@ -392,42 +422,68 @@ Takes the <code class="code">url</code> and <code class="code">user</code> field
 </div>
 </td></tr>
 <tr><td align="left"><br>F</td></tr>
+<tr><td><a href="TelegramActions.html#VALfinish">finish</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td><div class="info">
+Finish a sequence of commands using <code class="code">(/&gt;)</code>
+</div>
+</td></tr>
+<tr><td><a href="TelegramActions.html#VALforward_message">forward_message</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALforward_message">forward_message</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Forwards any message from one chat to another (can be same chat)
 </div>
 </td></tr>
 <tr><td align="left"><br>G</td></tr>
+<tr><td><a href="TelegramActions.html#VALget_chat">get_chat</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_chat">get_chat</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Get the info for a given chat
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALget_chat_administrators">get_chat_administrators</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_chat_administrators">get_chat_administrators</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Get the list of admins for a given chat
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALget_chat_member">get_chat_member</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_chat_member">get_chat_member</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Get information about a certain member in the given chat
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALget_chat_members_count">get_chat_members_count</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_chat_members_count">get_chat_members_count</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Get the number of members in a given chat
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALget_file">get_file</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_file">get_file</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Get the information for a file that's been uploaded to Telegram's servers by the <code class="code">file_id</code>
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALget_file'">get_file'</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_file'">get_file'</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Download a file that's been uploaded to Telegram's servers by the <code class="code">file_id</code>
 </div>
 </td></tr>
+<tr><td><a href="TelegramApi.Update.html#VALget_id">get_id</a> [<a href="TelegramApi.Update.html">TelegramApi.Update</a>]</td>
+<td><div class="info">
+Get the <code class="code">update_id</code> out of an arbitrary <code class="code">update</code> object
+</div>
+</td></tr>
+<tr><td><a href="TelegramActions.html#VALget_me">get_me</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_me">get_me</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Get the user information for the bot; use to test connection to the Telegram server
@@ -445,11 +501,15 @@ Get the first name of the user who sent the message
 Get a formatted name for the user who sent the message: first name, with the username in parentheses if it exists
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALget_updates">get_updates</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_updates">get_updates</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Get a list of all available updates that the bot has received
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALget_user_profile_photos">get_user_profile_photos</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALget_user_profile_photos">get_user_profile_photos</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Get a given user's profile pictures
@@ -475,40 +535,22 @@ The inline query handler for the bot
 </td></tr>
 <tr><td><a href="Telegram.BotDefaults.html#VALinline">inline</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
 <td></td></tr>
-<tr><td><a href="TelegramApi.Update.html#VALis_callback_query">is_callback_query</a> [<a href="TelegramApi.Update.html">TelegramApi.Update</a>]</td>
-<td></td></tr>
-<tr><td><a href="TelegramApi.Update.html#VALis_chosen_inline_result">is_chosen_inline_result</a> [<a href="TelegramApi.Update.html">TelegramApi.Update</a>]</td>
-<td><div class="info">
-Check if an update contains a callback query
-</div>
-</td></tr>
 <tr><td><a href="TelegramApi.Command.html#VALis_command">is_command</a> [<a href="TelegramApi.Command.html">TelegramApi.Command</a>]</td>
 <td><div class="info">
 Tests to see whether an update from the update queue invoked a command
 </div>
 </td></tr>
-<tr><td><a href="TelegramApi.Update.html#VALis_edited_message">is_edited_message</a> [<a href="TelegramApi.Update.html">TelegramApi.Update</a>]</td>
-<td><div class="info">
-Check if an update contains an inline query
-</div>
-</td></tr>
-<tr><td><a href="TelegramApi.Update.html#VALis_inline_query">is_inline_query</a> [<a href="TelegramApi.Update.html">TelegramApi.Update</a>]</td>
-<td><div class="info">
-Check if an update contains a reply to an inline query
-</div>
-</td></tr>
-<tr><td><a href="TelegramApi.Update.html#VALis_message">is_message</a> [<a href="TelegramApi.Update.html">TelegramApi.Update</a>]</td>
-<td><div class="info">
-Check if an update contains a message
-</div>
-</td></tr>
 <tr><td align="left"><br>K</td></tr>
+<tr><td><a href="TelegramActions.html#VALkick_chat_member">kick_chat_member</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALkick_chat_member">kick_chat_member</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Kick/ban a given user from the given chat
 </div>
 </td></tr>
 <tr><td align="left"><br>L</td></tr>
+<tr><td><a href="TelegramActions.html#VALleave_chat">leave_chat</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALleave_chat">leave_chat</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Leave a chat manually to stop receiving messages from it
@@ -565,7 +607,11 @@ Called when the title for a chat is changed
 </td></tr>
 <tr><td><a href="Telegram.BotDefaults.html#VALnew_chat_title">new_chat_title</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
 <td></td></tr>
+<tr><td><a href="TelegramActions.html#VALnothing">nothing</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td align="left"><br>P</td></tr>
+<tr><td><a href="TelegramActions.html#VALpeek_update">peek_update</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALpeek_update">peek_update</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Get the first available update from the update queue
@@ -577,6 +623,8 @@ Called whenever a certain message is pinned for a chat
 </div>
 </td></tr>
 <tr><td><a href="Telegram.BotDefaults.html#VALpinned_message">pinned_message</a> [<a href="Telegram.BotDefaults.html">Telegram.BotDefaults</a>]</td>
+<td></td></tr>
+<tr><td><a href="TelegramActions.html#VALpop_update">pop_update</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
 <td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALpop_update">pop_update</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
@@ -646,7 +694,10 @@ Prepare a <code class="code">photo_size</code> for sending -- used in the case o
 <td></td></tr>
 <tr><td align="left"><br>R</td></tr>
 <tr><td><a href="TelegramApi.Update.html#VALread">read</a> [<a href="TelegramApi.Update.html">TelegramApi.Update</a>]</td>
-<td></td></tr>
+<td><div class="info">
+Read an <code class="code">update</code> out of some JSON
+</div>
+</td></tr>
 <tr><td><a href="TelegramApi.InlineQuery.html#VALread">read</a> [<a href="TelegramApi.InlineQuery.html">TelegramApi.InlineQuery</a>]</td>
 <td></td></tr>
 <tr><td><a href="TelegramApi.ChatMember.html#VALread">read</a> [<a href="TelegramApi.ChatMember.html">TelegramApi.ChatMember</a>]</td>
@@ -703,31 +754,43 @@ Turn a string into a <code class="code">chat_type</code>
 Reads a single update and, given a list of commands, matches it to a correct command that can be invoked.
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALresend_audio">resend_audio</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALresend_audio">resend_audio</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send an existing audio file (mp3) to a specified chat.
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALresend_document">resend_document</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALresend_document">resend_document</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send an existing document file to a specified chat.
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALresend_photo">resend_photo</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALresend_photo">resend_photo</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send an existing image file (jpeg/png) to a specified chat.
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALresend_sticker">resend_sticker</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALresend_sticker">resend_sticker</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send an existing sticker file (webp) to a specified chat.
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALresend_video">resend_video</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALresend_video">resend_video</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send an existing video (mp4/mov/webm) file to a specified chat.
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALresend_voice">resend_voice</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALresend_voice">resend_voice</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send an existing voice message (ogg) to a specified chat.
@@ -744,59 +807,86 @@ Run the bot with a default main loop, optionally logging the output to stdout
 </div>
 </td></tr>
 <tr><td align="left"><br>S</td></tr>
+<tr><td><a href="TelegramActions.html#VALsend_audio">send_audio</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALsend_audio">send_audio</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send a new audio file (mp3) to a specified chat.
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALsend_chat_action">send_chat_action</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALsend_chat_action">send_chat_action</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send an action report to the chat, to show that a command will take some time
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALsend_contact">send_contact</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALsend_contact">send_contact</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send a contact to a specified chat
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALsend_document">send_document</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALsend_document">send_document</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send a new document file to a specified chat.
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALsend_location">send_location</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALsend_location">send_location</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send a location to a specified chat
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALsend_message">send_message</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALsend_message">send_message</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send a text message to a specified chat
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALsend_photo">send_photo</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALsend_photo">send_photo</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send a new image file (jpeg/png) to a specified chat.
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALsend_sticker">send_sticker</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALsend_sticker">send_sticker</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send a new sticker file (webp) to a specified chat.
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALsend_venue">send_venue</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALsend_venue">send_venue</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send a venue to a specified chat
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALsend_video">send_video</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALsend_video">send_video</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send a new video file (mp4/mov/webm) to a specified chat.
 </div>
 </td></tr>
+<tr><td><a href="TelegramActions.html#VALsend_voice">send_voice</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALsend_voice">send_voice</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Send a new voice message (ogg) to a specified chat.
+</div>
+</td></tr>
+<tr><td><a href="TelegramActions.html#VALsequence">sequence</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td><div class="info">
+Sequence a list of commands in the provided order
 </div>
 </td></tr>
 <tr><td><a href="TelegramApi.ChatMember.html#VALstatus_of_string">status_of_string</a> [<a href="TelegramApi.ChatMember.html">TelegramApi.ChatMember</a>]</td>
@@ -835,6 +925,8 @@ Turns a string into the args list that a command may choose to work with
 </div>
 </td></tr>
 <tr><td align="left"><br>U</td></tr>
+<tr><td><a href="TelegramActions.html#VALunban_chat_member">unban_chat_member</a> [<a href="TelegramActions.html">TelegramActions</a>]</td>
+<td></td></tr>
 <tr><td><a href="TelegramApi.TELEGRAM_BOT.html#VALunban_chat_member">unban_chat_member</a> [<a href="TelegramApi.TELEGRAM_BOT.html">TelegramApi.TELEGRAM_BOT</a>]</td>
 <td><div class="info">
 Unban a given user from the given chat
