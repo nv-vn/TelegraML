@@ -1055,7 +1055,7 @@ module Command : sig
     | EditMessageReplyMarkup of [`ChatMessageId of string * int | `InlineMessageId of string] * ReplyMarkup.reply_markup option
     | GetUpdates of (Update.update list Result.result -> action)
     | PeekUpdate of (Update.update Result.result -> action)
-    | PopUpdate of (Update.update Result.result -> action)
+    | PopUpdate of bool * (Update.update Result.result -> action)
     | Chain of action * action
 
   (** This type is used to represent available commands. The [name] field is the command's name (without a slash) and the [description] field is the description to be used in the help message. [run] is the function called when invoking the command. *)

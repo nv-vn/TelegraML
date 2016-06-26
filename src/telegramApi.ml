@@ -1510,7 +1510,7 @@ module Command = struct
     | EditMessageReplyMarkup of [`ChatMessageId of string * int | `InlineMessageId of string] * ReplyMarkup.reply_markup option
     | GetUpdates of (Update.update list Result.result -> action)
     | PeekUpdate of (Update.update Result.result -> action)
-    | PopUpdate of (Update.update Result.result -> action)
+    | PopUpdate of bool * (Update.update Result.result -> action)
     | Chain of action * action
 
   type command = {
@@ -2187,7 +2187,7 @@ module Mk (B : BOT) = struct
       (identify edit_message_reply_markup id) ~reply_markup () |> dispose
     | GetUpdates f -> get_updates |> eval f
     | PeekUpdate f -> peek_update |> eval f
-    | PopUpdate f -> pop_update () |> eval f
+    | PopUpdate (run_cmds, f) -> pop_update ~run_cmds () |> eval f
     | Chain (first, second) -> evaluator first >> evaluator second
 
   let run ?(log=true) () =

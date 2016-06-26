@@ -140,6 +140,6 @@ let get_updates ~and_then =
 let peek_update ~and_then =
   PeekUpdate and_then
 
-(* TODO: Add run_commands option *)
-let pop_update ~and_then =
-  PopUpdate and_then
+(** @param run_commands: true by default. States whether to evaluate commands, inline queries, chat events, and callback queries *)
+let pop_update ?(run_commands=true) ~and_then =
+  PopUpdate (run_commands, and_then)
