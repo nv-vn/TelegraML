@@ -26,7 +26,7 @@ module User = struct
     let id = the_int @@ get_field "id" obj in
     let first_name = the_string @@ get_field "first_name" obj in
     let last_name = the_string <$> get_opt_field "last_name" obj in
-    let username = the_string <$> get_opt_field "last_name" obj in
+    let username = the_string <$> get_opt_field "username" obj in
     create ~id ~first_name ~last_name ~username ()
 end
 
