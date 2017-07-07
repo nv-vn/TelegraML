@@ -2068,7 +2068,8 @@ module Mk (B : BOT) = struct
   let rec pop_update ?(run_cmds=true) () =
     let open Update in
     let json = `Assoc [("offset", `Int !offset);
-                       ("limit", `Int 1)] in
+                       ("limit", `Int 1);
+                       ("timeout", `Int 30)] in
     let body = Yojson.Safe.to_string json in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
     Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getUpdates")) >>= fun (resp, body) ->
