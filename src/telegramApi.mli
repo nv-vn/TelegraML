@@ -1019,7 +1019,7 @@ module Command : sig
   type action =
     | Nothing
     | GetMe of (User.user Result.result -> action)
-    | SendMessage of int * string * bool * int option * ReplyMarkup.reply_markup option
+    | SendMessage of int * string * ParseMode.parse_mode option * bool * bool * int option * ReplyMarkup.reply_markup option
     | ForwardMessage of int * int * bool * int
     | SendChatAction of int * ChatAction.action
     | SendPhoto of int * string * string option * bool * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
@@ -1152,7 +1152,7 @@ module type TELEGRAM_BOT = sig
   val get_me : User.user Result.result Lwt.t
 
   (** Send a text message to a specified chat *)
-  val send_message : chat_id:int -> text:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val send_message : chat_id:int -> text:string -> parse_mode:ParseMode.parse_mode option -> disable_web_page_preview:bool -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
 
   (** Forwards any message from one chat to another (can be same chat) *)
   val forward_message : chat_id:int -> from_chat_id:int -> ?disable_notification:bool -> message_id:int -> unit Result.result Lwt.t

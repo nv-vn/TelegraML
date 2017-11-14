@@ -28,10 +28,10 @@ let nothing = Nothing
 
 let get_me ~and_then = GetMe and_then
 
-let send_message ~chat_id ?(disable_notification=false) ?reply_to ?reply_markup =
+let send_message ~chat_id ?parse_mode ?(disable_web_page_preview=false) ?(disable_notification=false) ?reply_to ?reply_markup =
   Printf.ksprintf
     (fun s ->
-       SendMessage (chat_id, s, disable_notification, reply_to, reply_markup))
+       SendMessage (chat_id, s, parse_mode, disable_web_page_preview, disable_notification, reply_to, reply_markup))
 
 let forward_message ~chat_id ~from_chat_id ?(disable_notification=false) ~message_id =
   ForwardMessage (chat_id, from_chat_id, disable_notification, message_id)
