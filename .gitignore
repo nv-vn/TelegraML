@@ -1,12 +1,7 @@
-*.annot
-*.cmo
-*.cma
-*.cmi
-*.a
-*.o
-*.cmx
-*.cmxs
-*.cmxa
+*~
+bin
+.merlin
+*.install
 
 # Bot blobs
 *.token
@@ -15,13 +10,6 @@
 # ocamlbuild working directory
 _build/
 
-# ocamlbuild targets
-*.byte
-*.native
-
-# oasis generated files
-setup.data
-setup.log
 
 # generated documentation
 *.docdir
