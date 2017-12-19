@@ -12,6 +12,7 @@ available: [ocaml-version >= "4.06"]
 depends: [
   "jbuilder" {build}
   "lwt" {>= "2.5.0"}
+  "lwt_ssl"
   "cohttp" {>= "1.0.0"}
   "yojson" {>= "1.3.0"}
   "batteries" {>= "2.4.0"}
