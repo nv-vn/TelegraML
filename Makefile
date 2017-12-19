@@ -1,41 +1,27 @@
-# OASIS_START
-# DO NOT EDIT (digest: a3c674b4239234cbbe53afe090018954)
+# Invoke `make` to build, `make clean` to clean up, etc.
 
-SETUP = ocaml setup.ml
+.PHONY: default all utop test clean
 
-build: setup.data
-	$(SETUP) -build $(BUILDFLAGS)
+default: all
 
-doc: setup.data build
-	$(SETUP) -doc $(DOCFLAGS)
-
-test: setup.data build
-	$(SETUP) -test $(TESTFLAGS)
-
+# Build one library and one standalone executable that implements
+# multiple subcommands and uses the library.
+# The library can be loaded in utop for interactive testing.
 all:
-	$(SETUP) -all $(ALLFLAGS)
+	jbuilder build @install
+	@test -L bin || ln -s _build/install/default/bin .
 
-install: setup.data
-	$(SETUP) -install $(INSTALLFLAGS)
+# Launch utop such that it finds our library.
+utop: all
+	OCAMLPATH=_build/install/default/lib:$(OCAMLPATH) utop
 
-uninstall: setup.data
-	$(SETUP) -uninstall $(UNINSTALLFLAGS)
+# Build and run tests
+test: all
+	./bin/price-tracker-exe test
 
-reinstall: setup.data
-	$(SETUP) -reinstall $(REINSTALLFLAGS)
-
+# Clean up
 clean:
-	$(SETUP) -clean $(CLEANFLAGS)
-
-distclean:
-	$(SETUP) -distclean $(DISTCLEANFLAGS)
-
-setup.data:
-	$(SETUP) -configure $(CONFIGUREFLAGS)
-
-configure:
-	$(SETUP) -configure $(CONFIGUREFLAGS)
-
-.PHONY: build doc test all install uninstall reinstall clean distclean configure
-
-# OASIS_STOP
+# Remove files produced by jbuilder.
+	jbuilder clean
+# Remove remaining files/folders ignored by git as defined in .gitignore (-X).
+	git clean -dfXq

@@ -812,7 +812,7 @@ module File = struct
     let open Lwt in
     let url = Uri.of_string ("https://api.telegram.org/file/bot" ^ token ^ "/" ^ path) in
     Some (Cohttp_lwt_unix.Client.get url >>= fun (resp, body) ->
-          Cohttp_lwt_body.to_string body)
+          Cohttp_lwt.Body.to_string body)
 end
 
 module CallbackQuery = struct
@@ -1474,7 +1474,7 @@ module Command = struct
   type action =
     | Nothing
     | GetMe of (User.user Result.result -> action)
-    | SendMessage of int * string * bool * int option * ReplyMarkup.reply_markup option
+    | SendMessage of int * string * ParseMode.parse_mode option * bool * bool * int option * ReplyMarkup.reply_markup option
     | ForwardMessage of int * int * bool * int
     | SendChatAction of int * ChatAction.action
     | SendPhoto of int * string * string option * bool * int option * ReplyMarkup.reply_markup option * (string Result.result -> action)
@@ -1595,7 +1595,7 @@ module type TELEGRAM_BOT = sig
   val callback : CallbackQuery.callback_query -> Command.action
 
   val get_me : User.user Result.result Lwt.t
-  val send_message : chat_id:int -> text:string -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
+  val send_message : chat_id:int -> text:string -> parse_mode:ParseMode.parse_mode option -> disable_web_page_preview:bool -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit Result.result Lwt.t
   val forward_message : chat_id:int -> from_chat_id:int -> ?disable_notification:bool -> message_id:int -> unit Result.result Lwt.t
   val send_chat_action : chat_id:int -> action:ChatAction.action -> unit Result.result Lwt.t
   val send_photo : chat_id:int -> photo:string -> ?caption:string option -> ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> string Result.result Lwt.t
@@ -1649,27 +1649,29 @@ module Mk (B : BOT) = struct
     let open Message in
     {name = "help"; description = "Show this message"; enabled = true; run = function
          (* Don't wake up users just to show a help message *)
-         | {chat} -> SendMessage (chat.id, "Commands:" ^ Command.make_help commands, true, None, None)} :: B.commands
+         | {chat} -> SendMessage (chat.id, "Commands:" ^ Command.make_help commands, None, false, true, None, None)} :: B.commands
   let inline = B.inline
   let callback = B.callback
 
   let get_me =
     Client.get (Uri.of_string (url ^ "getMe")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (User.read @@ get_field "result" obj)
     | _ -> Result.Failure (the_string @@ get_field "description" obj)
 
-  let send_message ~chat_id ~text ?(disable_notification=false) ~reply_to ~reply_markup =
+  let send_message ~chat_id ~text ~parse_mode ~disable_web_page_preview ?(disable_notification=false) ~reply_to ~reply_markup =
     let json = `Assoc ([("chat_id", `Int chat_id);
                         ("text", `String text);
-                        ("disable_notification", `Bool disable_notification)] +? ("reply_to_message_id", this_int <$> reply_to)
+                        ("disable_web_page_preview", `Bool disable_web_page_preview);
+                        ("disable_notification", `Bool disable_notification)] +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
+                                                                              +? ("reply_to_message_id", this_int <$> reply_to)
                                                                               +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) in
     let body = Yojson.Safe.to_string json in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendMessage")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendMessage")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1682,8 +1684,8 @@ module Mk (B : BOT) = struct
                        ("disable_notification", `Bool disable_notification)] in
     let body = Yojson.Safe.to_string json in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "forwardMessage")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "forwardMessage")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1694,8 +1696,8 @@ module Mk (B : BOT) = struct
                        ("action", `String (ChatAction.to_string action))] in
     let body = Yojson.Safe.to_string json in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendChatAction")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendChatAction")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1705,8 +1707,8 @@ module Mk (B : BOT) = struct
     let boundary = "--1234567890" in
     PhotoSize.Out.prepare_multipart (PhotoSize.Out.create ~chat_id ~photo ~caption ~disable_notification ~reply_to ~reply_markup ()) boundary >>= fun body ->
     let headers = Cohttp.Header.init_with "Content-Type" ("multipart/form-data; boundary=" ^ boundary) in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendPhoto")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendPhoto")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (the_string @@ get_field "file_id" @@ List.hd @@ the_list @@ get_field "photo" @@ get_field "result" obj)
@@ -1715,8 +1717,8 @@ module Mk (B : BOT) = struct
   let resend_photo ~chat_id ~photo ?(caption = None) ?(disable_notification=false) ~reply_to ~reply_markup =
     let body = PhotoSize.Out.prepare @@ PhotoSize.Out.create ~chat_id ~photo ~caption ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendPhoto")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendPhoto")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1726,8 +1728,8 @@ module Mk (B : BOT) = struct
     let boundary = "---1234567890" in
     Audio.Out.prepare_multipart (Audio.Out.create ~chat_id ~audio ~performer ~title ~disable_notification ~reply_to ~reply_markup ()) boundary >>= fun body ->
     let headers = Cohttp.Header.init_with "Content-Type" ("multipart/form-data; boundary=" ^ boundary) in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendAudio")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendAudio")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (the_string @@ get_field "file_id" @@ get_field "audio" @@ get_field "result" obj)
@@ -1736,8 +1738,8 @@ module Mk (B : BOT) = struct
   let resend_audio ~chat_id ~audio ~performer ~title ?(disable_notification=false) ~reply_to ~reply_markup =
     let body = Audio.Out.prepare @@ Audio.Out.create ~chat_id ~audio ~performer ~title ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendAudio")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendAudio")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1747,8 +1749,8 @@ module Mk (B : BOT) = struct
     let boundary = "--1234567890" in
     Document.Out.prepare_multipart (Document.Out.create ~chat_id ~document ~disable_notification ~reply_to ~reply_markup ()) boundary >>= fun body ->
     let headers = Cohttp.Header.init_with "Content-Type" ("multipart/form-data; boundary=" ^ boundary) in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendDocument")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendDocument")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (the_string @@ get_field "file_id" @@ get_field "document" @@ get_field "result" obj)
@@ -1757,8 +1759,8 @@ module Mk (B : BOT) = struct
   let resend_document ~chat_id ~document ?(disable_notification=false) ~reply_to ~reply_markup =
     let body = Document.Out.prepare @@ Document.Out.create ~chat_id ~document ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendDocument")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendDocument")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1768,8 +1770,8 @@ module Mk (B : BOT) = struct
     let boundary = "--1234567890" in
     Video.Out.prepare_multipart (Video.Out.create ~chat_id ~video ~duration ~caption ~disable_notification ~reply_to ~reply_markup ()) boundary >>= fun body ->
     let headers = Cohttp.Header.init_with "Content-Type" ("multipart/form-data; boundary=" ^ boundary) in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendVideo")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendVideo")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (the_string @@ get_field "file_id" @@ get_field "video" @@ get_field "result" obj)
@@ -1778,8 +1780,8 @@ module Mk (B : BOT) = struct
   let resend_video ~chat_id ~video ?(duration = None) ?(caption = None) ?(disable_notification=false)~reply_to ~reply_markup =
     let body = Video.Out.prepare @@ Video.Out.create ~chat_id ~video ~duration ~caption ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendVideo")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendVideo")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1789,8 +1791,8 @@ module Mk (B : BOT) = struct
     let boundary = "--1234567890" in
     Sticker.Out.prepare_multipart (Sticker.Out.create ~chat_id ~sticker ~disable_notification ~reply_to ~reply_markup ()) boundary >>= fun body ->
     let headers = Cohttp.Header.init_with "Content-Type" ("multipart/form-data; boundary=" ^ boundary) in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendSticker")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendSticker")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (the_string @@ get_field "file_id" @@ get_field "sticker" @@ get_field "result" obj)
@@ -1799,8 +1801,8 @@ module Mk (B : BOT) = struct
   let resend_sticker ~chat_id ~sticker ?(disable_notification=false) ~reply_to ~reply_markup =
     let body = Sticker.Out.prepare @@ Sticker.Out.create ~chat_id ~sticker ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendSticker")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendSticker")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1810,8 +1812,8 @@ module Mk (B : BOT) = struct
     let boundary = "---1234567890" in
     Voice.Out.prepare_multipart (Voice.Out.create ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup ()) boundary >>= fun body ->
     let headers = Cohttp.Header.init_with "Content-Type" ("multipart/form-data; boundary=" ^ boundary) in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendVoice")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendVoice")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (the_string @@ get_field "file_id" @@ get_field "voice" @@ get_field "result" obj)
@@ -1820,8 +1822,8 @@ module Mk (B : BOT) = struct
   let resend_voice ~chat_id ~voice ?(disable_notification=false) ~reply_to ~reply_markup =
     let body = Voice.Out.prepare @@ Voice.Out.create ~chat_id ~voice ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendVoice")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendVoice")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1830,8 +1832,8 @@ module Mk (B : BOT) = struct
   let send_location ~chat_id ~latitude ~longitude ?(disable_notification=false) ~reply_to ~reply_markup =
     let body = Location.Out.prepare @@ Location.Out.create ~chat_id ~latitude ~longitude ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendLocation")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendLocation")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1840,8 +1842,8 @@ module Mk (B : BOT) = struct
   let send_venue ~chat_id ~latitude ~longitude ~title ~address ~foursquare_id ?(disable_notification=false) ~reply_to ~reply_markup =
     let body = Venue.Out.prepare @@ Venue.Out.create ~chat_id ~latitude ~longitude ~title ~address ~foursquare_id ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendVenue")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendVenue")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1850,8 +1852,8 @@ module Mk (B : BOT) = struct
   let send_contact ~chat_id ~phone_number ~first_name ~last_name ?(disable_notification=false) ~reply_to ~reply_markup =
     let body = Contact.Out.prepare @@ Contact.Out.create ~chat_id ~phone_number ~first_name ~last_name ~disable_notification ~reply_to ~reply_markup () in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "sendContact")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "sendContact")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1861,8 +1863,8 @@ module Mk (B : BOT) = struct
     let body = `Assoc ([("user_id", `Int user_id)] +? ("offset", this_int <$> offset)
                                                    +? ("limit", this_int <$> limit)) |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getUserProfilePhotos")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "getUserProfilePhotos")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (get_field "result" obj |> UserProfilePhotos.read)
@@ -1871,8 +1873,8 @@ module Mk (B : BOT) = struct
   let get_file ~file_id =
     let body = `Assoc ["file_id", `String file_id] |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getFile")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "getFile")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (get_field "result" obj |> File.read)
@@ -1892,8 +1894,8 @@ module Mk (B : BOT) = struct
     let body = `Assoc ["chat_id", `Int chat_id;
                        "user_id", `Int user_id] |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "kickChatMember")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "kickChatMember")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1902,8 +1904,8 @@ module Mk (B : BOT) = struct
   let leave_chat ~chat_id =
     let body = `Assoc ["chat_id", `Int chat_id] |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "leaveChat")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "leaveChat")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1913,8 +1915,8 @@ module Mk (B : BOT) = struct
     let body = `Assoc ["chat_id", `Int chat_id;
                        "user_id", `Int user_id] |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "unbanChatMember")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "unbanChatMember")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1923,8 +1925,8 @@ module Mk (B : BOT) = struct
   let get_chat ~chat_id =
     let body = `Assoc ["chat_id", `Int chat_id] |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getChat")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "getChat")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (get_field "result" obj |> Chat.read)
@@ -1933,8 +1935,8 @@ module Mk (B : BOT) = struct
   let get_chat_administrators ~chat_id =
     let body = `Assoc ["chat_id", `Int chat_id] |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getChatAdministrators")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "getChatAdministrators")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (the_list @@ get_field "result" obj |> List.map ChatMember.read)
@@ -1943,8 +1945,8 @@ module Mk (B : BOT) = struct
   let get_chat_members_count ~chat_id =
     let body = `Assoc ["chat_id", `Int chat_id] |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getChatMembersCount")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "getChatMembersCount")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (the_int @@ get_field "result" obj)
@@ -1954,8 +1956,8 @@ module Mk (B : BOT) = struct
     let body = `Assoc ["chat_id", `Int chat_id;
                        "user_id", `Int user_id] |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getChatMember")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "getChatMember")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (get_field "result" obj |> ChatMember.read)
@@ -1965,8 +1967,8 @@ module Mk (B : BOT) = struct
     let body = `Assoc ([("callback_query_id", `String callback_query_id);
                         ("show_alert", `Bool show_alert)] +? ("text", this_string <$> text)) |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "answerCallbackQuery")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "answerCallbackQuery")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1979,8 +1981,8 @@ module Mk (B : BOT) = struct
                                                      +? ("is_personal", this_bool <$> is_personal)
                                                      +? ("next_offset", this_string <$> next_offset)) |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "answerInlineQuery")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "answerInlineQuery")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -1996,8 +1998,8 @@ module Mk (B : BOT) = struct
                        +? ("parse_mode", this_string <$> (ParseMode.string_of_parse_mode <$> parse_mode))
                        +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "editMessageText")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "editMessageText")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -2012,8 +2014,8 @@ module Mk (B : BOT) = struct
     let body = `Assoc ([("caption", `String caption);
                         id] +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "editMessageCaption")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "editMessageCaption")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -2027,8 +2029,8 @@ module Mk (B : BOT) = struct
       | (_, _, Some i) -> ("inline_message_id", `String i) in
     let body = `Assoc ([id] +? ("reply_markup", ReplyMarkup.prepare <$> reply_markup)) |> Yojson.Safe.to_string in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "editMessageReplyMarkup")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "editMessageReplyMarkup")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success ()
@@ -2036,7 +2038,7 @@ module Mk (B : BOT) = struct
 
   let get_updates =
     Client.get (Uri.of_string (url ^ "getUpdates")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     return @@ match get_field "ok" obj with
     | `Bool true -> Result.Success (List.map Update.read @@ the_list @@ get_field "result" obj)
@@ -2048,7 +2050,7 @@ module Mk (B : BOT) = struct
                        ("limit", `Int 0)] in
     let body = Yojson.Safe.to_string json in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getUpdates")) >>= fun _ ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "getUpdates")) >>= fun _ ->
     return ()
 
   let peek_update =
@@ -2057,8 +2059,8 @@ module Mk (B : BOT) = struct
                        ("limit", `Int 1)] in
     let body = Yojson.Safe.to_string json in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getUpdates")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "getUpdates")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     let open Result in
     Lwt.return @@ match get_field "ok" obj with
@@ -2072,8 +2074,8 @@ module Mk (B : BOT) = struct
                        ("timeout", `Int 30)] in
     let body = Yojson.Safe.to_string json in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt_body.of_string body) (Uri.of_string (url ^ "getUpdates")) >>= fun (resp, body) ->
-    Cohttp_lwt_body.to_string body >>= fun json ->
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "getUpdates")) >>= fun (resp, body) ->
+    Cohttp_lwt.Body.to_string body >>= fun json ->
     let obj = Yojson.Safe.from_string json in
     match get_field "ok" obj with
     | `Bool true -> begin
@@ -2149,7 +2151,7 @@ module Mk (B : BOT) = struct
     function
     | Nothing -> return ()
     | GetMe f -> get_me |> eval f
-    | SendMessage (chat_id, text, disable_notification, reply_to, reply_markup) -> send_message ~chat_id ~text ~disable_notification ~reply_to ~reply_markup |> dispose
+    | SendMessage (chat_id, text, parse_mode, disable_web_page_preview, disable_notification, reply_to, reply_markup) -> send_message ~chat_id ~text ~parse_mode ~disable_web_page_preview ~disable_notification ~reply_to ~reply_markup |> dispose
     | ForwardMessage (chat_id, from_chat_id, disable_notification, message_id) -> forward_message ~chat_id ~from_chat_id ~disable_notification ~message_id |> dispose
     | SendChatAction (chat_id, action) -> send_chat_action ~chat_id ~action |> dispose
     | SendPhoto (chat_id, photo, caption, disable_notification, reply_to, reply_markup, f) -> send_photo ~chat_id ~photo ~caption ~disable_notification ~reply_to ~reply_markup |> eval f

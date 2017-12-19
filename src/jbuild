@@ -1,0 +1,8 @@
+(jbuild_version 1)
+
+(library
+ ((name telegraml)   ; doesn't support '-' in the name
+  (public_name telegraml)
+  (wrapped false)
+  (libraries (lwt cohttp cohttp.lwt yojson batteries))
+  (synopsis "This is a short description of the library.")))
