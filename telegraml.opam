@@ -8,12 +8,13 @@ dev-repo: "https://github.com/nv-vn/telegraml.git"
 build: [
   ["jbuilder" "build" "-p" name "-j" jobs]
 ]
-available: [ocaml-version >= "4.06"]
+available: [ocaml-version >= "4.03"]
 depends: [
   "jbuilder" {build}
   "lwt" {>= "2.5.0"}
   "lwt_ssl"
   "cohttp" {>= "1.0.0"}
+  "cohttp-lwt" {>= "1.0.0"}
   "yojson" {>= "1.3.0"}
   "batteries" {>= "2.4.0"}
 ]
