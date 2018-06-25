@@ -42,6 +42,36 @@ end
 Note that this example loads the files "chat.id" and "bot.token" from
 the surrounding directory to use as the `chat_id` and `token`.
 
+### Custom Message Parsing
+
+By default, your bot will only respond to commands/callbacks. This will be fixed in the future as part of a rewrite of the library, but as of now you have to opt-in to a custom parser by watching updates by hand:
+
+```ocaml
+module MyBot = Telegram.Api.Mk(struct
+  include Telegram.BotDefaults
+  let token = (* blah blah blah *)
+end)
+
+(* Process the update and decide what to do with it/where to send it to *)
+let process = function
+  | Result.Success (Update.Message (id, message_info)) ->
+    (* Do stuff with the message *)
+  | _ -> return ()
+  | Result.Failure e ->
+    if e <> "Could not get head" then (* Don't spam when there's no updates *)
+      Lwt_io.printl e
+    else return ()
+
+(* Repeatedly run the `process` function on each new update *)
+let () =
+  let rec loop () =
+    MyBot.pop_update ~run_cmds:false () >>= process >>= loop in
+  while true do (* Recover from errors if an exception is thrown *)
+    try Lwt_main.run @@ loop ()
+    with _ -> ()
+  done
+```
+
 ## Demos, examples, and users:
 
 [hello world](https://github.com/nv-vn/TelegraML/tree/master/example/helloworld.ml) - Send "Hello, world" to a chat
