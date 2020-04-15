@@ -1,0 +1,6 @@
+(library
+ (name telegraml)
+ (public_name telegraml)
+ (wrapped false)
+ (libraries lwt lwt.unix uri cohttp cohttp-lwt cohttp-lwt-unix yojson batteries logs)
+ (synopsis "Telegram Bot API bindings for OCaml"))

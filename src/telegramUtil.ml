@@ -1,17 +1,15 @@
-open Yojson.Safe
-
 exception ApiException of string
 
 let rec get_field target = function
   | `Assoc [] -> raise (ApiException "Could not read JSON field!")
-  | `Assoc (x::xs) when fst x = target -> snd x
-  | `Assoc (x::xs) -> get_field target (`Assoc xs)
+  | `Assoc (x::_) when fst x = target -> snd x
+  | `Assoc (_::xs) -> get_field target (`Assoc xs)
   | _ -> raise (ApiException "Invalid field access!")
 
 let rec get_opt_field target = function
   | `Assoc [] -> None
-  | `Assoc (x::xs) when fst x = target -> Some (snd x)
-  | `Assoc (x::xs) -> get_opt_field target (`Assoc xs)
+  | `Assoc (x::_) when fst x = target -> Some (snd x)
+  | `Assoc (_::xs) -> get_opt_field target (`Assoc xs)
   | _ -> raise (ApiException "Invalid field access!")
 
 let (>>=) x f = match x with
