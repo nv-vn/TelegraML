@@ -1,5 +1,3 @@
-open Yojson.Safe
-
 (** Specifies the API used for creating Telegram bots, defined {{:https://core.telegram.org/bots/api} here.} *)
 
 (** An exception thrown if some rules specified in the API are invalidated by incorrectly formatted data of some type *)
@@ -7,6 +5,7 @@ exception ApiException of string
 
 (** This module deals with the parse mode used for formatting certain messages according to markup languages *)
 module ParseMode : sig
+
   (** Represents the mode used for formatting text sent to the user (bold, italics, fixed-width, or inline URLs) *)
   type parse_mode = Markdown | Html
 
@@ -15,6 +14,7 @@ module ParseMode : sig
 end
 
 module User : sig
+
   (** Represents a user profile *)
   type user = {
     id         : int;
@@ -25,12 +25,14 @@ module User : sig
 
   (** Create a [user] in a concise manner *)
   val create : id:int -> first_name:string -> ?last_name:string option -> ?username:string option -> unit -> user
+
   (** Read a [user] out of some JSON *)
-  val read : json -> user
+  val read : Yojson.Safe.t -> user
 end
 
 (** Used to represent private messages, groupchats, and other types of Telegram chats *)
 module Chat : sig
+
   (** The type of groupchat that the bot is in *)
   type chat_type = Private | Group | Supergroup | Channel
 
@@ -49,14 +51,17 @@ module Chat : sig
 
   (** Create a [chat] in a concise manner *)
   val create : id:int -> chat_type:chat_type -> ?title:string option -> ?username:string option -> ?first_name:string option -> ?last_name:string option -> unit -> chat
+
   (** Read a [chat] out of some JSON *)
-  val read : json -> chat
+  val read : Yojson.Safe.t -> chat
 end
 
 (** Used for handling, loading, and sending outgoing files in messages *)
 module InputFile : sig
+
   (** Loads a file (by filename) and returns the raw bytes inside of it *)
   val load : string -> string Lwt.t
+
   (** Used to format data as HTTP [multipart/form-data]
       Takes:
       - A list of fields to be included in the form data as a pair of strings (name, value)
@@ -71,6 +76,7 @@ end
 
 (** Used to represent formatting options for a message's text *)
 module MessageEntity : sig
+
   (** The type of formatting to apply to the text *)
   type entity_type =
     | Mention
@@ -97,12 +103,14 @@ module MessageEntity : sig
 
   (** Create a [message_entity] in a concise manner *)
   val create : entity_type:entity_type -> offset:int -> length:int -> unit -> message_entity
+
   (** Read a [message_entity] out of some JSON *)
-  val read : Yojson.Safe.json -> message_entity
+  val read : Yojson.Safe.t -> message_entity
 end
 
 (** Used to represent an individual button on a custom keyboard *)
 module KeyboardButton : sig
+
   (** Represents the button's data *)
   type keyboard_button = {
     text             : string;
@@ -112,12 +120,14 @@ module KeyboardButton : sig
 
   (** Create a [keyboard_button] in a concise manner *)
   val create : text:string -> ?request_contact:bool option -> ?request_location:bool option -> unit -> keyboard_button
+
   (** Prepare an outgoing [keyboard_button] by serializing it to JSON *)
-  val prepare : keyboard_button -> Yojson.Safe.json
+  val prepare : keyboard_button -> Yojson.Safe.t
 end
 
 (** Used to represent an individual button on a custom inline keyboard *)
 module InlineKeyboardButton : sig
+
   (** Represents the button's data *)
   type inline_keyboard_button = {
     text                : string;
@@ -128,12 +138,14 @@ module InlineKeyboardButton : sig
 
   (** Create an [inline_keyboard_button] in a concise manner *)
   val create : text:string -> ?url:string option -> ?callback_data:string option -> ?switch_inline_query:string option -> unit -> inline_keyboard_button
+
   (** Prepare an outgoing [inline_keyboard_button] by serializing it to JSON *)
-  val prepare : inline_keyboard_button -> Yojson.Safe.json
+  val prepare : inline_keyboard_button -> Yojson.Safe.t
 end
 
 (** Markup options for users to reply to sent messages *)
 module ReplyMarkup : sig
+
   (** Represents the custom keyboard type *)
   type reply_keyboard_markup = {
     keyboard          : KeyboardButton.keyboard_button list list;
@@ -164,7 +176,7 @@ module ReplyMarkup : sig
     | ReplyKeyboardHide of reply_keyboard_hide
     | ForceReply of force_reply
 
-  val prepare : reply_markup -> json
+  val prepare : reply_markup -> Yojson.Safe.t
 
   (** Create a [ReplyKeyboardMarkup : reply_markup] in a concise way *)
   val create_reply_keyboard_markup : keyboard:KeyboardButton.keyboard_button list list -> ?resize_keyboard:bool option -> ?one_time_keyboard:bool option -> ?selective:bool option -> unit -> reply_markup
@@ -181,6 +193,7 @@ end
 
 (** This module is used for all images sent in chats *)
 module PhotoSize : sig
+
   (** Represents any kind of image sent in a message or used as a thumbnail, profile picture, etc. *)
   type photo_size = {
     file_id   : string;
@@ -191,11 +204,13 @@ module PhotoSize : sig
 
   (** Create a [photo_size] in a concise manner *)
   val create : file_id:string -> width:int -> height:int -> ?file_size:int option -> unit -> photo_size
+
   (** Read a [photo_size] out of some JSON *)
-  val read : json -> photo_size
+  val read : Yojson.Safe.t -> photo_size
 
   (** This module is used to deal with outgoing photo messages *)
   module Out : sig
+
     (** Represents the outgoing photo message. Note that the [photo] field can either be an existing file id or the raw bytes from a file *)
     type photo_size = {
       chat_id              : int;
@@ -208,14 +223,17 @@ module PhotoSize : sig
 
     (** Create a [photo_size] in a concise manner *)
     val create : chat_id:int -> photo:string -> ?caption:string option -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> photo_size
+
     (** Prepare a [photo_size] for sending -- used in the case of a file id *)
     val prepare : photo_size -> string
+
     (** Prepare a [photo_size] for sending -- used in the case of the raw bytes *)
     val prepare_multipart : photo_size -> string -> string Lwt.t
   end
 end
 
 module Audio : sig
+
   (** Represents an audio message (mp3) *)
   type audio = {
     file_id   : string;
@@ -228,11 +246,13 @@ module Audio : sig
 
   (** Create an [audio] in a concise manner *)
   val create : file_id:string -> duration:int -> ?performer:string option -> ?title:string option -> ?mime_type:string option -> ?file_size:int option -> unit -> audio
+
   (** Read an [audio] out of some JSON *)
-  val read : json -> audio
+  val read : Yojson.Safe.t -> audio
 
   (** This module is used to deal with outgoing audio messages *)
   module Out : sig
+
     (** Represents the outgoing audio message. Note that the [audio] field can either be an existing file id or the raw bytes from a file *)
     type audio = {
       chat_id              : int;
@@ -247,14 +267,17 @@ module Audio : sig
 
     (** Create an [audio] in a concise manner *)
     val create : chat_id:int -> audio:string -> ?duration:int option -> performer:string -> title:string -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> audio
+
     (** Prepare an [audio] for sending -- used in the case of a file id *)
     val prepare : audio -> string
+
     (** Prepare an [audio] for sending -- used in the case of the raw bytes *)
     val prepare_multipart : audio -> string -> string Lwt.t
  end
 end
 
 module Document : sig
+
   (** Represents a general file sent in a message *)
   type document = {
     file_id   : string;
@@ -266,8 +289,9 @@ module Document : sig
 
   (** Create a [document] in a concise manner *)
   val create : file_id:string -> ?thumb:PhotoSize.photo_size option -> ?file_name:string option -> ?mime_type:string option -> ?file_size:int option -> unit -> document
+
   (** Read a [document] out of some JSON *)
-  val read : json -> document
+  val read : Yojson.Safe.t -> document
 
   (** This module is used to deal with outgoing documents *)
   module Out : sig
@@ -282,14 +306,17 @@ module Document : sig
 
     (** Create a [document] in a concise manner *)
     val create : chat_id:int -> document:string -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> document
+
     (** Prepare a [document] for sending -- used in the case of a file id *)
     val prepare : document -> string
+
     (** Prepare a [document] for sending -- used in the case of the raw bytes *)
     val prepare_multipart : document -> string -> string Lwt.t
   end
 end
 
 module Sticker : sig
+
   (** Represents sticker messages *)
   type sticker = {
     file_id   : string;
@@ -302,11 +329,13 @@ module Sticker : sig
 
   (** Create a [sticker] in a concise manner *)
   val create : file_id:string -> width:int -> height:int -> ?thumb:PhotoSize.photo_size option -> ?emoji:string option -> ?file_size:int option -> unit -> sticker
+
   (** Read a [sticker] out of some JSON *)
-  val read : json -> sticker
+  val read : Yojson.Safe.t -> sticker
 
   (** This module deals with outgoing sticker messages *)
   module Out : sig
+
     (** Represents the outgoing sticker message. Note that the [sticker] field can either be an existing file id or the raw bytes from a file *)
     type sticker = {
       chat_id              : int;
@@ -318,14 +347,17 @@ module Sticker : sig
 
     (** Create a [sticker] in a concise manner *)
     val create : chat_id:int -> sticker:string -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> sticker
+
     (** Prepare a [sticker] for sending -- used in the case of a file id *)
     val prepare : sticker -> string
+
     (** Prepare a [sticker] for sending -- used in the case of the raw bytes *)
     val prepare_multipart : sticker -> string -> string Lwt.t
   end
 end
 
 module Video : sig
+
   (** Represents a video file sent in a message *)
   type video = {
     file_id   : string;
@@ -339,11 +371,13 @@ module Video : sig
 
   (** Create a [video] in a concise manner *)
   val create : file_id:string -> width:int -> height:int -> duration:int -> ?thumb:PhotoSize.photo_size option -> ?mime_type:string option -> ?file_size:int option -> unit -> video
+
   (** Read a [video] out of some JSON *)
-  val read : json -> video
+  val read : Yojson.Safe.t -> video
 
   (** This module deals with outgoing video messages *)
   module Out : sig
+
     (** Represents the outgoing video message. Note that the [video] field can either be an existing file id or the raw bytes from a file *)
     type video = {
       chat_id              : int;
@@ -357,14 +391,17 @@ module Video : sig
 
     (** Create a [video] in a concise manner *)
     val create : chat_id:int -> video:string -> ?duration:int option -> ?caption:string option -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> video
+
     (** Prepare a [video] for sending -- used in the case of a file id *)
     val prepare : video -> string
+
     (** Prepare a [video] for sending -- used in the case of the raw bytes *)
     val prepare_multipart : video -> string -> string Lwt.t
   end
 end
 
 module Voice : sig
+
   (** Represents a voice message (ogg) *)
   type voice = {
     file_id   : string;
@@ -375,11 +412,13 @@ module Voice : sig
 
   (** Create a [voice] in a concise manner *)
   val create : file_id:string -> duration:int -> ?mime_type:string option -> ?file_size:int option -> unit -> voice
+
   (** Read a [voice] out of some JSON *)
-  val read : json -> voice
+  val read : Yojson.Safe.t -> voice
 
   (** This module is used to deal with outgoing voice messages *)
   module Out : sig
+
     (** Represents the outgoing voice message. Note that the [voice] field can either be an existing file id or the raw bytes from a file *)
     type voice = {
       chat_id              : int;
@@ -392,14 +431,17 @@ module Voice : sig
 
     (** Create a [voice] in a concise manner *)
     val create : chat_id:int -> voice:string -> ?duration:int option -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> voice
+
     (** Prepare a [voice] for sending -- used in the case of a file id *)
     val prepare : voice -> string
+
     (** Prepare a [voice] for sending -- used in the case of the raw bytes *)
     val prepare_multipart : voice -> string -> string Lwt.t
   end
 end
 
 module Contact : sig
+
   (** Represents a contact shared in a message *)
   type contact = {
     phone_number : string;
@@ -410,8 +452,9 @@ module Contact : sig
 
   (** Create a [contact] in a concise manner *)
   val create : phone_number:string -> first_name:string -> ?last_name:string option -> ?user_id:int option -> unit -> contact
+
   (** Read a [contact] out of some JSON *)
-  val read : json -> contact
+  val read : Yojson.Safe.t -> contact
 
   (** This module deals with outgoing contact messages *)
   module Out : sig
@@ -428,12 +471,14 @@ module Contact : sig
 
     (** Create a [contact] in a concise manner *)
     val create : chat_id:int -> phone_number:string -> first_name:string -> ?last_name:string option -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> contact
+
     (** Prepare a [contact] for sending *)
     val prepare : contact -> string
   end
 end
 
 module Location : sig
+
   (** Represents a location sent by a user in terms of longitude/latitude coordinates *)
   type location = {
     longitude : float;
@@ -442,11 +487,13 @@ module Location : sig
 
   (** Create a [location] in a concise manner *)
   val create : longitude:float -> latitude:float -> unit -> location
+
   (** Read a [location] out of some JSON *)
-  val read : json -> location
+  val read : Yojson.Safe.t -> location
 
   (** This module deals with outgoing location messages *)
   module Out : sig
+
     (** Represents the outgoing location message *)
     type location = {
       chat_id              : int;
@@ -459,12 +506,14 @@ module Location : sig
 
     (** Create a [location] in a concise manner *)
     val create : chat_id:int -> latitude:float -> longitude:float -> ?disable_notification:bool -> ?reply_to:int option -> ?reply_markup:ReplyMarkup.reply_markup option -> unit -> location
+
     (** Prepare a [location] for sending *)
     val prepare : location -> string
   end
 end
 
 module Venue : sig
+
   (** Represents an event venue in a chat *)
   type venue = {
     location      : Location.location;
@@ -475,8 +524,9 @@ module Venue : sig
 
   (** Create a [venue] in a concise manner *)
   val create : location:Location.location -> title:string -> address:string -> ?foursquare_id:string option -> unit -> venue
+
   (** Read a [venue] out of some JSON *)
-  val read : Yojson.Safe.json -> venue
+  val read : Yojson.Safe.t -> venue
 
   module Out : sig
     type venue = {
@@ -493,12 +543,14 @@ module Venue : sig
 
     (** Create a [venue] in a concise manner *)
     val create : chat_id:int -> latitude:float -> longitude:float -> title:string -> address:string -> ?foursquare_id:string option ->  ?disable_notification:bool -> reply_to:int option -> reply_markup:ReplyMarkup.reply_markup option -> unit -> venue
+
     (** Prepare a [venue] for sending *)
     val prepare : venue -> string
   end
 end
 
 module UserProfilePhotos : sig
+
   (** Represents a user's profile pictures, each in multiple sizes *)
   type user_profile_photos = {
     total_count : int;
@@ -507,11 +559,13 @@ module UserProfilePhotos : sig
 
   (** Create [user_profile_photos] in a concise manner *)
   val create : total_count:int -> photos:PhotoSize.photo_size list list -> unit -> user_profile_photos
+
   (** Read [user_profile_photos] out of some JSON *)
-  val read : Yojson.Safe.json -> user_profile_photos
+  val read : Yojson.Safe.t -> user_profile_photos
 end
 
 module Message : sig
+
   (** Represents a message in a chat. Note that [photo] should be a list of [PhotoSize.photo_size]s if it exists *)
   type message = {
     message_id              : int;
@@ -550,19 +604,23 @@ module Message : sig
 
   (** Create a [message] in a concise manner *)
   val create : message_id:int -> ?from:User.user option -> date:int -> chat:Chat.chat -> ?forward_from:User.user option -> ?forward_from_chat:Chat.chat option -> ?forward_date:int option -> ?reply_to:message option -> ?edit_date:int option -> ?text:string option -> ?entities:MessageEntity.message_entity list option -> ?audio:Audio.audio option -> ?document:Document.document option -> ?photo:PhotoSize.photo_size list option -> ?sticker:Sticker.sticker option -> ?video:Video.video option -> ?voice:Voice.voice option -> ?caption:string option -> ?contact:Contact.contact option -> ?location:Location.location option -> ?venue:Venue.venue option -> ?new_chat_member:User.user option -> ?left_chat_member:User.user option -> ?new_chat_title:string option -> ?new_chat_photo:PhotoSize.photo_size list option -> ?delete_chat_photo:bool option -> ?group_chat_created:bool option -> ?supergroup_chat_created:bool option -> ?channel_chat_created:bool option -> ?migrate_to_chat_id:int option -> ?migrate_from_chat_id:int option -> ?pinned_message:message option -> unit -> message
+
   (** Read a [message] out of some JSON *)
-  val read : json -> message
+  val read : Yojson.Safe.t -> message
 
   (** Get the first name of the user who sent the message *)
   val get_sender_first_name : message -> string
+
   (** Get the username of the user who sent the message *)
   val get_sender_username : message -> string
+
   (** Get a formatted name for the user who sent the message: first name, with the username in parentheses if it exists *)
   val get_sender : message -> string
 end
 
 (** This module is used for downloadable files uploaded to the Telegram servers *)
 module File : sig
+
   (** Represents the information returned by [getFile] for the file_id *)
   type file = {
     file_id   : string;
@@ -572,8 +630,9 @@ module File : sig
 
   (** Create a [file] in a concise manner *)
   val create : file_id:string -> ?file_size:int option -> ?file_path:string option -> unit -> file
+
   (** Read a [file] out of some JSON *)
-  val read : Yojson.Safe.json -> file
+  val read : Yojson.Safe.t -> file
 
   (** Download the file from Telegram's servers if it exists *)
   val download : string -> file -> string Lwt.t option
@@ -581,6 +640,7 @@ end
 
 (** This module is used for dealing with the results returned by clicking on callback buttons on inline keyboards *)
 module CallbackQuery : sig
+
   (** Represents the reply from the callback query *)
   type callback_query = {
     id                : string;
@@ -592,12 +652,14 @@ module CallbackQuery : sig
 
   (** Create a [callback_query] in a concise manner *)
   val create : id:string -> from:User.user -> ?message:Message.message option -> ?inline_message_id:string option -> data:string -> unit -> callback_query
+
   (** Read a [callback_query] out of some JSON *)
-  val read : Yojson.Safe.json -> callback_query
+  val read : Yojson.Safe.t -> callback_query
 end
 
 (** This module is used to deal with information about an individual member of a chat *)
 module ChatMember : sig
+
   (** Represents the user's role in the chat *)
   type status = Creator | Administrator | Member | Left | Kicked
 
@@ -612,23 +674,27 @@ module ChatMember : sig
 
   (** Create a [chat_member] in a concise manner *)
   val create : user:User.user -> status:status -> unit -> chat_member
+
   (** Read a [chat_member] out of some JSON *)
-  val read : Yojson.Safe.json -> chat_member
+  val read : Yojson.Safe.t -> chat_member
 end
 
 (** This module is used to deal with the content being sent as the result of an inline query *)
 module InputMessageContent : sig
+
   (** Represents the content of a text message to be sent as the result of an inline query *)
   type text = {
     message_text             : string;
     parse_mode               : ParseMode.parse_mode option;
     disable_web_page_preview : bool
   }
+
   (** Represents the content of a location message to be sent as the result of an inline query *)
   type location = {
     latitude  : float;
     longitude : float
   }
+
   (** Represents the content of a venue message to be sent as the result of an inline query *)
   type venue = {
     latitude      : float;
@@ -637,12 +703,14 @@ module InputMessageContent : sig
     address       : string;
     foursquare_id : string option
   }
+
   (** Represents the content of a contact message to be sent as the result of an inline query *)
   type contact = {
     phone_number : string;
     first_name   : string;
     last_name    : string option
   }
+
   (** Represents the content of a message to be sent as the result of an inline query *)
   type input_message_content =
     | Text of text
@@ -652,20 +720,24 @@ module InputMessageContent : sig
 
   (** Create a [Text : input_message_content] in a concise manner *)
   val create_text : message_text:string -> ?parse_mode:ParseMode.parse_mode -> ?disable_web_page_preview:bool -> unit -> input_message_content
+
   (** Create a [Location : input_message_content] in a concise manner *)
   val create_location : latitude:float -> longitude:float -> unit -> input_message_content
+
   (** Create a [Venue : input_message_content] in a concise manner *)
   val create_venue : latitude:float -> longitude:float -> title:string -> address:string -> ?foursquare_id:string -> unit -> input_message_content
+
   (** Create a [Contact : input_message_content] in a concise manner *)
   val create_contact : phone_number:string -> first_name:string -> ?last_name:string -> unit -> input_message_content
 
   (** Prepare [input_message_content] for sending by converting it to JSON *)
-  val prepare : input_message_content -> Yojson.Safe.json
+  val prepare : input_message_content -> Yojson.Safe.t
 end
 
 
 (** This module is used for InlineQuery bots *)
 module InlineQuery : sig
+
   (** Represents incoming messages for an InlineQuery bot *)
   type inline_query = {
     id     : string;
@@ -676,8 +748,9 @@ module InlineQuery : sig
 
   (** Create an [inline_query] in a concise manner *)
   val create : id:string -> from:User.user -> query:string -> offset:string -> unit -> inline_query
+
   (** Read an [inline_query] out of some JSON *)
-  val read : Yojson.Safe.json -> inline_query
+  val read : Yojson.Safe.t -> inline_query
 
   (** Represents the reply to an InlineQuery bot if one is requested *)
   type chosen_inline_result = {
@@ -687,10 +760,11 @@ module InlineQuery : sig
   }
 
   (** Read a [chosen_inline_query] out of some JSON *)
-  val read_chosen_inline_result : Yojson.Safe.json -> chosen_inline_result
+  val read_chosen_inline_result : Yojson.Safe.t -> chosen_inline_result
 
   (** This module is used to deal with outgoing replies to inline queries for an InlineQuery bot *)
   module Out : sig
+
     (** Represents an article sent as a reply *)
     type article = {
       id                       : string;
@@ -704,6 +778,7 @@ module InlineQuery : sig
       thumb_width              : int option;
       thumb_height             : int option
     }
+
     (** Represents a photo (jpeg) sent as a reply *)
     type photo = {
       id                       : string;
@@ -717,6 +792,7 @@ module InlineQuery : sig
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
     }
+
     (** Represents a gif sent as a reply *)
     type gif = {
       id                       : string;
@@ -729,6 +805,7 @@ module InlineQuery : sig
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
     }
+
     (** Represents a gif sent as a reply, but converted to an mp4 video file *)
     type mpeg4gif = {
       id                       : string;
@@ -741,6 +818,7 @@ module InlineQuery : sig
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
     }
+
     (** Represents a video sent as a reply *)
     type video = {
       id                       : string;
@@ -756,6 +834,7 @@ module InlineQuery : sig
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
     }
+
     (** Represents an audio file (mp3) sent as a reply *)
     type audio = {
       id                    : string;
@@ -766,6 +845,7 @@ module InlineQuery : sig
       reply_markup          : ReplyMarkup.reply_markup option;
       input_message_content : InputMessageContent.input_message_content option
     }
+
     (** Represents a voice recording (ogg) sent as a reply *)
     type voice = {
       id                    : string;
@@ -775,6 +855,7 @@ module InlineQuery : sig
       reply_markup          : ReplyMarkup.reply_markup option;
       input_message_content : InputMessageContent.input_message_content option
     }
+
     (** Represents a generic file/document (.pdf/.zip supported) sent as a reply *)
     type document = {
       id                    : string;
@@ -789,6 +870,7 @@ module InlineQuery : sig
       thumb_width           : int option;
       thumb_height          : int option
     }
+
     (** Represents a location on a map (usually the user's location) *)
     type location = {
       id                    : string;
@@ -801,6 +883,7 @@ module InlineQuery : sig
       thumb_width           : int option;
       thumb_height          : int option
     }
+
     (** Represents a venue for an event set by the user *)
     type venue = {
       id                    : string;
@@ -815,6 +898,7 @@ module InlineQuery : sig
       thumb_width           : int option;
       thumb_height          : int option
     }
+
     (** Represents contact info for a user being sent *)
     type contact = {
       id                    : string;
@@ -827,6 +911,7 @@ module InlineQuery : sig
       thumb_width           : int option;
       thumb_height          : int option
     }
+
     (** Represents a photo, which has already been uploaded to the Telegram servers, sent as a reply *)
     type cached_photo = {
       id                       : string;
@@ -837,6 +922,7 @@ module InlineQuery : sig
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
     }
+
     (** Represents a gif, which has already been uploaded to the Telegram servers, sent as a reply *)
     type cached_gif = {
       id                       : string;
@@ -846,6 +932,7 @@ module InlineQuery : sig
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
     }
+
     (** Represents a gif, which has already been uploaded to the Telegram servers, sent as a reply, but converted to an mp4 video file *)
     type cached_mpeg4gif = {
       id                       : string;
@@ -855,6 +942,7 @@ module InlineQuery : sig
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
     }
+
     (** Represents a link to a sticker stored on the Telegram servers *)
     type cached_sticker = {
       id                    : string;
@@ -862,6 +950,7 @@ module InlineQuery : sig
       reply_markup          : ReplyMarkup.reply_markup option;
       input_message_content : InputMessageContent.input_message_content option
     }
+
     (** Represents a file (PDF or ZIP), which has already been uploaded to the Telegram servers, sent as a reply *)
     type cached_document = {
       id                    : string;
@@ -872,6 +961,7 @@ module InlineQuery : sig
       reply_markup          : ReplyMarkup.reply_markup option;
       input_message_content : InputMessageContent.input_message_content option
     }
+
     (** Represents a video, which has already been uploaded to the Telegram servers, sent as a reply *)
     type cached_video = {
       id                       : string;
@@ -882,6 +972,7 @@ module InlineQuery : sig
       reply_markup             : ReplyMarkup.reply_markup option;
       input_message_content    : InputMessageContent.input_message_content option
     }
+
     (** Represents a voice recording (OGG), which has already been uploaded to the Telegram servers, sent as a reply *)
     type cached_voice = {
       id                    : string;
@@ -890,6 +981,7 @@ module InlineQuery : sig
       reply_markup          : ReplyMarkup.reply_markup option;
       input_message_content : InputMessageContent.input_message_content option
     }
+
     (** Represents an audio clip (MP3), which has already been uploaded to the Telegram servers, sent as a reply *)
     type cached_audio = {
       id                    : string;
@@ -922,49 +1014,69 @@ module InlineQuery : sig
 
     (** Create an [Article : inline_query_result] in a concise manner *)
     val create_article : id:string -> title:string -> input_message_content:InputMessageContent.input_message_content -> ?reply_markup:ReplyMarkup.reply_markup -> ?url:string -> ?hide_url:bool -> ?description:string -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
+
     (** Create a [Photo : inline_query_result] in a concise manner *)
     val create_photo : id:string -> photo_url:string -> thumb_url:string -> ?photo_width:int -> ?photo_height:int -> ?title:string -> ?description:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create a [Gif : inline_query_result] in a concise manner *)
     val create_gif : id:string -> gif_url:string -> ?gif_width:int -> ?gif_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create an [Mpeg4Gif : inline_query_result] in a concise manner *)
     val create_mpeg4gif : id:string -> mpeg4_url:string -> ?mpeg4_width:int -> ?mpeg4_height:int -> thumb_url:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create a [Video : inline_query_result] in a concise manner *)
     val create_video : id:string -> video_url:string -> mime_type:string -> thumb_url:string -> title:string -> ?caption:string -> ?video_width:int -> ?video_height:int -> ?video_duration:int -> ?description:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create an [Audio : inline_query_result] in a concise manner *)
     val create_audio : id:string -> audio_url:string -> title:string -> ?performer:string -> ?audio_duration:int -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create a [Voice : inline_query_result] in a concise manner *)
     val create_voice : id:string -> voice_url:string -> title:string -> ?voice_duration:int -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create a [Document : inline_query_result] in a concise manner *)
     val create_document : id:string -> title:string -> ?caption:string -> document_url:string -> mime_type:string -> ?description:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
+
     (** Create a [Location : inline_query_result] in a concise manner *)
     val create_location : id:string -> latitude:float -> longitude:float -> title:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
+
     (** Create a [Venue : inline_query_result] in a concise manner *)
     val create_venue : id:string -> latitude:float -> longitude:float -> title:string -> address:string -> ?foursquare_id:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
+
     (** Create a [Contact : inline_query_result] in a concise manner *)
     val create_contact : id:string -> phone_number:string -> first_name:string -> ?last_name:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> ?thumb_url:string -> ?thumb_width:int -> ?thumb_height:int -> unit -> inline_query_result
+
     (** Create a [CachedPhoto : inline_query_result] in a concise manner *)
     val create_cached_photo : id:string -> photo_file_id:string -> ?title:string -> ?description:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create a [CachedGif : inline_query_result] in a concise manner *)
     val create_cached_gif : id:string -> gif_file_id:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create a [CachedMpeg4Gif : inline_query_result] in a concise manner *)
     val create_cached_mpeg4gif : id:string -> mpeg4_file_id:string -> ?title:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create a [CachedSticker : inline_query_result] in a concise manner *)
     val create_cached_sticker : id:string -> sticker_file_id:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create a [CachedDocument : inline_query_result] in a concise manner *)
     val create_cached_document : id:string -> title:string -> document_file_id:string -> ?description:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create a [CachedVideo : inline_query_result] in a concise manner *)
     val create_cached_video : id:string -> video_file_id:string -> title:string -> ?description:string -> ?caption:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create a [CachedVoice : inline_query_result] in a concise manner *)
     val create_cached_voice : id:string -> voice_file_id:string -> title:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Create a [CachedAudio : inline_query_result] in a concise manner *)
     val create_cached_audio : id:string -> audio_file_id:string -> ?reply_markup:ReplyMarkup.reply_markup -> ?input_message_content:InputMessageContent.input_message_content -> unit -> inline_query_result
+
     (** Prepare an [inline_query_result] for sending *)
-    val prepare : inline_query_result -> Yojson.Safe.json
+    val prepare : inline_query_result -> Yojson.Safe.t
   end
 end
 
 (** Actions that can be sent as user statuses *)
 module ChatAction : sig
+
   (** Represents all recognized chat actions *)
   type action =
     | Typing
@@ -981,6 +1093,7 @@ module ChatAction : sig
 end
 
 module Update : sig
+
   (** Stores the info for updates to a chat/group *)
   type update =
     | Message of int * Message.message
@@ -990,7 +1103,7 @@ module Update : sig
     | CallbackQuery of int * CallbackQuery.callback_query
 
   (** Read an [update] out of some JSON *)
-  val read : json -> update
+  val read : Yojson.Safe.t -> update
 
   (** Get the [update_id] out of an arbitrary [update] object *)
   val get_id : update -> int
@@ -1015,6 +1128,7 @@ module Result : sig
 end
 
 module Command : sig
+
   (** The actions that can be used by the bot's commands *)
   type action =
     | Nothing
@@ -1085,6 +1199,7 @@ end
 (** BOT is strictly used for customization of a TELEGRAM_BOT module. Once your customizations have been applied, pass it into Api.Mk to create
     the usable TELEGRAM_BOT interface. *)
 module type BOT = sig
+
   (** The API token to use for the bot. Warning: please load this in when the bot starts or use ppx_blob to load this in at compile-time and add the blob to your .gitignore *)
   val token : string
 
@@ -1136,6 +1251,7 @@ end
 
 (** TELEGRAM_BOT represents the interface to a running bot *)
 module type TELEGRAM_BOT = sig
+
   (** The base url for all connections to the API *)
   val url : string
 

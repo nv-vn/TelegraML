@@ -8,12 +8,12 @@ default: all
 # multiple subcommands and uses the library.
 # The library can be loaded in utop for interactive testing.
 all:
-	jbuilder build @install
+	dune build @install
 	@test -L bin || ln -s _build/install/default/bin .
 
 # Launch utop such that it finds our library.
 utop: all
-	OCAMLPATH=_build/install/default/lib:$(OCAMLPATH) utop
+	@dune utop
 
 # Build and run tests
 test: all
@@ -22,6 +22,6 @@ test: all
 # Clean up
 clean:
 # Remove files produced by jbuilder.
-	jbuilder clean
+	dune clean
 # Remove remaining files/folders ignored by git as defined in .gitignore (-X).
 	git clean -dfXq

@@ -14,8 +14,8 @@ module BotDefaults : Api.BOT = struct
   let command_postfix = None
 
   let commands = []
-  let inline query = Api.Command.Nothing
-  let callback query = Api.Command.Nothing
+  let inline _(*query*) = Api.Command.Nothing
+  let callback _(*query*) = Api.Command.Nothing
 
   let new_chat_member _ _ = Api.Command.Nothing
   let left_chat_member _ _ = Api.Command.Nothing

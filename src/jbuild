@@ -1,8 +1,0 @@
-(jbuild_version 1)
-
-(library
- ((name telegraml)   ; doesn't support '-' in the name
-  (public_name telegraml)
-  (wrapped false)
-  (libraries (lwt cohttp cohttp-lwt cohttp-lwt-unix yojson batteries))
-  (synopsis "Telegram Bot API bindings for OCaml")))
