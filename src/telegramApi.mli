@@ -1098,6 +1098,8 @@ module Update : sig
   type update =
     | Message of int * Message.message
     | EditedMessage of int * Message.message
+    | ChannelPost of int * Message.message
+    | EditedChannelPost of int * Message.message
     | InlineQuery of int * InlineQuery.inline_query
     | ChosenInlineResult of int * InlineQuery.chosen_inline_result
     | CallbackQuery of int * CallbackQuery.callback_query
