@@ -1179,17 +1179,17 @@ module Command : sig
     name            : string;
     description     : string;
     mutable enabled : bool;
-    run             : Message.message -> action
+    run             : Message.message -> action Lwt.t
   }
 
   (** Tests to see whether an update from the update queue invoked a command *)
   val is_command : Update.update -> bool
 
   (** Takes an optional postfix for commands (/cmd@bot), a message, known to represent a command, and a list of possible commands. These values are used to find the matching command and return the actions that it should perform *)
-  val read_command : string option -> Message.message -> command list -> action
+  val read_command : string option -> Message.message -> command list -> action Lwt.t
 
   (** Reads a single update and, given a list of commands, matches it to a correct command that can be invoked.  Takes an optional postfix for commands (/cmd@bot) as the first parameter *)
-  val read_update : string option -> Update.update -> command list -> action
+  val read_update : string option -> Update.update -> command list -> action Lwt.t
 
   (** Turns a string into the args list that a command may choose to work with *)
   val tokenize : string -> string list

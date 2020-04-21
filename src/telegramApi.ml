@@ -1533,7 +1533,7 @@ module Command = struct
     name            : string;
     description     : string;
     mutable enabled : bool;
-    run             : message -> action
+    run             : message -> action Lwt.t
   }
 
   let is_command = function
@@ -1552,15 +1552,15 @@ module Command = struct
               | _, base::_ -> base = cmd (* If no set prefix OR if no @postfix on the command itself *)
             end in
         match cmds with
-        | [] -> Nothing
+        | [] -> Lwt.return Nothing
         | cmd::_ when cmp txt ("/" ^ cmd.name) && cmd.enabled -> cmd.run msg
         | _::cmds -> read_command username msg cmds
       end
-    | {text = None; _} -> Nothing
+    | {text = None; _} -> Lwt.return Nothing
 
   let read_update username = function
     | Message (_, msg) -> read_command username msg
-    | _ -> fun _ -> Nothing
+    | _ -> fun _ -> Lwt.return Nothing
 
   let tokenize msg = List.tl @@ split_on_string msg ~by:" "
 
@@ -1664,7 +1664,7 @@ module Mk (B : BOT) = struct
     let open Message in
     {name = "help"; description = "Show this message"; enabled = true; run = function
          (* Don't wake up users just to show a help message *)
-         | {chat; _} -> SendMessage (chat.id, "Commands:" ^ Command.make_help commands, None, false, true, None, None)} :: B.commands
+         | {chat; _} -> Lwt.return (SendMessage (chat.id, "Commands:" ^ Command.make_help commands, None, false, true, None, None))} :: B.commands
   let inline = B.inline
   let callback = B.callback
 
@@ -2153,7 +2153,8 @@ module Mk (B : BOT) = struct
           (* If command execution is enabled: if there's an update and it's a command... *)
           | (true, Result.Success update) when Command.is_command update -> begin
               (* Run the evaluator on the result of the command, if the update exists *)
-              ignore @@ evaluator @@ Command.read_update B.command_postfix update commands;
+              Command.read_update B.command_postfix update commands >>= fun x -> 
+              evaluator x >>= fun _ ->
               (* And then return just the ID of the last update if it succeeded *)
               return @@ Result.Success update
             end
