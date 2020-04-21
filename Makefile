@@ -11,6 +11,12 @@ all:
 	dune build @install
 	@test -L bin || ln -s _build/install/default/bin .
 
+install: all
+	@dune install
+
+uninstall: all
+	@dune uninstall
+
 # Launch utop such that it finds our library.
 utop: all
 	@dune utop
