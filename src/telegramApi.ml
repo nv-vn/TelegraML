@@ -1435,6 +1435,8 @@ module Update = struct
   type update =
     | Message of int * Message.message
     | EditedMessage of int * Message.message
+    | ChannelPost of int * Message.message
+    | EditedChannelPost of int * Message.message
     | InlineQuery of int * InlineQuery.inline_query
     | ChosenInlineResult of int * InlineQuery.chosen_inline_result
     | CallbackQuery of int * CallbackQuery.callback_query
@@ -1443,20 +1445,34 @@ module Update = struct
     let update_id = the_int @@ get_field "update_id" obj in
     let message = Message.read <$> get_opt_field "message" obj in
     let edited_message = Message.read <$> get_opt_field "edited_message" obj in
+    let channel_post = Message.read <$> get_opt_field "channel_post" obj in
+    let edited_channel_post = Message.read <$> get_opt_field "edited_channel_post" obj in
     let inline_query = InlineQuery.read <$> get_opt_field "inline_query" obj in
     let chosen_inline_result = InlineQuery.read_chosen_inline_result <$> get_opt_field "chosen_inline_result" obj in
     let callback_query = CallbackQuery.read <$> get_opt_field "callback_query" obj in
-    match message, edited_message, inline_query, chosen_inline_result, callback_query with
-    | (Some message, _, _, _, _) -> Message (update_id, message)
-    | (_, Some edited_message, _, _, _) -> EditedMessage (update_id, edited_message)
-    | (_, _, Some inline_query, _, _) -> InlineQuery (update_id, inline_query)
-    | (_, _, _, Some chosen_inline_result, _) -> ChosenInlineResult (update_id, chosen_inline_result)
-    | (_, _, _, _, Some callback_query) -> CallbackQuery (update_id, callback_query)
-    | _ -> raise @@ ApiException "Unknown update type encountered"
+    let r =
+      None >>>=
+      (message, (fun x -> Message (update_id, x))) >>>=
+      (edited_message, (fun x -> EditedMessage (update_id, x))) >>>=
+      (channel_post, (fun x -> ChannelPost (update_id, x))) >>>=
+      (edited_channel_post, (fun x -> EditedChannelPost (update_id, x))) >>>=
+      (inline_query, (fun x -> InlineQuery (update_id, x))) >>>=
+      (chosen_inline_result, (fun x -> ChosenInlineResult (update_id, x))) >>>=
+      (callback_query, (fun x -> CallbackQuery (update_id, x)))
+    in
+    match r with Some r -> r | None ->
+      raise @@
+      ApiException (
+        Format.sprintf
+          "Unknown update type encountered: %s" @@
+        Yojson.Safe.to_string obj
+      )
 
   let get_id = function
     | Message (id, _) -> id
     | EditedMessage (id, _) -> id
+    | ChannelPost (id, _) -> id
+    | EditedChannelPost (id, _) -> id
     | InlineQuery (id, _) -> id
     | ChosenInlineResult (id, _) -> id
     | CallbackQuery (id, _) -> id
@@ -1517,7 +1533,7 @@ module Command = struct
     name            : string;
     description     : string;
     mutable enabled : bool;
-    run             : message -> action
+    run             : message -> action Lwt.t
   }
 
   let is_command = function
@@ -1536,15 +1552,15 @@ module Command = struct
               | _, base::_ -> base = cmd (* If no set prefix OR if no @postfix on the command itself *)
             end in
         match cmds with
-        | [] -> Nothing
+        | [] -> Lwt.return Nothing
         | cmd::_ when cmp txt ("/" ^ cmd.name) && cmd.enabled -> cmd.run msg
         | _::cmds -> read_command username msg cmds
       end
-    | {text = None; _} -> Nothing
+    | {text = None; _} -> Lwt.return Nothing
 
   let read_update username = function
     | Message (_, msg) -> read_command username msg
-    | _ -> fun _ -> Nothing
+    | _ -> fun _ -> Lwt.return Nothing
 
   let tokenize msg = List.tl @@ split_on_string msg ~by:" "
 
@@ -1648,7 +1664,7 @@ module Mk (B : BOT) = struct
     let open Message in
     {name = "help"; description = "Show this message"; enabled = true; run = function
          (* Don't wake up users just to show a help message *)
-         | {chat; _} -> SendMessage (chat.id, "Commands:" ^ Command.make_help commands, None, false, true, None, None)} :: B.commands
+         | {chat; _} -> Lwt.return (SendMessage (chat.id, "Commands:" ^ Command.make_help commands, None, false, true, None, None))} :: B.commands
   let inline = B.inline
   let callback = B.callback
 
@@ -2062,7 +2078,11 @@ module Mk (B : BOT) = struct
     let obj = Yojson.Safe.from_string json in
     let open Result in
     Lwt.return @@ match get_field "ok" obj with
-    | `Bool true -> Update.read <$> (hd_ @@ the_list @@ get_field "result" obj)
+    | `Bool true -> begin
+        match the_list @@ get_field "result" obj with
+        | x :: _ -> Success (Update.read x)
+        | [] -> Failure (Format.sprintf "Result is empty: %s" json)
+      end
     | _ -> Failure (the_string @@ get_field "description" obj)
 
   let rec pop_update ?(run_cmds=true) () =
@@ -2079,7 +2099,11 @@ module Mk (B : BOT) = struct
     | `Bool true -> begin
         let open Result in
         (* Get the update number for the latest message (the head of the list), if it exists *)
-        let update = Update.read <$> (hd_ @@ the_list @@ get_field "result" obj) in
+        let update =
+          match the_list @@ get_field "result" obj with
+          | x :: _ -> Success (Update.read x)
+          | [] -> Failure (Format.sprintf "Result is empty %s" json)
+        in
         (* Set the offset to either: the current offset OR the latest update + 1, if one exists *)
         offset := default !offset ((fun update -> get_id update + 1) <$> update);
         let open Lwt in
@@ -2129,7 +2153,8 @@ module Mk (B : BOT) = struct
           (* If command execution is enabled: if there's an update and it's a command... *)
           | (true, Result.Success update) when Command.is_command update -> begin
               (* Run the evaluator on the result of the command, if the update exists *)
-              ignore @@ evaluator @@ Command.read_update B.command_postfix update commands;
+              Command.read_update B.command_postfix update commands >>= fun x -> 
+              evaluator x >>= fun _ ->
               (* And then return just the ID of the last update if it succeeded *)
               return @@ Result.Success update
             end

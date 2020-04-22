@@ -16,6 +16,10 @@ let (>>=) x f = match x with
   | Some x -> f x
   | None -> None
 
+let (>>>=) v (x,f) = match v,x with
+  | None, Some x -> Some (f x)
+  | _ -> v
+
 let (<$>) f x = match x with
   | Some x -> Some (f x)
   | None -> None
