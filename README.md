@@ -36,6 +36,8 @@ Lwt_main.run begin
                      ~disable_notification:true
                      ~reply_to:None
                      ~reply_markup:None
+                     ~parse_mode:None
+                     ~disable_web_page_preview:false
 end
 ```
 
