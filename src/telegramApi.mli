@@ -1249,6 +1249,9 @@ module type BOT = sig
 
   (** Called whenever a certain message is pinned for a chat *)
   val pinned_message : Chat.chat -> Message.message -> Command.action
+
+  (** Called on every update event and you can change json *)
+  val hook_update : string -> Yojson.Safe.t -> Yojson.Safe.t
 end
 
 (** TELEGRAM_BOT represents the interface to a running bot *)

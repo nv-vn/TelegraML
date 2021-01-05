@@ -1602,6 +1602,7 @@ module type BOT = sig
   val migrate_to_chat_id : Chat.chat -> int -> Command.action
   val migrate_from_chat_id : Chat.chat -> int -> Command.action
   val pinned_message : Chat.chat -> Message.message -> Command.action
+  val hook_update : string -> Yojson.Safe.t -> Yojson.Safe.t
 end
 
 module type TELEGRAM_BOT = sig
@@ -2094,7 +2095,7 @@ module Mk (B : BOT) = struct
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
     Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "getUpdates")) >>= fun (_(*resp*), body) ->
     Cohttp_lwt.Body.to_string body >>= fun json ->
-    let obj = Yojson.Safe.from_string json in
+    let obj = B.hook_update json (Yojson.Safe.from_string json) in
     match get_field "ok" obj with
     | `Bool true -> begin
         let open Result in
@@ -2153,7 +2154,7 @@ module Mk (B : BOT) = struct
           (* If command execution is enabled: if there's an update and it's a command... *)
           | (true, Result.Success update) when Command.is_command update -> begin
               (* Run the evaluator on the result of the command, if the update exists *)
-              Command.read_update B.command_postfix update commands >>= fun x -> 
+              Command.read_update B.command_postfix update commands >>= fun x ->
               evaluator x >>= fun _ ->
               (* And then return just the ID of the last update if it succeeded *)
               return @@ Result.Success update

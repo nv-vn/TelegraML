@@ -28,4 +28,5 @@ module BotDefaults : Api.BOT = struct
   let migrate_to_chat_id _ _ = Api.Command.Nothing
   let migrate_from_chat_id _ _ = Api.Command.Nothing
   let pinned_message _ _ = Api.Command.Nothing
+  let hook_update _ json = json
 end
