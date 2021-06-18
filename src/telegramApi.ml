@@ -2065,8 +2065,8 @@ module Mk (B : BOT) = struct
                        ("limit", `Int 0)] in
     let body = Yojson.Safe.to_string json in
     let headers = Cohttp.Header.init_with "Content-Type" "application/json" in
-    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "getUpdates")) >>= fun _ ->
-    return ()
+    Client.post ~headers ~body:(Cohttp_lwt.Body.of_string body) (Uri.of_string (url ^ "getUpdates")) >>= fun (_, body) ->
+    Cohttp_lwt.Body.drain_body body
 
   let peek_update =
     let json = `Assoc [("offset", `Int 0);
@@ -2153,7 +2153,7 @@ module Mk (B : BOT) = struct
           (* If command execution is enabled: if there's an update and it's a command... *)
           | (true, Result.Success update) when Command.is_command update -> begin
               (* Run the evaluator on the result of the command, if the update exists *)
-              Command.read_update B.command_postfix update commands >>= fun x -> 
+              Command.read_update B.command_postfix update commands >>= fun x ->
               evaluator x >>= fun _ ->
               (* And then return just the ID of the last update if it succeeded *)
               return @@ Result.Success update
