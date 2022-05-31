@@ -9,8 +9,15 @@ bug-reports: "https://github.com/nv-vn/telegraml/issues"
 depends: [
   "dune" {>= "2.0"}
   "alcotest"
+  "batteries"
+  "cohttp"
+  "cohttp-lwt"
+  "cohttp-lwt-unix"
   "fmt"
   "logs"
+  "lwt"
+  "uri"
+  "yojson" {>= "1.6.0"}
 ]
 build: [
   ["dune" "subst"] {pinned}

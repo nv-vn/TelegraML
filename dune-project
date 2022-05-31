@@ -11,4 +11,14 @@
  (name telegraml)
  (synopsis "Telegram Bot API bindings for OCaml")
  (documentation https://github.com/nv-vn/telegraml)
- (depends alcotest fmt logs))
+ (depends
+   alcotest
+   batteries
+   cohttp
+   cohttp-lwt
+   cohttp-lwt-unix
+   fmt
+   logs
+   lwt
+   uri
+   (yojson (>= "1.6.0"))))
